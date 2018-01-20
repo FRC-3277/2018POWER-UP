@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# Custom additions for development on RoboRio which involves JDK tooling
+/Debug/
+/bin/
+*.class
+*.classpath
+*.jar
+*.xml
