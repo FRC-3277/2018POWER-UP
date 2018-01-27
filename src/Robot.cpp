@@ -15,8 +15,13 @@
 #include "Commands/ExampleCommand.h"
 #include "Commands/MyAutoCommand.h"
 
+#include "OI.h"
+
 class Robot : public frc::TimedRobot {
 public:
+
+	std::unique_ptr<OI> Robot::oi;
+
 	void RobotInit() override {
 		m_chooser.AddDefault("Default Auto", &m_defaultAuto);
 		m_chooser.AddObject("My Auto", &m_myAuto);
