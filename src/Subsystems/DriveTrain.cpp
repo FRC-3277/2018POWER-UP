@@ -9,7 +9,28 @@
 #include "../RobotMap.h"
 
 DriveTrain::DriveTrain()
-    : frc::Subsystem("DriveTrain") {}
+    : frc::Subsystem("DriveTrain") {
+	// Talons
+	frontLeftTalon.reset(new WPI_TalonSRX(FRONT_LEFT_MOTOR_CAN_ID));
+	frontRightTalon.reset(new WPI_TalonSRX(FRONT_RIGHT_MOTOR_CAN_ID));
+	rearLeftTalon.reset(new WPI_TalonSRX(REAR_LEFT_MOTOR_CAN_ID));
+	rearRightTalon.reset(new WPI_TalonSRX(REAR_RIGHT_MOTOR_CAN_ID));
+
+	// Set every Talon to reset the motor safety timeout.
+	frontLeftTalon->Set(ControlMode::PercentOutput, 0);
+	frontRightTalon->Set(ControlMode::PercentOutput, 0);
+	rearLeftTalon->Set(ControlMode::PercentOutput, 0);
+	rearRightTalon->Set(ControlMode::PercentOutput, 0);
+
+	// Invert Right Side
+	frontRightTalon->SetInverted(true);
+	rearRightTalon->SetInverted(true);
+
+	// Create a RobotDrive object using PWMS 1, 2, 3, and 4
+	robotDrive.reset(new MecanumDrive(*frontLeftTalon, *rearLeftTalon, *frontRightTalon, *rearRightTalon));
+	robotDrive->SetExpiration(0.5);
+	robotDrive->SetSafetyEnabled(false);
+}
 
 void DriveTrain::InitDefaultCommand() {
 	// Set the default command for a subsystem here.

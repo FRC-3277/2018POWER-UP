@@ -18,8 +18,11 @@ public:
 	void InitDefaultCommand() override;
 
 private:
-	std::shared_ptr<TalonSRX> cANJaguarLeft;
-	std::shared_ptr<TalonSRX> cANJaguarRight;
-	std::shared_ptr<RobotDrive> robotDrive;
+	//Why shared pointers don't work this year?
+	std::shared_ptr<WPI_TalonSRX> frontLeftTalon;
+	std::shared_ptr<WPI_TalonSRX> frontRightTalon;
+	std::shared_ptr<WPI_TalonSRX> rearLeftTalon;
+	std::shared_ptr<WPI_TalonSRX> rearRightTalon;
 
+	std::shared_ptr<MecanumDrive> robotDrive;
 };
