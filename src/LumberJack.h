@@ -22,13 +22,13 @@ class LumberJack {
 private:
 	el::Configurations defaultConf;
 
-	bool
-		isInfoLoggingEnabled = RobotMap::isInfoLoggingEnabled,
-		isDebugLoggingEnabled = RobotMap::isDebugLoggingEnabled,
-		isErrorLoggingEnabled = RobotMap::isErrorLoggingEnabled,
-		isWarningLoggingEnabled = RobotMap::isWarningLoggingEnabled,
-		isFatalLoggingEnabled = RobotMap::isFatalLoggingEnabled,
-		isTraceLoggingEnabled = RobotMap::isTraceLoggingEnabled;
+	static const bool
+			isInfoLoggingEnabled = false,
+			isDebugLoggingEnabled = true,
+			isErrorLoggingEnabled = true,
+			isWarningLoggingEnabled = false,
+			isFatalLoggingEnabled = true,
+			isTraceLoggingEnabled = false;
 
 	//This is the severity level that will be represented
 	el::Level severityLevelChosen;
