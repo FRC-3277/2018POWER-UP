@@ -4,10 +4,9 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+#pragma once
 
 #include "WPILib.h"
-
-#pragma once
 
 /* Definitions */
 #define XBOX_A_BUTTON 1
@@ -28,9 +27,10 @@
 #define XBOX_RIGHT_STICK_X_AXIS 4
 #define XBOX_RIGHT_STICK_Y_AXIS 5
 
-#define DRIVER_CONTROLLER 0
-#define ALTERNATE_CONTROLLER 1
-#define SHOOTER_JOYSTICK 2
+#define DRIVER_XBOX_CONTROLLER_ID 0
+#define ALTERNATE_XBOX_CONTROLLER_ID 1
+
+//TODO: Map Joystick controller
 
 class OI {
 
@@ -39,4 +39,6 @@ private:
 
 public:
 	OI();
+
+	std::shared_ptr<Joystick> getXBoxController();
 };
