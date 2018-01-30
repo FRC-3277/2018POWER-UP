@@ -8,6 +8,7 @@
 #pragma once
 
 #include "WPILib.h"
+#include <Drive/MecanumDrive.h>
 #include <Commands/Subsystem.h>
 #include "ctre/Phoenix.h"
 
@@ -16,6 +17,7 @@ class DriveTrain : public frc::Subsystem {
 public:
 	DriveTrain();
 	void InitDefaultCommand() override;
+	void SetDrive(double lateral, double forwardBackward, double rotation);
 
 private:
 	//Why shared pointers don't work this year?

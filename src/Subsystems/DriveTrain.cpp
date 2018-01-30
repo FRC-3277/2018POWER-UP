@@ -6,7 +6,10 @@
 /*----------------------------------------------------------------------------*/
 
 #include <Subsystems/DriveTrain.h>
+#include <Drive/MecanumDrive.h>
 #include "../RobotMap.h"
+
+#include "../Commands/DriveWithJoystick.h"
 
 DriveTrain::DriveTrain()
     : frc::Subsystem("DriveTrain") {
@@ -32,10 +35,16 @@ DriveTrain::DriveTrain()
 	robotDrive->SetSafetyEnabled(false);
 }
 
-void DriveTrain::InitDefaultCommand() {
-	// Set the default command for a subsystem here.
-	// SetDefaultCommand(new MySpecialCommand());
+void DriveTrain::InitDefaultCommand()
+{
+	SetDefaultCommand(new DriveWithJoystick());
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
+void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotation)
+{
+	/* Use the joystick X axis for lateral movement, Y axis for
+	 * forward
+	 * movement, and Z axis for rotation.
+	 */
+	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
+}
