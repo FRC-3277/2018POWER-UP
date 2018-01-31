@@ -8,7 +8,7 @@
 
 #include "WPILib.h"
 
-/* Definitions */
+/* Xbox Controller Definitions */
 #define XBOX_A_BUTTON 1
 #define XBOX_B_BUTTON 2
 #define XBOX_X_BUTTON 3
@@ -30,7 +30,25 @@
 #define DRIVER_XBOX_CONTROLLER_ID 0
 #define ALTERNATE_XBOX_CONTROLLER_ID 1
 
-//TODO: Map Joystick controller
+/* Logitech EXTREME3DPRO Joystick Definitions */
+#define JOYSTICK_X_AXIS 0
+#define JOYSTICK_Y_AXIS 1
+#define JOYSTICK_Z_AXIS 2
+
+#define JOYSTICK_TRIGGER 1
+#define JOYSTICK_SLIDER 3
+
+#define JOYSTICK_BUTTON_TWO 2
+#define JOYSTICK_BUTTON_THREE 3
+#define JOYSTICK_BUTTON_FOUR 4
+#define JOYSTICK_BUTTON_FIVE 5
+#define JOYSTICK_BUTTON_SIX 6
+#define JOYSTICK_BUTTON_SEVEN 7
+#define JOYSTICK_BUTTON_EIGHT 8
+#define JOYSTICK_BUTTON_NINE 9
+#define JOYSTICK_BUTTON_TEN 10
+#define JOYSTICK_BUTTON_ELEVEN 11
+#define JOYSTICK_BUTTON_TWELVE 12
 
 class OI {
 
