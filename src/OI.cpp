@@ -9,7 +9,7 @@
 
 OI::OI()
 {
-	xBoxControllerDriver.reset(new Joystick(DRIVER_XBOX_CONTROLLER_ID));
+	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
 }
 
 std::shared_ptr<Joystick> OI::getXBoxController()
