@@ -31,6 +31,7 @@
 #define ALTERNATE_XBOX_CONTROLLER_ID 1
 
 /* Logitech EXTREME3DPRO Joystick Definitions */
+//TODO: Find IDs for POV
 #define JOYSTICK_X_AXIS 0
 #define JOYSTICK_Y_AXIS 1
 #define JOYSTICK_Z_AXIS 2
