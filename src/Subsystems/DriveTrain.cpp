@@ -26,8 +26,8 @@ DriveTrain::DriveTrain()
 	rearRightTalon->Set(ControlMode::PercentOutput, 0);
 
 	// Invert Right Side
-	frontRightTalon->SetInverted(true);
-	rearRightTalon->SetInverted(true);
+//	frontRightTalon->SetInverted(true);
+//	rearRightTalon->SetInverted(true);
 
 	// Create a RobotDrive object using PWMS 1, 2, 3, and 4
 	robotDrive.reset(new MecanumDrive(*frontLeftTalon, *rearLeftTalon, *frontRightTalon, *rearRightTalon));
