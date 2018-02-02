@@ -8,6 +8,7 @@
 #pragma once
 
 #include "WPILib.h"
+#include <Drive/MecanumDrive.h>
 #include <Commands/Subsystem.h>
 #include "ctre/Phoenix.h"
 
@@ -16,10 +17,14 @@ class DriveTrain : public frc::Subsystem {
 public:
 	DriveTrain();
 	void InitDefaultCommand() override;
+	void SetDrive(double lateral, double forwardBackward, double rotation);
 
 private:
-	std::shared_ptr<TalonSRX> cANJaguarLeft;
-	std::shared_ptr<TalonSRX> cANJaguarRight;
-	std::shared_ptr<RobotDrive> robotDrive;
+	//Why shared pointers don't work this year?
+	std::shared_ptr<WPI_TalonSRX> frontLeftTalon;
+	std::shared_ptr<WPI_TalonSRX> frontRightTalon;
+	std::shared_ptr<WPI_TalonSRX> rearLeftTalon;
+	std::shared_ptr<WPI_TalonSRX> rearRightTalon;
 
+	std::shared_ptr<MecanumDrive> robotDrive;
 };

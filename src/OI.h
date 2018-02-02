@@ -4,12 +4,11 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+#pragma once
 
 #include "WPILib.h"
 
-#pragma once
-
-/* Definitions */
+/* Xbox Controller Definitions */
 #define XBOX_A_BUTTON 1
 #define XBOX_B_BUTTON 2
 #define XBOX_X_BUTTON 3
@@ -28,9 +27,29 @@
 #define XBOX_RIGHT_STICK_X_AXIS 4
 #define XBOX_RIGHT_STICK_Y_AXIS 5
 
-#define DRIVER_CONTROLLER 0
-#define ALTERNATE_CONTROLLER 1
-#define SHOOTER_JOYSTICK 2
+#define DRIVER_CONTROLLER_ID 0
+#define ALTERNATE_CONTROLLER_ID 1
+
+/* Logitech EXTREME3DPRO Joystick Definitions */
+//TODO: Find IDs for POV
+#define JOYSTICK_X_AXIS 0
+#define JOYSTICK_Y_AXIS 1
+#define JOYSTICK_Z_AXIS 2
+
+#define JOYSTICK_TRIGGER 1
+#define JOYSTICK_SLIDER 3
+
+#define JOYSTICK_BUTTON_TWO 2
+#define JOYSTICK_BUTTON_THREE 3
+#define JOYSTICK_BUTTON_FOUR 4
+#define JOYSTICK_BUTTON_FIVE 5
+#define JOYSTICK_BUTTON_SIX 6
+#define JOYSTICK_BUTTON_SEVEN 7
+#define JOYSTICK_BUTTON_EIGHT 8
+#define JOYSTICK_BUTTON_NINE 9
+#define JOYSTICK_BUTTON_TEN 10
+#define JOYSTICK_BUTTON_ELEVEN 11
+#define JOYSTICK_BUTTON_TWELVE 12
 
 class OI {
 
@@ -39,4 +58,6 @@ private:
 
 public:
 	OI();
+
+	std::shared_ptr<Joystick> getXBoxController();
 };
