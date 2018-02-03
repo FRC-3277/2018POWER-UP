@@ -7,8 +7,12 @@
 
 #include "OI.h"
 
-#include <WPILib.h>
+OI::OI()
+{
+	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+}
 
-OI::OI() {
-	// Process operator interface input here.
+std::shared_ptr<Joystick> OI::getXBoxController()
+{
+   return xBoxControllerDriver;
 }
