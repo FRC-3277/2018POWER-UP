@@ -7,6 +7,7 @@
 #pragma once
 
 #include "WPILib.h"
+#include <Buttons/JoystickButton.h>
 
 /* Xbox Controller Definitions */
 #define XBOX_A_BUTTON 1
@@ -51,12 +52,16 @@
 #define JOYSTICK_BUTTON_ELEVEN 11
 #define JOYSTICK_BUTTON_TWELVE 12
 
+
+#define ChangeMeFinesseButton 4
+
 class OI {
 
 	// TODO: Add Finesse button logic
 
 private:
 	std::shared_ptr<Joystick> xBoxControllerDriver;
+	std::shared_ptr<JoystickButton> FinesseButton;
 
 public:
 	OI();

@@ -6,10 +6,15 @@
 /*----------------------------------------------------------------------------*/
 
 #include "OI.h"
+#include "Commands/ToggleFinesseMode.h"
 
 OI::OI()
 {
 	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+	FinesseButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeFinesseButton));
+
+
+	FinesseButton->ToggleWhenPressed(new ToggleFinesseMode());
 }
 
 std::shared_ptr<Joystick> OI::getXBoxController()

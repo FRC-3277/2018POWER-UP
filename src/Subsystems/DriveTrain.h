@@ -18,6 +18,7 @@ public:
 	DriveTrain();
 	void InitDefaultCommand() override;
 	void SetDrive(double lateral, double forwardBackward, double rotation);
+	void ToggleFinesseMode();
 
 private:
 	//Why shared pointers don't work this year?
@@ -27,4 +28,6 @@ private:
 	std::shared_ptr<WPI_TalonSRX> rearRightTalon;
 
 	std::shared_ptr<MecanumDrive> robotDrive;
+
+	bool IsFinesseModeEnabled = false;
 };

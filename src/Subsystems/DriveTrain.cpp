@@ -48,3 +48,10 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	 */
 	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
 }
+
+void DriveTrain::ToggleFinesseMode()
+{
+	IsFinesseModeEnabled = !IsFinesseModeEnabled;
+}
+
+
