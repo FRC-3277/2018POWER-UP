@@ -7,6 +7,7 @@
 #pragma once
 
 #include "WPILib.h"
+#include <Buttons/JoystickButton.h>
 
 /* Xbox Controller Definitions */
 #define XBOX_A_BUTTON 1
@@ -51,15 +52,16 @@
 #define JOYSTICK_BUTTON_ELEVEN 11
 #define JOYSTICK_BUTTON_TWELVE 12
 
+// TODO: Add Air Force One controller
+#define ChangeMeUpButton 2
+#define ChangeMeDownButton 3
+
 class OI {
-	// TODO: Add Up button
-	// TODO: Add Down button
-	// TODO: Add Air Force One controller
-	// TODO: Add preset lift heights (potentially break sensor) - Air Force One Controller
-	// TODO: Add limit switches on min/max height
 
 private:
 	std::shared_ptr<Joystick> xBoxControllerDriver;
+	std::shared_ptr<JoystickButton> UpButton;
+	std::shared_ptr<JoystickButton> DownButton;
 
 public:
 	OI();

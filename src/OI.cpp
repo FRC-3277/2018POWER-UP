@@ -6,10 +6,18 @@
 /*----------------------------------------------------------------------------*/
 
 #include "OI.h"
+#include "Commands/LowerElevator.h"
+#include "Commands/RaiseElevator.h"
 
 OI::OI()
 {
 	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+	UpButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeUpButton));
+	DownButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeDownButton));
+
+	// Button trigger and command mappings
+	UpButton->WhenPressed(new RaiseElevator());
+	DownButton->WhenPressed(new LowerElevator());
 }
 
 std::shared_ptr<Joystick> OI::getXBoxController()
