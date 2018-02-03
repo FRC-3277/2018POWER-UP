@@ -1,7 +1,7 @@
 #include "Elevator.h"
 #include "../RobotMap.h"
 
-Elevator::Elevator() : Subsystem("ExampleSubsystem") {
+Elevator::Elevator() : frc::Subsystem("Elevator") {
 
 }
 
