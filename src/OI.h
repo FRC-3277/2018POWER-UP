@@ -53,7 +53,7 @@
 #define JOYSTICK_BUTTON_TWELVE 12
 
 
-#define ChangeMeFinesseButton 4
+#define JoystickFinesseButton JOYSTICK_BUTTON_SEVEN
 
 class OI {
 
@@ -65,4 +65,8 @@ public:
 	OI();
 
 	std::shared_ptr<Joystick> getXBoxController();
+
+	double GetJoystickX();
+	double GetJoystickY();
+	double GetJoystickTwist();
 };

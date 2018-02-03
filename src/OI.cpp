@@ -6,12 +6,13 @@
 /*----------------------------------------------------------------------------*/
 
 #include "OI.h"
+#include "WPILib.h"
 #include "Commands/ToggleFinesseMode.h"
 
 OI::OI()
 {
 	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
-	FinesseButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeFinesseButton));
+	FinesseButton.reset(new JoystickButton(xBoxControllerDriver.get(), JoystickFinesseButton));
 
 
 	FinesseButton->ToggleWhenPressed(new ToggleFinesseMode());
@@ -20,4 +21,21 @@ OI::OI()
 std::shared_ptr<Joystick> OI::getXBoxController()
 {
    return xBoxControllerDriver;
+}
+
+double OI::GetJoystickX()
+{
+	return getXBoxController()->GetX();
+}
+
+double OI::GetJoystickY()
+{
+	return getXBoxController()->GetY();
+}
+
+double OI::GetJoystickTwist()
+{
+	// The direction turned is CW for negative and CCW for positive.
+	double rotation = getXBoxController()->GetTwist() * -1.0;
+	return rotation;
 }

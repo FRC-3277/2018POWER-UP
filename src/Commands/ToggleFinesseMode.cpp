@@ -2,7 +2,7 @@
 
 ToggleFinesseMode::ToggleFinesseMode() {
 	// Use Requires() here to declare subsystem dependencies
-	 Requires(Robot::driveTrain.get());
+	 //Requires(Robot::driveTrain.get());
 }
 
 // Called just before this Command runs the first time
