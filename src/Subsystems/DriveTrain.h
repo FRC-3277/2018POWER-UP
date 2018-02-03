@@ -11,6 +11,8 @@
 #include <Drive/MecanumDrive.h>
 #include <Commands/Subsystem.h>
 #include "ctre/Phoenix.h"
+#include <chrono>
+#include <ctime>
 
 
 class DriveTrain : public frc::Subsystem {
@@ -30,4 +32,12 @@ private:
 	std::shared_ptr<MecanumDrive> robotDrive;
 
 	bool IsFinesseModeEnabled = false;
+	double MaxFinesseReduction = .5;
+	double CurrentFinesseReduction = 0;
+	double MinFinesseReduction = .01;
+
+	std::chrono::system_clock::time_point TimerFinesseBegin;
+	std::chrono::system_clock::time_point TimerFinesseCurrent;
+	const int	FinesseReductionWaitPeriod = 100;
+	int FinesseIncrementor = 1;
 };

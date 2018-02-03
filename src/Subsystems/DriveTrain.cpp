@@ -25,14 +25,13 @@ DriveTrain::DriveTrain()
 	rearLeftTalon->Set(ControlMode::PercentOutput, 0);
 	rearRightTalon->Set(ControlMode::PercentOutput, 0);
 
-	// Invert Right Side
-//	frontRightTalon->SetInverted(true);
-//	rearRightTalon->SetInverted(true);
-
 	// Create a RobotDrive object using PWMS 1, 2, 3, and 4
 	robotDrive.reset(new MecanumDrive(*frontLeftTalon, *rearLeftTalon, *frontRightTalon, *rearRightTalon));
 	robotDrive->SetExpiration(0.5);
 	robotDrive->SetSafetyEnabled(false);
+
+	TimerFinesseBegin = std::chrono::system_clock::now();
+	TimerFinesseCurrent = std::chrono::system_clock::now();
 }
 
 void DriveTrain::InitDefaultCommand()
@@ -42,6 +41,22 @@ void DriveTrain::InitDefaultCommand()
 
 void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotation)
 {
+	if(IsFinesseModeEnabled)
+	{
+		std::chrono::duration<double> elapsed_seconds = TimerFinesseCurrent - TimerFinesseBegin;
+		int DurationMicroseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed_seconds).count();
+
+		if(FinesseReductionWaitPeriod <= DurationMicroseconds)
+		{
+			TimerFinesseCurrent = std::chrono::system_clock::now();
+			CurrentFinesseReduction += FinesseIncrementor;
+		}
+// TODO: Add Accelerometer Logic
+		lateral = lateral * CurrentFinesseReduction;
+		forwardBackward = forwardBackward * CurrentFinesseReduction;
+		rotation = rotation * CurrentFinesseReduction;
+	}
+
 	/* Use the joystick X axis for lateral movement, Y axis for
 	 * forward
 	 * movement, and Z axis for rotation.
@@ -52,6 +67,9 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 void DriveTrain::ToggleFinesseMode()
 {
 	IsFinesseModeEnabled = !IsFinesseModeEnabled;
+	CurrentFinesseReduction = MinFinesseReduction;
+	TimerFinesseBegin = std::chrono::system_clock::now();
+
 }
 
 
