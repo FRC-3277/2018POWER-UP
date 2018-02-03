@@ -7,6 +7,7 @@
 #pragma once
 
 #include "WPILib.h"
+#include <Buttons/JoystickButton.h>
 
 /* Xbox Controller Definitions */
 #define XBOX_A_BUTTON 1
@@ -51,14 +52,21 @@
 #define JOYSTICK_BUTTON_ELEVEN 11
 #define JOYSTICK_BUTTON_TWELVE 12
 
+
+#define ChangeMeInjectionButton 5
+#define ChangeMeEjectionButton 6
+#define ChangeMeAugmentorTiltUpButton 7
+#define ChangeMeAugmentorTiltDownButton 8
+
 class OI {
-	// TODO: Add Cube Injection Button - Potentially limited by photo sensor to make sure cube in/out
-	// TODO: Add Cube Ejection Button - Ditto as above :)
-	// TODO: Add Cube Augmentor tilt up button - Limited by limit switch
-	// TODO: Add Cube Augmentor tilt down button - Limited by limit switch
+
 
 private:
 	std::shared_ptr<Joystick> xBoxControllerDriver;
+	std::shared_ptr<JoystickButton> InjectionButton;
+	std::shared_ptr<JoystickButton> EjectionButton;
+	std::shared_ptr<JoystickButton> AugmentorTiltUpButton;
+	std::shared_ptr<JoystickButton> AugmentorTiltDownButton;
 
 public:
 	OI();

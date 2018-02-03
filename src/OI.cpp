@@ -10,6 +10,11 @@
 OI::OI()
 {
 	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+
+	InjectionButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeInjectionButton));
+	EjectionButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeEjectionButton));
+	AugmentorTiltUpButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeAugmentorTiltUpButton));
+	AugmentorTiltDownButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeAugmentorTiltDownButton));
 }
 
 std::shared_ptr<Joystick> OI::getXBoxController()

@@ -1,5 +1,5 @@
-#ifndef Grabber_H
-#define Grabber_H
+#ifndef GrabberCommand_H
+#define GrabberCommand_H
 
 #include "Robot.h"
 #include <Commands/Command.h>
@@ -14,4 +14,4 @@ public:
 	void Interrupted();
 };
 
-#endif  // Grabber_H
+#endif  // GrabberCommand_H
