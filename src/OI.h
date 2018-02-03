@@ -33,6 +33,11 @@
 #define SHOOTER_JOYSTICK 2
 
 class OI {
+	// TODO: Add Up button
+	// TODO: Add Down button
+	// TODO: Add Air Force One controller
+	// TODO: Add preset lift heights (potentially break sensor) - Air Force One Controller
+	// TODO: Add limit switches on min/max height
 
 private:
 	std::shared_ptr<Joystick> xBoxControllerDriver;
