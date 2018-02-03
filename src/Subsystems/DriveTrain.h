@@ -14,6 +14,8 @@
 #include <chrono>
 #include <ctime>
 
+#include "LumberJack.h"
+
 
 class DriveTrain : public frc::Subsystem {
 public:
@@ -23,7 +25,8 @@ public:
 	void ToggleFinesseMode();
 
 private:
-	//Why shared pointers don't work this year?
+	std::shared_ptr<LumberJack> lumberJack;
+
 	std::shared_ptr<WPI_TalonSRX> frontLeftTalon;
 	std::shared_ptr<WPI_TalonSRX> frontRightTalon;
 	std::shared_ptr<WPI_TalonSRX> rearLeftTalon;
@@ -38,6 +41,6 @@ private:
 
 	std::chrono::system_clock::time_point TimerFinesseBegin;
 	std::chrono::system_clock::time_point TimerFinesseCurrent;
-	const int	FinesseReductionWaitPeriod = 100;
+	const int	FinesseReductionWaitPeriod = 500;
 	int FinesseIncrementor = 1;
 };

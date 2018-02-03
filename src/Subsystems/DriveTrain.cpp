@@ -5,6 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+#include <iostream>
+#include <string>
+
 #include <Subsystems/DriveTrain.h>
 #include <Drive/MecanumDrive.h>
 #include "../RobotMap.h"
@@ -13,6 +16,8 @@
 
 DriveTrain::DriveTrain()
     : frc::Subsystem("DriveTrain") {
+	lumberJack.reset(new LumberJack());
+
 	// Talons
 	frontLeftTalon.reset(new WPI_TalonSRX(FRONT_LEFT_MOTOR_CAN_ID));
 	frontRightTalon.reset(new WPI_TalonSRX(FRONT_RIGHT_MOTOR_CAN_ID));
@@ -24,6 +29,11 @@ DriveTrain::DriveTrain()
 	frontRightTalon->Set(ControlMode::PercentOutput, 0);
 	rearLeftTalon->Set(ControlMode::PercentOutput, 0);
 	rearRightTalon->Set(ControlMode::PercentOutput, 0);
+
+	// Invert Right Side
+ //   frontRightTalon->SetInverted(true);
+ //   rearRightTalon->SetInverted(true);
+
 
 	// Create a RobotDrive object using PWMS 1, 2, 3, and 4
 	robotDrive.reset(new MecanumDrive(*frontLeftTalon, *rearLeftTalon, *frontRightTalon, *rearRightTalon));
@@ -61,6 +71,9 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	 * forward
 	 * movement, and Z axis for rotation.
 	 */
+
+	std::string strRotation = std::string("Rotation: ") + std::to_string(rotation);
+	lumberJack->dLog(strRotation);
 	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
 }
 
