@@ -53,6 +53,8 @@
 
 class OI {
 
+	// TODO: Add Finesse button logic
+
 private:
 	std::shared_ptr<Joystick> xBoxControllerDriver;
 
