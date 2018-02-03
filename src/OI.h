@@ -52,6 +52,9 @@
 #define JOYSTICK_BUTTON_TWELVE 12
 
 class OI {
+	// TODO: Add Winch In Button - Add limit switch interlock for min
+	// TODO: Add Winch Out Button - Add limit switch interlock for max
+	// TODO: Add Deploy Mechanism
 
 private:
 	std::shared_ptr<Joystick> xBoxControllerDriver;
