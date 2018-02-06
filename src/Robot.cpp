@@ -13,7 +13,11 @@ void Robot::RobotInit()
 {
 	//m_chooser.AddDefault("Default Auto", &m_defaultAuto);
 	//m_chooser.AddObject("My Auto", &m_myAuto);
+
+	// Smart Dashboard
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+	SmartDashboard::PutBoolean("Drive With Joystick? 0", true);
+	SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
 
 	oi.reset(new OI());
 	driveTrain.reset(new DriveTrain());

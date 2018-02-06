@@ -11,8 +11,17 @@
 
 OI::OI()
 {
-	// TODO: Identify where the actual value will come from in the Driver Station.
-	useJoystick = false;
+	// Selecting Joystick overrides xBox in case both are found enabled
+	useJoystick = SmartDashboard::GetBoolean("Drive With Joystick? 0", false);
+	if(useJoystick == false)
+	{
+		// Force useJoystick true if use xBox not set to true
+		if(SmartDashboard::GetBoolean("Drive With XBox Controller? 1", false) == false)
+		{
+			useJoystick = true;
+		}
+	}
+
 	enableD_PadDebugging = false;
 
 	controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
