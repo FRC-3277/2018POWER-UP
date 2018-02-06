@@ -64,8 +64,6 @@ private:
 public:
 	OI();
 
-	std::shared_ptr<Joystick> getXBoxController();
-
 	double GetJoystickX();
 	double GetJoystickY();
 	double GetJoystickTwist();

@@ -72,8 +72,11 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	 * movement, and Z axis for rotation.
 	 */
 
-	std::string strRotation = std::string("Rotation: ") + std::to_string(rotation);
-	lumberJack->dLog(strRotation);
+	std::string driveTrainDebugInfo;
+	driveTrainDebugInfo += std::string("Lateral: ") + std::to_string(lateral);
+	driveTrainDebugInfo += std::string("ForwardBackward: ") + std::to_string(forwardBackward);
+	driveTrainDebugInfo += std::string("Rotation: ") + std::to_string(rotation);
+	lumberJack->dLog(driveTrainDebugInfo);
 	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
 }
 

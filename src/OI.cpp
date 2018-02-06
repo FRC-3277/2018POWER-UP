@@ -18,24 +18,19 @@ OI::OI()
 	FinesseButton->ToggleWhenPressed(new ToggleFinesseMode());
 }
 
-std::shared_ptr<Joystick> OI::getXBoxController()
-{
-   return xBoxControllerDriver;
-}
-
 double OI::GetJoystickX()
 {
-	return getXBoxController()->GetX();
+	return xBoxControllerDriver->GetX();
 }
 
 double OI::GetJoystickY()
 {
-	return getXBoxController()->GetY();
+	return xBoxControllerDriver->GetY();
 }
 
 double OI::GetJoystickTwist()
 {
 	// The direction turned is CW for negative and CCW for positive.
-	double rotation = getXBoxController()->GetTwist() * -1.0;
+	double rotation = xBoxControllerDriver->GetTwist() * -1.0;
 	return rotation;
 }
