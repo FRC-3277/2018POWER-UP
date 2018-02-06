@@ -51,6 +51,9 @@ double OI::GetJoystickX()
 		{
 				x = 0.0;
 		}
+		else{
+			x = controllerDriver->GetX();
+		}
 	}
 	else
 	{
@@ -87,7 +90,10 @@ double OI::GetJoystickY()
 		{
 			y = 0.0;
 		}
-
+		else
+		{
+			y = controllerDriver->GetY();
+		}
 	}
 	else
 	{
