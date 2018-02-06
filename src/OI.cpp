@@ -45,6 +45,12 @@ double OI::GetJoystickX()
 	if(useJoystick)
 	{
 		x = controllerDriver->GetX();
+
+		//Adding deadzone for X axis
+		if(fabs(controllerDriver->GetX() <= 2 && controllerDriver->GetY() > controllerDriver->GetX()))
+		{
+				controllerDriver->GetX() = 0.0;
+		}
 	}
 	else
 	{
@@ -75,6 +81,13 @@ double OI::GetJoystickY()
 	if(useJoystick)
 	{
 		y = controllerDriver->GetY();
+
+		//Adding deadzone for Y axis
+		if(fabs(controllerDriver->GetY() <= 2 && controllerDriver->GetX() > controllerDriver->GetY()))
+		{
+			controllerDriver->GetY() = 0.0;
+		}
+
 	}
 	else
 	{
