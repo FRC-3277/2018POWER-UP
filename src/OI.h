@@ -52,18 +52,27 @@
 #define JOYSTICK_BUTTON_ELEVEN 11
 #define JOYSTICK_BUTTON_TWELVE 12
 
-
-#define JoystickFinesseButton JOYSTICK_BUTTON_SEVEN
-
 class OI {
 
 private:
 	std::shared_ptr<Joystick> controllerDriver;
 	std::shared_ptr<JoystickButton> FinesseButton;
 
+	// Joystick button role selection
+	int JoystickFinesseButton = JOYSTICK_BUTTON_SEVEN;
+
+	// xBox button role selection
+	int XBoxFinnesseButton = XBOX_RIGHT_SHOLDER_BUTTON;
+	int XBoxLateral  = XBOX_LEFT_STICK_X_AXIS;
+	int XBoxForwardReverse = XBOX_LEFT_STICK_Y_AXIS;
+	int XBoxTwist = XBOX_RIGHT_STICK_X_AXIS;
+
 	// Use the Joystick when true, Use the xBox controller when false
 	bool useJoystick;
 	bool enableD_PadDebugging;
+
+	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
+	double Clamp(double joystickAxis);
 
 public:
 	OI();

@@ -16,8 +16,15 @@ OI::OI()
 	enableD_PadDebugging = false;
 
 	controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
-	FinesseButton.reset(new JoystickButton(controllerDriver.get(), JoystickFinesseButton));
 
+	if(useJoystick)
+	{
+		FinesseButton.reset(new JoystickButton(controllerDriver.get(), JoystickFinesseButton));
+	}
+	else
+	{
+		FinesseButton.reset(new JoystickButton(controllerDriver.get(), XBoxFinnesseButton));
+	}
 
 	FinesseButton->ToggleWhenPressed(new ToggleFinesseMode());
 }
@@ -45,11 +52,11 @@ double OI::GetJoystickX()
 		}
 		else
 		{
-			//TODO: Actual xBox controller
+			controllerDriver->GetRawAxis(XBoxLateral);
 		}
 	}
 
-	return x;
+	return Clamp(x);
 }
 
 double OI::GetJoystickY()
@@ -75,11 +82,11 @@ double OI::GetJoystickY()
 		}
 		else
 		{
-			//TODO: Actual xBox controller
+			controllerDriver->GetRawAxis(XBoxForwardReverse);
 		}
 	}
 
-	return y;
+	return Clamp(y);
 }
 
 double OI::GetJoystickTwist()
@@ -93,8 +100,22 @@ double OI::GetJoystickTwist()
 	}
 	else
 	{
-		//TODO: Actual xBox controller
+		controllerDriver->GetRawAxis(XBoxTwist);
 	}
 
-	return rotation;
+	return Clamp(rotation);
+}
+
+double OI::Clamp(double joystickAxis)
+{
+	if(joystickAxis <= -1)
+	{
+		joystickAxis = -0.999;
+	}
+	else if(joystickAxis >= 1)
+	{
+		joystickAxis = 0.999;
+	}
+
+	return joystickAxis;
 }
