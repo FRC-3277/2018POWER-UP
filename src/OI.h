@@ -58,8 +58,11 @@
 class OI {
 
 private:
-	std::shared_ptr<Joystick> xBoxControllerDriver;
+	std::shared_ptr<Joystick> controllerDriver;
 	std::shared_ptr<JoystickButton> FinesseButton;
+
+	// Use the Joystick when true, Use the xBox controller when false
+	bool useJoystick;
 
 public:
 	OI();
