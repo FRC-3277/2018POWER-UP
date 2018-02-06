@@ -13,6 +13,7 @@ OI::OI()
 {
 	// TODO: Identify where the actual value will come from in the Driver Station.
 	useJoystick = false;
+	enableD_PadDebugging = false;
 
 	controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
 	FinesseButton.reset(new JoystickButton(controllerDriver.get(), JoystickFinesseButton));
@@ -31,13 +32,20 @@ double OI::GetJoystickX()
 	}
 	else
 	{
-		if(controllerDriver->GetPOV() == 90)
+		if(enableD_PadDebugging)
 		{
-			x = 0.5;
+			if(controllerDriver->GetPOV() <= 90 + 15 && controllerDriver->GetPOV() >= 90 - 15)
+			{
+				x = 0.5;
+			}
+			else if(controllerDriver->GetPOV() <= 270 + 15 && controllerDriver->GetPOV() >= 270 - 15)
+			{
+				x = -0.5;
+			}
 		}
-		else if(controllerDriver->GetPOV() == 270)
+		else
 		{
-			x = -0.5;
+			//TODO: Actual xBox controller
 		}
 	}
 
@@ -54,13 +62,20 @@ double OI::GetJoystickY()
 	}
 	else
 	{
-		if(controllerDriver->GetPOV() == 0)
+		if(enableD_PadDebugging)
 		{
-			y = -0.5;
+			if(controllerDriver->GetPOV() <= 0 + 15 && controllerDriver->GetPOV() >= 360 - 15)
+			{
+				y = -0.5;
+			}
+			else if(controllerDriver->GetPOV() <= 180 + 15 && controllerDriver->GetPOV() >= 180 - 15)
+			{
+				y = 0.5;
+			}
 		}
-		else if(controllerDriver->GetPOV() == 180)
+		else
 		{
-			y = 0.5;
+			//TODO: Actual xBox controller
 		}
 	}
 
@@ -75,6 +90,10 @@ double OI::GetJoystickTwist()
 	{
 		// The direction turned is CW for negative and CCW for positive.
 		rotation = controllerDriver->GetTwist() * -1.0;
+	}
+	else
+	{
+		//TODO: Actual xBox controller
 	}
 
 	return rotation;

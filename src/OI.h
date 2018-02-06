@@ -63,6 +63,7 @@ private:
 
 	// Use the Joystick when true, Use the xBox controller when false
 	bool useJoystick;
+	bool enableD_PadDebugging;
 
 public:
 	OI();
