@@ -19,3 +19,7 @@ static constexpr int FRONT_LEFT_MOTOR_CAN_ID = 1;
 static constexpr int FRONT_RIGHT_MOTOR_CAN_ID = 2;
 static constexpr int REAR_LEFT_MOTOR_CAN_ID = 3;
 static constexpr int REAR_RIGHT_MOTOR_CAN_ID = 4;
+
+// Grabber
+static constexpr int TILT_MOTOR_CAN_ID = 5;
+static constexpr int BLOCK_FEED_MOTOR_CAN_ID = 6;
