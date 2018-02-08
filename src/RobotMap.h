@@ -23,3 +23,7 @@ static constexpr int REAR_RIGHT_MOTOR_CAN_ID = 4;
 // Grabber
 static constexpr int TILT_MOTOR_CAN_ID = 5;
 static constexpr int BLOCK_FEED_MOTOR_CAN_ID = 6;
+static constexpr int BLOCK_INJECTION_STOP_LIMIT_SWITCH_ID = 0;
+static constexpr int BLOCK_EJECTION_STOP_LIMIT_SWITCH_ID = 1;
+static constexpr int BLOCK_TILT_UP_STOP_LIMIT_SWITCH_ID = 2;
+static constexpr int BLOCK_TILT_DOWN_STOP_LIMIT_SWITCH_ID = 3;
