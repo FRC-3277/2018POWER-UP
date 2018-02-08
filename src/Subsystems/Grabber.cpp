@@ -1,9 +1,18 @@
 #include "Grabber.h"
 #include "../RobotMap.h"
+#include <Subsystems/Grabber.h>
 
-Grabber::Grabber() : Subsystem("Grabber") {
+Grabber::Grabber()
+	: frc::Subsystem("Grabber") {
+	//Talons.
+	BlockFeedMotor.reset(new WPI_TalonSRX(BLOCK_FEED_MOTOR_CAN_ID));
+	TiltMotor.reset(new WPI_TalonSRX(TILT_MOTOR_CAN_ID));
 
+	// Set every Talon to reset the motor safety timeout.
+	BlockFeedMotor->Set(ControlMode::PercentOutput, 0);
+	TiltMotor->Set(ControlMode::PercentOutput, 0);
 }
+
 
 void Grabber::InitDefaultCommand() {
 }
