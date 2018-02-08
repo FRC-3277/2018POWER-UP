@@ -74,6 +74,17 @@ private:
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
 	double Clamp(double joystickAxis);
 
+
+
+
+
+	// Adding Xbox Deadzone
+	const double XboxDeadzone = 0.02;
+
+	bool OverrideXboxXDeadzone = false;
+	bool OverrideXboxYDeadzone = false;
+
+
 public:
 	OI();
 
