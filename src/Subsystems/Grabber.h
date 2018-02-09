@@ -24,6 +24,15 @@ private:
 public:
 	Grabber();
 	void InitDefaultCommand();
+	void SpitCube();
+	void EatCube();
+	void AugmentorTiltUp();
+	void AugmentorTiltDown();
+
+	bool EndSpitCommand = false;
+	bool EndEatCommand = false;
+	bool EndAugmentorTiltUpCommand = false;
+	bool EndAugmentorTiltDownCommand = false;
 };
 
 #endif  // Grabber_H

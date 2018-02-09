@@ -6,6 +6,10 @@
 /*----------------------------------------------------------------------------*/
 
 #include "OI.h"
+#include "Commands/AugmentorTiltDownCommand.h"
+#include "Commands/AugmentorTiltUpCommand.h"
+#include "Commands/EatCubeCommand.h"
+#include "Commands/SpitCubeCommand.h"
 
 OI::OI()
 {
@@ -15,6 +19,11 @@ OI::OI()
 	EjectionButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeEjectionButton));
 	AugmentorTiltUpButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeAugmentorTiltUpButton));
 	AugmentorTiltDownButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeAugmentorTiltDownButton));
+
+	InjectionButton->WhenPressed(new EatCubeCommand());
+	EjectionButton->WhenPressed(new SpitCubeCommand());
+	AugmentorTiltUpButton->WhenPressed(new AugmentorTiltUpCommand());
+	AugmentorTiltDownButton->WhenPressed(new AugmentorTiltDownCommand());
 }
 
 std::shared_ptr<Joystick> OI::getXBoxController()
