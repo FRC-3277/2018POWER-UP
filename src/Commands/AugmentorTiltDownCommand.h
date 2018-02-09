@@ -1,7 +1,8 @@
 #ifndef AugmentorTiltDownCommand_H
 #define AugmentorTiltDownCommand_H
 
-#include "WPILib.h"
+#include "Robot.h"
+#include "Commands/Command.h"
 
 class AugmentorTiltDownCommand : public frc::Command {
 public:

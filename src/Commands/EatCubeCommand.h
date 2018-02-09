@@ -1,7 +1,8 @@
 #ifndef EatCubeCommand_H
 #define EatCubeCommand_H
 
-#include "WPILib.h"
+#include "Robot.h"
+#include "Commands/Command.h"
 
 class EatCubeCommand : public frc::Command {
 public:

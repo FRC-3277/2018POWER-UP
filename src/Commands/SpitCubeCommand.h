@@ -1,7 +1,8 @@
 #ifndef SpitCubeCommand_H
 #define SpitCubeCommand_H
 
-#include "WPILib.h"
+#include "Robot.h"
+#include "Commands/Command.h"
 
 class SpitCubeCommand : public frc::Command {
 public:
