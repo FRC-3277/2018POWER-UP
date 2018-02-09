@@ -53,8 +53,8 @@
 #define JOYSTICK_BUTTON_TWELVE 12
 
 // TODO: Add Air Force One controller
-#define ChangeMeUpButton 2
-#define ChangeMeDownButton 3
+#define ElevatorUpButton JOYSTICK_BUTTON_TWO
+#define ElevatorDownButton JOYSTICK_BUTTON_THREE
 
 class OI {
 

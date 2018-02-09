@@ -12,8 +12,8 @@
 OI::OI()
 {
 	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
-	UpButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeUpButton));
-	DownButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeDownButton));
+	UpButton.reset(new JoystickButton(xBoxControllerDriver.get(), ElevatorUpButton));
+	DownButton.reset(new JoystickButton(xBoxControllerDriver.get(), ElevatorDownButton));
 
 	// Button trigger and command mappings
 	UpButton->WhenPressed(new RaiseElevator());

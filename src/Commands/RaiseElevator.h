@@ -1,11 +1,11 @@
 #ifndef RaiseElevator_H
 #define RaiseElevator_H
 
+#include "Robot.h"
 #include <Commands/Command.h>
 
 class RaiseElevator : public frc::Command {
-	// TODO: Add preset lift heights (potentially break sensor) - Air Force One Controller
-	// TODO: Add limit switches on min/max height
+
 public:
 	RaiseElevator();
 	void Initialize();

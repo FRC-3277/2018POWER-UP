@@ -6,8 +6,9 @@
 /*----------------------------------------------------------------------------*/
 #include "Robot.h"
 
-std::shared_ptr<DriveTrain> Robot::driveTrain;
 std::unique_ptr<OI> Robot::oi;
+std::shared_ptr<DriveTrain> Robot::driveTrain;
+std::shared_ptr<Elevator> Robot::elevator;
 
 void Robot::RobotInit()
 {

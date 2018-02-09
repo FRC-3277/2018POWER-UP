@@ -1,8 +1,7 @@
 #include "RaiseElevator.h"
 
 RaiseElevator::RaiseElevator() {
-	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(Robot::chassis.get());
+	Requires(Robot::elevator.get());
 }
 
 // Called just before this Command runs the first time
