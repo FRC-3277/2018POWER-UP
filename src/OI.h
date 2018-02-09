@@ -52,19 +52,26 @@
 #define JOYSTICK_BUTTON_ELEVEN 11
 #define JOYSTICK_BUTTON_TWELVE 12
 
+// Elevator
+#define ElevatorUpButtonNumber JOYSTICK_BUTTON_TWO
+#define ElevatorDownButtonNumber JOYSTICK_BUTTON_THREE
+#define DesiredElevatorSetpointAxis 3
+
 // TODO: Add Air Force One controller
-#define ElevatorUpButton JOYSTICK_BUTTON_TWO
-#define ElevatorDownButton JOYSTICK_BUTTON_THREE
 
 class OI {
 
 private:
 	std::shared_ptr<Joystick> xBoxControllerDriver;
-	std::shared_ptr<JoystickButton> UpButton;
-	std::shared_ptr<JoystickButton> DownButton;
+	std::shared_ptr<Joystick> AirForceOneController;
+
+	std::shared_ptr<JoystickButton> ElevatorUpButton;
+	std::shared_ptr<JoystickButton> ElevatorDownButton;
+	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
 
 public:
 	OI();
 
 	std::shared_ptr<Joystick> getXBoxController();
+	int GetDesiredElevatorSetpoint();
 };

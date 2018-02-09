@@ -1,31 +1,34 @@
-#include "RaiseElevator.h"
+#include <Commands/RaiseElevatorCommand.h>
 
-RaiseElevator::RaiseElevator() {
+RaiseElevatorCommand::RaiseElevatorCommand() {
 	Requires(Robot::elevator.get());
 }
 
 // Called just before this Command runs the first time
-void RaiseElevator::Initialize() {
+void RaiseElevatorCommand::Initialize() {
 
 }
 
 // Called repeatedly when this Command is scheduled to run
-void RaiseElevator::Execute() {
-
+void RaiseElevatorCommand::Execute()
+{
+	Robot::elevator->RaiseElevator();
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool RaiseElevator::IsFinished() {
+bool RaiseElevatorCommand::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void RaiseElevator::End() {
-
+void RaiseElevatorCommand::End()
+{
+	Robot::elevator->StopElevator();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void RaiseElevator::Interrupted() {
-
+void RaiseElevatorCommand::Interrupted()
+{
+	Robot::elevator->StopElevator();
 }

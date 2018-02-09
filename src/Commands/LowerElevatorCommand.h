@@ -1,13 +1,12 @@
-#ifndef RaiseElevator_H
-#define RaiseElevator_H
+#ifndef LowerElevator_H
+#define LowerElevator_H
 
 #include "Robot.h"
 #include <Commands/Command.h>
 
-class RaiseElevator : public frc::Command {
-
+class LowerElevatorCommand : public frc::Command {
 public:
-	RaiseElevator();
+	LowerElevatorCommand();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -15,4 +14,4 @@ public:
 	void Interrupted();
 };
 
-#endif  // RaiseElevator_H
+#endif  // LowerElevator_H

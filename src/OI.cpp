@@ -6,21 +6,46 @@
 /*----------------------------------------------------------------------------*/
 
 #include "OI.h"
-#include "Commands/LowerElevator.h"
-#include "Commands/RaiseElevator.h"
+
+#include <math.h>
+
+#include <Commands/LowerElevatorCommand.h>
+#include <Commands/RaiseElevatorCommand.h>
+#include <Commands/GoToDesiredSetpointCommand.h>
+
 
 OI::OI()
 {
 	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
-	UpButton.reset(new JoystickButton(xBoxControllerDriver.get(), ElevatorUpButton));
-	DownButton.reset(new JoystickButton(xBoxControllerDriver.get(), ElevatorDownButton));
+	AirForceOneController.reset(new Joystick(ALTERNATE_CONTROLLER_ID));
+
+	ElevatorUpButton.reset(new JoystickButton(xBoxControllerDriver.get(), ElevatorUpButtonNumber));
+	ElevatorDownButton.reset(new JoystickButton(xBoxControllerDriver.get(), ElevatorDownButtonNumber));
 
 	// Button trigger and command mappings
-	UpButton->WhenPressed(new RaiseElevator());
-	DownButton->WhenPressed(new LowerElevator());
+	ElevatorUpButton->WhenPressed(new RaiseElevatorCommand());
+	ElevatorDownButton->WhenPressed(new LowerElevatorCommand());
+	GoToDesiredElevatorSetpointButton->WhenPressed(new GoToDesiredSetpointCommand());
 }
 
 std::shared_ptr<Joystick> OI::getXBoxController()
 {
    return xBoxControllerDriver;
+}
+
+int OI::GetDesiredElevatorSetpoint()
+{
+	int DesiredSetpoint = 1;
+	int NumberOfElevatorLimitSwitches = 5;
+	double SetPointDelimiterValue = 0.99/NumberOfElevatorLimitSwitches;
+	double CurrentActualElevatorSetpointControllerValue = AirForceOneController->GetRawAxis(DesiredElevatorSetpointAxis);
+
+	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
+
+	if(DesiredSetpoint == 0)
+	{
+		DesiredSetpoint = 1;
+	}
+
+	return DesiredSetpoint;
 }

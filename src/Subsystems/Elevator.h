@@ -19,20 +19,19 @@ private:
 
 	// Track which limit switch has been recently visited.  Start with 1 from bottom until top limit switch
 	int LimitSwitchTracker;
-	// Track which direction the elevator is traveling.  O for Stopped,  1 for Up, 2 for Down
-	int DirectionTraveling;
 
 	const double ElevatorTravelSpeed = 0.25;
+	const double StopElevatorSpeed = 0.0;
 
-	void RaiseElevator();
-	void LowerElevator();
-	int UpdateDirectionTravelling(int DirectionCurrentlyTravelling);
-	int UpdateLimitSwitchTracker(int LimitSwitchTrackerCurrentValue);
-
+	void UpdateLimitSwitchTracker();
 
 public:
 	Elevator();
 	void InitDefaultCommand();
+	void RaiseElevator();
+	void LowerElevator();
+	bool GoToSetPoint(int DesiredSetpoint);
+	void StopElevator();
 };
 
 #endif  // Elevator_H
