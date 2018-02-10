@@ -40,6 +40,33 @@ void Robot::RobotInit()
 		lumberJack->dLog(std::string("driveTrain.reset() failed; ") + std::string(e.what()));
 	}
 
+	try
+	{
+		grabber.reset(new Grabber());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("grabber.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		elevator.reset(new Elevator());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("elevator.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		lifter.reset(new Lifter());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("lifter.reset() failed; ") + std::string(e.what()));
+	}
+
 }
 
 /**
