@@ -57,7 +57,7 @@
 // Elevator
 #define ElevatorUpButtonNumber JOYSTICK_BUTTON_TWO
 #define ElevatorDownButtonNumber JOYSTICK_BUTTON_THREE
-#define DesiredElevatorSetpointAxis 3
+#define DesiredElevatorSetpointAxis 4
 
 // TODO: Add Air Force One controller
 

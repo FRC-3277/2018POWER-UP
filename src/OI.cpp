@@ -41,7 +41,6 @@ OI::OI()
 		lumberJack->dLog(std::string("AirForceOneController.reset() failed; ") + std::string(e.what()));
 	}
 
-
 	try
 	{
 		InjectionButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeInjectionButton));
@@ -101,7 +100,7 @@ OI::OI()
 	// Lifter
 	try
 	{
-		LifterButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeLifterButton));
+		//LifterButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeLifterButton));
 	}
 	catch(const std::exception& e)
 	{
@@ -132,6 +131,8 @@ OI::OI()
 	}
 
 	enableD_PadDebugging = false;
+
+	useJoystick = true;
 
 	try
 	{
