@@ -7,11 +7,15 @@
 
 #pragma once
 
+#include "LumberJack.h"
+
 #include <Commands/Subsystem.h>
 #include "ctre/Phoenix.h"
 
 class Lifter : public frc::Subsystem {
 private:
+	std::shared_ptr<LumberJack> lumberJack;
+
 	// Lifter Motor
 	std::shared_ptr<WPI_TalonSRX> LifterMotor;
 

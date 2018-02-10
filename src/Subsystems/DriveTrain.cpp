@@ -19,10 +19,42 @@ DriveTrain::DriveTrain()
 	lumberJack.reset(new LumberJack());
 
 	// Talons
-	frontLeftTalon.reset(new WPI_TalonSRX(FRONT_LEFT_MOTOR_CAN_ID));
-	frontRightTalon.reset(new WPI_TalonSRX(FRONT_RIGHT_MOTOR_CAN_ID));
-	rearLeftTalon.reset(new WPI_TalonSRX(REAR_LEFT_MOTOR_CAN_ID));
-	rearRightTalon.reset(new WPI_TalonSRX(REAR_RIGHT_MOTOR_CAN_ID));
+	try
+	{
+		frontLeftTalon.reset(new WPI_TalonSRX(FRONT_LEFT_MOTOR_CAN_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("frontLeftTalon.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		frontRightTalon.reset(new WPI_TalonSRX(FRONT_RIGHT_MOTOR_CAN_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("frontRightTalon.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		rearLeftTalon.reset(new WPI_TalonSRX(REAR_LEFT_MOTOR_CAN_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("rearLeftTalon.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		rearRightTalon.reset(new WPI_TalonSRX(REAR_RIGHT_MOTOR_CAN_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("rearRightTalon.reset() failed; ") + std::string(e.what()));
+	}
+
 
 	// Set every Talon to reset the motor safety timeout.
 	frontLeftTalon->Set(ControlMode::PercentOutput, 0);
@@ -36,7 +68,15 @@ DriveTrain::DriveTrain()
 
 
 	// Create a RobotDrive object using PWMS 1, 2, 3, and 4
-	robotDrive.reset(new MecanumDrive(*frontLeftTalon, *rearLeftTalon, *frontRightTalon, *rearRightTalon));
+	try
+	{
+		robotDrive.reset(new MecanumDrive(*frontLeftTalon, *rearLeftTalon, *frontRightTalon, *rearRightTalon));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("robotDrive.reset() failed; ") + std::string(e.what()));
+	}
+
 	robotDrive->SetExpiration(0.5);
 	robotDrive->SetSafetyEnabled(false);
 

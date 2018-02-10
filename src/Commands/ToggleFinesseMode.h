@@ -1,6 +1,8 @@
 #ifndef ToggleFinesseMode_H
 #define ToggleFinesseMode_H
 
+#include "LumberJack.h"
+
 #include "Commands/Command.h"
 #include "Robot.h"
 

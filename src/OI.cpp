@@ -23,19 +23,91 @@
 
 OI::OI()
 {
-	controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
-	AirForceOneController.reset(new Joystick(ALTERNATE_CONTROLLER_ID));
+	try
+	{
+		controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("controllerDriver.reset() failed; ") + std::string(e.what()));
+	}
 
-	InjectionButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeInjectionButton));
-	EjectionButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeEjectionButton));
-	AugmentorTiltUpButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeAugmentorTiltUpButton));
-	AugmentorTiltDownButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeAugmentorTiltDownButton));
+	try
+	{
+		AirForceOneController.reset(new Joystick(ALTERNATE_CONTROLLER_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("AirForceOneController.reset() failed; ") + std::string(e.what()));
+	}
 
-	ElevatorUpButton.reset(new JoystickButton(controllerDriver.get(), ElevatorUpButtonNumber));
-	ElevatorDownButton.reset(new JoystickButton(controllerDriver.get(), ElevatorDownButtonNumber));
+
+	try
+	{
+		InjectionButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeInjectionButton));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("InjectionButton.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		EjectionButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeEjectionButton));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("EjectionButton.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		AugmentorTiltUpButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeAugmentorTiltUpButton));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("AugmentorTiltUpButton.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		AugmentorTiltDownButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeAugmentorTiltDownButton));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("AugmentorTiltDownButton.reset() failed; ") + std::string(e.what()));
+	}
+
+
+	try
+	{
+		ElevatorUpButton.reset(new JoystickButton(controllerDriver.get(), ElevatorUpButtonNumber));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("ElevatorUpButton.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		ElevatorDownButton.reset(new JoystickButton(controllerDriver.get(), ElevatorDownButtonNumber));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("ElevatorDownButton.reset() failed; ") + std::string(e.what()));
+	}
+
 
 	// Lifter
-	LifterButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeLifterButton));
+	try
+	{
+		LifterButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeLifterButton));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("LifterButton.reset() failed; ") + std::string(e.what()));
+	}
+
 	LifterButton->WhenPressed(new StartLifterCommand());
 
 	InjectionButton->WhenPressed(new EatCubeCommand());
@@ -61,15 +133,39 @@ OI::OI()
 
 	enableD_PadDebugging = false;
 
-	controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+	try
+	{
+		controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("controllerDriver.reset() failed; ") + std::string(e.what()));
+	}
+
 
 	if(useJoystick)
 	{
-		FinesseButton.reset(new JoystickButton(controllerDriver.get(), JoystickFinesseButton));
+		try
+		{
+			FinesseButton.reset(new JoystickButton(controllerDriver.get(), JoystickFinesseButton));
+		}
+		catch(const std::exception& e)
+		{
+			lumberJack->dLog(std::string("FinesseButton.reset() failed; ") + std::string(e.what()));
+		}
+
 	}
 	else
 	{
-		FinesseButton.reset(new JoystickButton(controllerDriver.get(), XBoxFinnesseButton));
+		try
+		{
+			FinesseButton.reset(new JoystickButton(controllerDriver.get(), XBoxFinnesseButton));
+		}
+		catch(const std::exception& e)
+		{
+			lumberJack->dLog(std::string("FinesseButton.reset() failed; ") + std::string(e.what()));
+		}
+
 	}
 
 	FinesseButton->ToggleWhenPressed(new ToggleFinesseMode());

@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "LumberJack.h"
+
 #include <Commands/Command.h>
 #include "Robot.h"
 

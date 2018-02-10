@@ -4,15 +4,65 @@
 
 Grabber::Grabber()
 	: frc::Subsystem("Grabber") {
+	lumberJack.reset(new LumberJack());
+
 	//Talons.
-	BlockFeedMotor.reset(new WPI_TalonSRX(BLOCK_FEED_MOTOR_CAN_ID));
-	TiltMotor.reset(new WPI_TalonSRX(TILT_MOTOR_CAN_ID));
+	try
+	{
+		BlockFeedMotor.reset(new WPI_TalonSRX(BLOCK_FEED_MOTOR_CAN_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("BlockFeedMotor.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		TiltMotor.reset(new WPI_TalonSRX(TILT_MOTOR_CAN_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("TiltMotor.reset() failed; ") + std::string(e.what()));
+	}
+
 
 	//Limit Switch
-	InjectionStopLimitSwitch.reset(new DigitalInput(BLOCK_INJECTION_STOP_LIMIT_SWITCH_ID));
-	EjectionStopLimitSwitch.reset(new DigitalInput(BLOCK_EJECTION_STOP_LIMIT_SWITCH_ID));
-	TiltUpStopLimitSwitch.reset(new DigitalInput(BLOCK_TILT_UP_STOP_LIMIT_SWITCH_ID));
-	TiltDownStopLimitSwitch.reset(new DigitalInput(BLOCK_TILT_DOWN_STOP_LIMIT_SWITCH_ID));
+	try
+	{
+		InjectionStopLimitSwitch.reset(new DigitalInput(BLOCK_INJECTION_STOP_LIMIT_SWITCH_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("InjectionStopLimitSwitch.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		EjectionStopLimitSwitch.reset(new DigitalInput(BLOCK_EJECTION_STOP_LIMIT_SWITCH_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("EjectionStopLimitSwitch.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		TiltUpStopLimitSwitch.reset(new DigitalInput(BLOCK_TILT_UP_STOP_LIMIT_SWITCH_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("TiltUpStopLimitSwitch.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		TiltDownStopLimitSwitch.reset(new DigitalInput(BLOCK_TILT_DOWN_STOP_LIMIT_SWITCH_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("TiltDownStopLimitSwitch.reset() failed; ") + std::string(e.what()));
+	}
+
 
 	// Set every Talon to reset the motor safety timeout.
 	BlockFeedMotor->Set(ControlMode::PercentOutput, 0);

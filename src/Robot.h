@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include "LumberJack.h"
+
 #include <Commands/Command.h>
 #include <Commands/Scheduler.h>
 #include <IterativeRobot.h>
@@ -36,6 +38,8 @@ public:
 	static std::shared_ptr<Lifter> lifter;
 
 private:
+	std::shared_ptr<LumberJack> lumberJack;
+
 	//Autonomous m_autonomousCommand;
 	frc::LiveWindow& m_lw = *frc::LiveWindow::GetInstance();
 

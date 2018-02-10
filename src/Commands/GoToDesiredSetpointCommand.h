@@ -1,6 +1,8 @@
 #ifndef ElevatorCommand_H
 #define ElevatorCommand_H
 
+#include "LumberJack.h"
+
 #include "Robot.h"
 #include <Commands/Command.h>
 
@@ -14,6 +16,8 @@ public:
 	void Interrupted();
 
 private:
+	std::shared_ptr<LumberJack> lumberJack;
+
 	bool IsAtDesiredSetpoint = false;
 };
 

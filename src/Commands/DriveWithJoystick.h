@@ -1,5 +1,7 @@
 #ifndef DriveWithJoystick_H
 #define DriveWithJoystick_H
+
+#include "LumberJack.h"
 #include "Robot.h"
 #include <Commands/Command.h>
 

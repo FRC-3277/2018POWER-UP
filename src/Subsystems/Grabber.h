@@ -1,12 +1,16 @@
 #ifndef Grabber_H
 #define Grabber_H
 
+#include "LumberJack.h"
+
 #include "WPILib.h"
 #include <Commands/Subsystem.h>
 #include "ctre/Phoenix.h"
 
 class Grabber : public Subsystem {
 private:
+	std::shared_ptr<LumberJack> lumberJack;
+
 	// It's desirable that everything possible under private except
 	// for methods that implement subsystem capabilities
 

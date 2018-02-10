@@ -22,8 +22,24 @@ void Robot::RobotInit()
 	SmartDashboard::PutBoolean("Drive With Joystick? 0", true);
 	SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
 
-	oi.reset(new OI());
-	driveTrain.reset(new DriveTrain());
+	try
+	{
+		oi.reset(new OI());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("oi.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		driveTrain.reset(new DriveTrain());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("driveTrain.reset() failed; ") + std::string(e.what()));
+	}
+
 }
 
 /**

@@ -6,6 +6,8 @@
 /*----------------------------------------------------------------------------*/
 #pragma once
 
+#include "LumberJack.h"
+
 #include "WPILib.h"
 #include <Buttons/JoystickButton.h>
 
@@ -74,6 +76,8 @@ class OI {
 
 
 private:
+	std::shared_ptr<LumberJack> lumberJack;
+
 	std::shared_ptr<Joystick> controllerDriver;
 	std::shared_ptr<Joystick> AirForceOneController;
 	std::shared_ptr<JoystickButton> InjectionButton;

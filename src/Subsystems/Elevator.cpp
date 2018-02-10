@@ -3,8 +3,26 @@
 
 Elevator::Elevator() : frc::Subsystem("Elevator")
 {
-	LeftElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID));
-	RightElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID));
+	lumberJack.reset(new LumberJack());
+
+	try
+	{
+		LeftElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("LeftElevatorTalon.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		RightElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("RightElevatorTalon.reset() failed; ") + std::string(e.what()));
+	}
+
 
 	// Set every Talon to reset the motor safety timeout.
 	LeftElevatorTalon->Set(ControlMode::PercentOutput, 0);
@@ -13,12 +31,52 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	// Confident it is stopped at the beginning.
 	LimitSwitchTracker = 1;
 
-	MaxHeightLimitSwitch.reset(new DigitalInput(MAX_HEIGHT_LIMIT_SWITCH_ID));
-	MinHeightLimitSwitch.reset(new DigitalInput(MAX_HEIGHT_LIMIT_SWITCH_ID));
+	try
+	{
+		MaxHeightLimitSwitch.reset(new DigitalInput(MAX_HEIGHT_LIMIT_SWITCH_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("MaxHeightLimitSwitch.reset() failed; ") + std::string(e.what()));
+	}
 
-	HighLimitSwitch.reset(new DigitalInput(HIGH_LIMIT_SWITCH_ID));
-	MedLimitSwitch.reset(new DigitalInput(MED_LIMIT_SWITCH_ID));
-	LowLimitSwitch.reset(new DigitalInput(LOW_LIMIT_SWITCH_ID));
+	try
+	{
+		MinHeightLimitSwitch.reset(new DigitalInput(MAX_HEIGHT_LIMIT_SWITCH_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("MinHeightLimitSwitch.reset() failed; ") + std::string(e.what()));
+	}
+
+
+	try
+	{
+		HighLimitSwitch.reset(new DigitalInput(HIGH_LIMIT_SWITCH_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("HighLimitSwitch.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		MedLimitSwitch.reset(new DigitalInput(MED_LIMIT_SWITCH_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("MedLimitSwitch.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		LowLimitSwitch.reset(new DigitalInput(LOW_LIMIT_SWITCH_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("LowLimitSwitch.reset() failed; ") + std::string(e.what()));
+	}
+
 }
 
 void Elevator::InitDefaultCommand()

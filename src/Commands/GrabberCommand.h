@@ -1,6 +1,8 @@
 #ifndef GrabberCommand_H
 #define GrabberCommand_H
 
+#include "LumberJack.h"
+
 #include "Robot.h"
 #include <Commands/Command.h>
 

@@ -1,12 +1,16 @@
 #ifndef Elevator_H
 #define Elevator_H
 
+#include "LumberJack.h"
+
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include <Commands/Subsystem.h>
 
 class Elevator : public frc::Subsystem {
 private:
+	std::shared_ptr<LumberJack> lumberJack;
+
 	std::shared_ptr<WPI_TalonSRX> LeftElevatorTalon;
 	std::shared_ptr<WPI_TalonSRX> RightElevatorTalon;
 

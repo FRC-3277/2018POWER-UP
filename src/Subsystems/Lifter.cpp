@@ -11,8 +11,18 @@
 
 Lifter::Lifter()
 	: frc::Subsystem("Lifter") {
+	lumberJack.reset(new LumberJack());
+
 	//Lifter
-	LifterMotor.reset(new WPI_TalonSRX(LIFTER_MOTOR_CAN_ID));
+	try
+	{
+		LifterMotor.reset(new WPI_TalonSRX(LIFTER_MOTOR_CAN_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->dLog(std::string("LifterMotor.reset() failed; ") + std::string(e.what()));
+	}
+
 
 	// Set every Talon to reset the motor safety timeout.
 	LifterMotor->Set(ControlMode::PercentOutput, 0);
