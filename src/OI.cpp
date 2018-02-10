@@ -107,18 +107,6 @@ OI::OI()
 		lumberJack->dLog(std::string("LifterButton.reset() failed; ") + std::string(e.what()));
 	}
 
-	LifterButton->WhenPressed(new StartLifterCommand());
-
-	InjectionButton->WhenPressed(new EatCubeCommand());
-	EjectionButton->WhenPressed(new SpitCubeCommand());
-	AugmentorTiltUpButton->WhenPressed(new AugmentorTiltUpCommand());
-	AugmentorTiltDownButton->WhenPressed(new AugmentorTiltDownCommand());
-
-	// Button trigger and command mappings
-	ElevatorUpButton->WhenPressed(new RaiseElevatorCommand());
-	ElevatorDownButton->WhenPressed(new LowerElevatorCommand());
-	GoToDesiredElevatorSetpointButton->WhenPressed(new GoToDesiredSetpointCommand());
-
 	// Selecting Joystick overrides xBox in case both are found enabled
 	useJoystick = SmartDashboard::GetBoolean("Drive With Joystick? 0", false);
 	if(useJoystick == false)
@@ -133,16 +121,6 @@ OI::OI()
 	enableD_PadDebugging = false;
 
 	useJoystick = true;
-
-	try
-	{
-		controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
-	}
-	catch(const std::exception& e)
-	{
-		lumberJack->dLog(std::string("controllerDriver.reset() failed; ") + std::string(e.what()));
-	}
-
 
 	if(useJoystick)
 	{
@@ -169,6 +147,16 @@ OI::OI()
 
 	}
 
+	LifterButton->WhenPressed(new StartLifterCommand());
+	InjectionButton->WhenPressed(new EatCubeCommand());
+	EjectionButton->WhenPressed(new SpitCubeCommand());
+	AugmentorTiltUpButton->WhenPressed(new AugmentorTiltUpCommand());
+	AugmentorTiltDownButton->WhenPressed(new AugmentorTiltDownCommand());
+
+	// Button trigger and command mappings
+	ElevatorUpButton->WhenPressed(new RaiseElevatorCommand());
+	ElevatorDownButton->WhenPressed(new LowerElevatorCommand());
+	GoToDesiredElevatorSetpointButton->WhenPressed(new GoToDesiredSetpointCommand());
 	FinesseButton->ToggleWhenPressed(new ToggleFinesseMode());
 }
 
