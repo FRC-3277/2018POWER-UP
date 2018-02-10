@@ -35,7 +35,7 @@ OI::OI()
 	ElevatorDownButton.reset(new JoystickButton(controllerDriver.get(), ElevatorDownButtonNumber));
 
 	// Lifter
-	LifterButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeLifterButton));
+	LifterButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeLifterButton));
 	LifterButton->WhenPressed(new StartLifterCommand());
 
 	InjectionButton->WhenPressed(new EatCubeCommand());
@@ -58,7 +58,6 @@ OI::OI()
 			useJoystick = true;
 		}
 	}
-}
 
 	enableD_PadDebugging = false;
 
