@@ -20,6 +20,7 @@
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Elevator.h"
 #include "Subsystems/Grabber.h"
+#include "Subsystems/Lifter.h"
 
 // Commands
 //#include "Commands/Autonomous.h"
@@ -32,6 +33,7 @@ public:
 	static std::shared_ptr<DriveTrain> driveTrain;
 	static std::shared_ptr<Elevator> elevator;
 	static std::shared_ptr<Grabber> grabber;
+	static std::shared_ptr<Lifter> lifter;
 
 private:
 	//Autonomous m_autonomousCommand;

@@ -65,7 +65,12 @@
 #define ChangeMeAugmentorTiltUpButton 7
 #define ChangeMeAugmentorTiltDownButton 8
 
+#define ChangeMeLifterButton 9
+
 class OI {
+	// TODO: Add Winch In Button - Add limit switch interlock for min
+	// TODO: Add Winch Out Button - Add limit switch interlock for max
+	// TODO: Add Deploy Mechanism
 
 
 private:
@@ -76,6 +81,7 @@ private:
 	std::shared_ptr<JoystickButton> AugmentorTiltUpButton;
 	std::shared_ptr<JoystickButton> AugmentorTiltDownButton;
 	std::shared_ptr<JoystickButton> FinesseButton;
+	std::shared_ptr<JoystickButton> LifterButton;
 
 	// Joystick button role selection
 	int JoystickFinesseButton = JOYSTICK_BUTTON_SEVEN;
@@ -112,7 +118,6 @@ private:
 
 	bool OverrideXboxXDeadzone = false;
 	bool OverrideXboxYDeadzone = false;
-
 
 public:
 	OI();

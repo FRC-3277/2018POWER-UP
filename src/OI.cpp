@@ -12,6 +12,7 @@
 #include "Commands/AugmentorTiltUpCommand.h"
 #include "Commands/EatCubeCommand.h"
 #include "Commands/SpitCubeCommand.h"
+#include "Commands/StartLifterCommand.h"
 
 #include <math.h>
 
@@ -33,6 +34,10 @@ OI::OI()
 	ElevatorUpButton.reset(new JoystickButton(controllerDriver.get(), ElevatorUpButtonNumber));
 	ElevatorDownButton.reset(new JoystickButton(controllerDriver.get(), ElevatorDownButtonNumber));
 
+	// Lifter
+	LifterButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeLifterButton));
+	LifterButton->WhenPressed(new StartLifterCommand());
+
 	InjectionButton->WhenPressed(new EatCubeCommand());
 	EjectionButton->WhenPressed(new SpitCubeCommand());
 	AugmentorTiltUpButton->WhenPressed(new AugmentorTiltUpCommand());
@@ -53,6 +58,7 @@ OI::OI()
 			useJoystick = true;
 		}
 	}
+}
 
 	enableD_PadDebugging = false;
 
