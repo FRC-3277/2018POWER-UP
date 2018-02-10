@@ -147,6 +147,8 @@ double OI::GetJoystickX()
 		}
 	}
 
+	x += 0.0;
+
 	return Clamp(x);
 }
 
@@ -215,6 +217,8 @@ double OI::GetJoystickY()
 		}
 	}
 
+	y += 0.0;
+
 	return Clamp(y);
 }
 
@@ -231,6 +235,8 @@ double OI::GetJoystickTwist()
 	{
 		controllerDriver->GetRawAxis(XBoxTwist);
 	}
+
+	rotation += 0.0;
 
 	return Clamp(rotation);
 }
