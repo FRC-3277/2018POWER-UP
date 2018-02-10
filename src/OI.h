@@ -97,6 +97,12 @@ private:
 	std::shared_ptr<JoystickButton> ElevatorDownButton;
 	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
 
+	// Joystick Deadzone
+	const double JoystickDeadzone = 0.02;
+
+	bool OverrideXDeadzone = false;
+	bool OverrideYDeadzone = false;
+
 public:
 	OI();
 

@@ -81,7 +81,27 @@ double OI::GetJoystickX()
 
 	if(useJoystick)
 	{
-		x = controllerDriver->GetX();
+		//Adding deadzone for X axis
+		if(controllerDriver->GetY() <= JoystickDeadzone
+			 && controllerDriver->GetY() >= -JoystickDeadzone
+			 && fabs(controllerDriver->GetY()) > fabs(controllerDriver->GetX()))
+		{
+				OverrideYDeadzone = true;
+		}
+		else
+		{
+				OverrideYDeadzone = false;
+		}
+
+		if(OverrideXDeadzone)
+		{
+			x = 0.0;
+		}
+		else
+		{
+			x = controllerDriver->GetX();
+		}
+
 	}
 	else
 	{
@@ -111,7 +131,26 @@ double OI::GetJoystickY()
 
 	if(useJoystick)
 	{
-		y = controllerDriver->GetY();
+		//Adding deadzone for Y axis
+		if(controllerDriver->GetX() <= JoystickDeadzone
+			&& controllerDriver->GetX() >= -JoystickDeadzone
+			&& fabs(controllerDriver->GetX()) > fabs(controllerDriver->GetY()))
+		{
+			OverrideXDeadzone = true;
+		}
+		else
+		{
+			OverrideXDeadzone = false;
+		}
+
+		if(OverrideYDeadzone)
+		{
+			y = 0.0;
+		}
+		else
+		{
+			y = controllerDriver->GetY();
+		}
 	}
 	else
 	{
