@@ -91,7 +91,8 @@ void Elevator::RaiseElevator()
 
 	if(MaxHeightLimitSwitch->Get())
 	{
-		speed = StopElevatorSpeed;
+		//TODO: Re-enable once this is actually installed
+		//speed = StopElevatorSpeed;
 	}
 
 	LeftElevatorTalon->Set(speed);
@@ -107,7 +108,8 @@ void Elevator::LowerElevator()
 
 	if(MinHeightLimitSwitch->Get())
 	{
-		speed = StopElevatorSpeed;
+		//TODO: Re-enable once this is actually installed
+		//speed = StopElevatorSpeed;
 	}
 
 	LeftElevatorTalon->Set(speed);
