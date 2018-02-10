@@ -58,6 +58,7 @@
 #define ElevatorUpButtonNumber JOYSTICK_BUTTON_TWO
 #define ElevatorDownButtonNumber JOYSTICK_BUTTON_THREE
 #define DesiredElevatorSetpointAxis 4
+#define DesiredElevatorSetpointButtonNumber 5
 
 // TODO: Add Air Force One controller
 
@@ -86,6 +87,9 @@ private:
 	std::shared_ptr<JoystickButton> AugmentorTiltDownButton;
 	std::shared_ptr<JoystickButton> FinesseButton;
 	std::shared_ptr<JoystickButton> LifterButton;
+	std::shared_ptr<JoystickButton> ElevatorUpButton;
+	std::shared_ptr<JoystickButton> ElevatorDownButton;
+	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
 
 	// Joystick button role selection
 	int JoystickFinesseButton = JOYSTICK_BUTTON_SEVEN;
@@ -103,19 +107,11 @@ private:
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
 	double Clamp(double joystickAxis);
 
-	std::shared_ptr<JoystickButton> ElevatorUpButton;
-	std::shared_ptr<JoystickButton> ElevatorDownButton;
-	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
-
 	// Joystick Deadzone
 	const double JoystickDeadzone = 0.02;
 
 	bool OverrideXDeadzone = false;
 	bool OverrideYDeadzone = false;
-
-
-
-
 
 	// Adding Xbox Deadzone
 	const double XboxDeadzone = 0.02;
