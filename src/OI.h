@@ -54,13 +54,25 @@
 #define JOYSTICK_BUTTON_ELEVEN 11
 #define JOYSTICK_BUTTON_TWELVE 12
 
+//Air Force Once
+#define AIRFORCEONE_BUTTON_ONE 1
+#define AIRFORCEONE_BUTTON_TWO 2
+#define AIRFORCEONE_BUTTON_THREE 3
+#define AIRFORCEONE_BUTTON_FOUR 4
+#define AIRFORCEONE_BUTTON_FIVE 5
+#define AIRFORCEONE_BUTTON_SIX 6
+#define AIRFORCEONE_BUTTON_SEVEN 7
+#define AIRFORCEONE_BUTTON_EIGHT 8
+#define AIRFORCEONE_BUTTON_NINE 9
+#define AIRFORCEONE_X_AXIS 0
+#define AIRFORCEONE_Y_AXIS 1
+#define AIRFORCEONE_Z_AXIS 2
+
 // Elevator
 #define ElevatorUpButtonNumber JOYSTICK_BUTTON_TWO
 #define ElevatorDownButtonNumber JOYSTICK_BUTTON_THREE
 #define DesiredElevatorSetpointAxis 4
 #define DesiredElevatorSetpointButtonNumber 5
-
-// TODO: Add Air Force One controller
 
 // Grabber
 #define ChangeMeInjectionButton 5
