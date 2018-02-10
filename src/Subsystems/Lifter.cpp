@@ -5,19 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "OI.h"
-#include "Commands/StartLifterCommand.h"
+#include "Subsystems/Lifter.h"
+#include "../RobotMap.h"
+#include "ctre/Phoenix.h"
 
-OI::OI()
-{
-	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+Lifter::Lifter()
+	: frc::Subsystem("Lifter") {
+	//Lifter
+	LifterMotor.reset(new WPI_TalonSRX(LIFTER_MOTOR_CAN_ID));
 
-	// Lifter
-	LifterButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeLifterButton));
-	LifterButton->WhenPressed(new StartLifterCommand());
+	// Set every Talon to reset the motor safety timeout.
+	LifterMotor->Set(ControlMode::PercentOutput, 0);
 }
 
-std::shared_ptr<Joystick> OI::getXBoxController()
-{
-   return xBoxControllerDriver;
+void Lifter::InitDefaultCommand() {
+
+}
+
+void Lifter::StartLifter() {
+	LifterMotor->Set(1.0);
 }

@@ -5,19 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "OI.h"
-#include "Commands/StartLifterCommand.h"
+#pragma once
 
-OI::OI()
-{
-	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+#include <Commands/Command.h>
+#include "Robot.h"
 
-	// Lifter
-	LifterButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeLifterButton));
-	LifterButton->WhenPressed(new StartLifterCommand());
-}
+class StartLifterCommand : public frc::Command {
+public:
+	StartLifterCommand();
+	void Initialize() override;
+	void Execute() override;
+	bool IsFinished() override;
+	void End() override;
+	void Interrupted() override;
+};
 
-std::shared_ptr<Joystick> OI::getXBoxController()
-{
-   return xBoxControllerDriver;
-}

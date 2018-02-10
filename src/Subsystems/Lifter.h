@@ -5,19 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "OI.h"
-#include "Commands/StartLifterCommand.h"
+#pragma once
 
-OI::OI()
-{
-	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+#include <Commands/Subsystem.h>
+#include "ctre/Phoenix.h"
 
-	// Lifter
-	LifterButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeLifterButton));
-	LifterButton->WhenPressed(new StartLifterCommand());
-}
+class Lifter : public frc::Subsystem {
+private:
+	// Lifter Motor
+	std::shared_ptr<WPI_TalonSRX> LifterMotor;
 
-std::shared_ptr<Joystick> OI::getXBoxController()
-{
-   return xBoxControllerDriver;
-}
+public:
+	Lifter();
+	void InitDefaultCommand() override;
+	void StartLifter();
+};
+

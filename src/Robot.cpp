@@ -8,6 +8,7 @@
 
 std::shared_ptr<DriveTrain> Robot::driveTrain;
 std::unique_ptr<OI> Robot::oi;
+std::shared_ptr<Lifter> Robot::lifter;
 
 void Robot::RobotInit()
 {

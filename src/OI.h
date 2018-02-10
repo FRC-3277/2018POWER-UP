@@ -51,6 +51,8 @@
 #define JOYSTICK_BUTTON_ELEVEN 11
 #define JOYSTICK_BUTTON_TWELVE 12
 
+#define ChangeMeLifterButton 9
+
 class OI {
 	// TODO: Add Winch In Button - Add limit switch interlock for min
 	// TODO: Add Winch Out Button - Add limit switch interlock for max
@@ -58,6 +60,7 @@ class OI {
 
 private:
 	std::shared_ptr<Joystick> xBoxControllerDriver;
+	std::shared_ptr<JoystickButton> LifterButton;
 
 public:
 	OI();
