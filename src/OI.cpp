@@ -118,7 +118,27 @@ double OI::GetJoystickX()
 		}
 		else
 		{
-			controllerDriver->GetRawAxis(XBoxLateral);
+
+			//Adding Xboxdeadzone for X axis
+			if(controllerDriver->GetRawAxis(XBoxForwardReverse) <= XboxDeadzone
+				 && controllerDriver->GetRawAxis(XBoxForwardReverse) >= -XboxDeadzone
+				 && fabs(controllerDriver->GetRawAxis(XBoxForwardReverse)) > fabs(controllerDriver->GetRawAxis(XBoxLateral)))
+			{
+					OverrideXboxYDeadzone = true;
+			}
+			else
+			{
+					OverrideXboxYDeadzone = false;
+			}
+
+			if(OverrideXboxXDeadzone)
+			{
+				x = 0.0;
+			}
+			else
+			{
+				x = controllerDriver->GetRawAxis(XBoxLateral);
+			}
 		}
 	}
 
@@ -167,7 +187,26 @@ double OI::GetJoystickY()
 		}
 		else
 		{
-			controllerDriver->GetRawAxis(XBoxForwardReverse);
+			//Adding Xboxdeadzone for Y axis
+			if(controllerDriver->GetRawAxis(XBoxLateral) <= XboxDeadzone
+				 && controllerDriver->GetRawAxis(XBoxLateral) >= -XboxDeadzone
+				 && fabs(controllerDriver->GetRawAxis(XBoxLateral)) > fabs(controllerDriver->GetRawAxis(XBoxForwardReverse)))
+			{
+					OverrideXboxYDeadzone = true;
+			}
+			else
+			{
+					OverrideXboxYDeadzone = false;
+			}
+
+			if(OverrideXboxXDeadzone)
+			{
+				y = 0.0;
+			}
+			else
+			{
+				y = controllerDriver->GetRawAxis(XBoxForwardReverse);
+			}
 		}
 	}
 

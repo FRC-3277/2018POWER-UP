@@ -103,6 +103,17 @@ private:
 	bool OverrideXDeadzone = false;
 	bool OverrideYDeadzone = false;
 
+
+
+
+
+	// Adding Xbox Deadzone
+	const double XboxDeadzone = 0.02;
+
+	bool OverrideXboxXDeadzone = false;
+	bool OverrideXboxYDeadzone = false;
+
+
 public:
 	OI();
 
