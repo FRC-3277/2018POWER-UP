@@ -171,9 +171,9 @@ OI::OI()
 
 	// Button trigger and command mappings
 	lumberJack->dLog("ElevatorUpButton");
-	ElevatorUpButton->WhenPressed(new RaiseElevatorCommand());
+	ElevatorUpButton->WhileHeld(new RaiseElevatorCommand());
 	lumberJack->dLog("ElevatorDownButton");
-	ElevatorDownButton->WhenPressed(new LowerElevatorCommand());
+	ElevatorDownButton->WhileHeld(new LowerElevatorCommand());
 	lumberJack->dLog("GoToDesiredElevatorSetpointButton");
 	GoToDesiredElevatorSetpointButton->WhenPressed(new GoToDesiredSetpointCommand());
 	lumberJack->dLog("FinesseButton");
