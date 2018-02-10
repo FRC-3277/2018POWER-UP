@@ -8,6 +8,10 @@
 #include "OI.h"
 #include "WPILib.h"
 #include "Commands/ToggleFinesseMode.h"
+#include "Commands/AugmentorTiltDownCommand.h"
+#include "Commands/AugmentorTiltUpCommand.h"
+#include "Commands/EatCubeCommand.h"
+#include "Commands/SpitCubeCommand.h"
 
 #include <math.h>
 
@@ -21,8 +25,18 @@ OI::OI()
 	controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
 	AirForceOneController.reset(new Joystick(ALTERNATE_CONTROLLER_ID));
 
+	InjectionButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeInjectionButton));
+	EjectionButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeEjectionButton));
+	AugmentorTiltUpButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeAugmentorTiltUpButton));
+	AugmentorTiltDownButton.reset(new JoystickButton(xBoxControllerDriver.get(), ChangeMeAugmentorTiltDownButton));
+
 	ElevatorUpButton.reset(new JoystickButton(controllerDriver.get(), ElevatorUpButtonNumber));
 	ElevatorDownButton.reset(new JoystickButton(controllerDriver.get(), ElevatorDownButtonNumber));
+
+	InjectionButton->WhenPressed(new EatCubeCommand());
+	EjectionButton->WhenPressed(new SpitCubeCommand());
+	AugmentorTiltUpButton->WhenPressed(new AugmentorTiltUpCommand());
+	AugmentorTiltDownButton->WhenPressed(new AugmentorTiltDownCommand());
 
 	// Button trigger and command mappings
 	ElevatorUpButton->WhenPressed(new RaiseElevatorCommand());

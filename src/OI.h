@@ -59,11 +59,22 @@
 
 // TODO: Add Air Force One controller
 
+// Grabber
+#define ChangeMeInjectionButton 5
+#define ChangeMeEjectionButton 6
+#define ChangeMeAugmentorTiltUpButton 7
+#define ChangeMeAugmentorTiltDownButton 8
+
 class OI {
+
 
 private:
 	std::shared_ptr<Joystick> controllerDriver;
 	std::shared_ptr<Joystick> AirForceOneController;
+	std::shared_ptr<JoystickButton> InjectionButton;
+	std::shared_ptr<JoystickButton> EjectionButton;
+	std::shared_ptr<JoystickButton> AugmentorTiltUpButton;
+	std::shared_ptr<JoystickButton> AugmentorTiltDownButton;
 	std::shared_ptr<JoystickButton> FinesseButton;
 
 	// Joystick button role selection
