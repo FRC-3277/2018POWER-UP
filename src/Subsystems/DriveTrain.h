@@ -7,14 +7,14 @@
 
 #pragma once
 
+#include "LumberJack.h"
+
 #include "WPILib.h"
 #include <Drive/MecanumDrive.h>
 #include <Commands/Subsystem.h>
 #include "ctre/Phoenix.h"
 #include <chrono>
 #include <ctime>
-
-#include "LumberJack.h"
 
 
 class DriveTrain : public frc::Subsystem {
