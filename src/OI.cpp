@@ -23,6 +23,7 @@
 
 OI::OI()
 {
+	lumberJack->dLog("Assigning controllers");
 	try
 	{
 		controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
@@ -41,6 +42,7 @@ OI::OI()
 		lumberJack->dLog(std::string("AirForceOneController.reset() failed; ") + std::string(e.what()));
 	}
 
+	lumberJack->dLog("Assigning buttons");
 	try
 	{
 		InjectionButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeInjectionButton));
@@ -147,6 +149,7 @@ OI::OI()
 
 	}
 
+	lumberJack->dLog("Assigning button commands");
 	LifterButton->WhenPressed(new StartLifterCommand());
 	InjectionButton->WhenPressed(new EatCubeCommand());
 	EjectionButton->WhenPressed(new SpitCubeCommand());

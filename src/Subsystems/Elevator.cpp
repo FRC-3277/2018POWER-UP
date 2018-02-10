@@ -5,6 +5,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 {
 	lumberJack.reset(new LumberJack());
 
+	lumberJack->dLog("Assigning talons");
 	try
 	{
 		LeftElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID));
@@ -31,6 +32,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	// Confident it is stopped at the beginning.
 	LimitSwitchTracker = 1;
 
+	lumberJack->dLog("Assigning limit switches");
 	try
 	{
 		MaxHeightLimitSwitch.reset(new DigitalInput(MAX_HEIGHT_LIMIT_SWITCH_ID));
