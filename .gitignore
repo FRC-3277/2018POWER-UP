@@ -38,3 +38,5 @@
 *.classpath
 *.jar
 *.xml
+.cproject
+build.properties
