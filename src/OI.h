@@ -52,10 +52,18 @@
 #define JOYSTICK_BUTTON_ELEVEN 11
 #define JOYSTICK_BUTTON_TWELVE 12
 
+// Elevator
+#define ElevatorUpButtonNumber JOYSTICK_BUTTON_TWO
+#define ElevatorDownButtonNumber JOYSTICK_BUTTON_THREE
+#define DesiredElevatorSetpointAxis 3
+
+// TODO: Add Air Force One controller
+
 class OI {
 
 private:
 	std::shared_ptr<Joystick> controllerDriver;
+	std::shared_ptr<Joystick> AirForceOneController;
 	std::shared_ptr<JoystickButton> FinesseButton;
 
 	// Joystick button role selection
@@ -74,10 +82,16 @@ private:
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
 	double Clamp(double joystickAxis);
 
+	std::shared_ptr<JoystickButton> ElevatorUpButton;
+	std::shared_ptr<JoystickButton> ElevatorDownButton;
+	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
+
 public:
 	OI();
 
+	std::shared_ptr<Joystick> getXBoxController();
 	double GetJoystickX();
 	double GetJoystickY();
 	double GetJoystickTwist();
+	int GetDesiredElevatorSetpoint();
 };

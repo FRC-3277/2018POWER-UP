@@ -19,3 +19,15 @@ static constexpr int FRONT_LEFT_MOTOR_CAN_ID = 1;
 static constexpr int FRONT_RIGHT_MOTOR_CAN_ID = 2;
 static constexpr int REAR_LEFT_MOTOR_CAN_ID = 3;
 static constexpr int REAR_RIGHT_MOTOR_CAN_ID = 4;
+
+
+
+// Elevator
+static constexpr int ELEVATOR_MOTOR_LEFT_CAN_ID = 10;
+static constexpr int ELEVATOR_MOTOR_RIGHT_CAN_ID = 11;
+static constexpr int MAX_HEIGHT_LIMIT_SWITCH_ID = 5;
+static constexpr int MIN_HEIGHT_LIMIT_SWITCH_ID = 6;
+static constexpr int HIGH_LIMIT_SWITCH_ID = 7;
+static constexpr int MED_LIMIT_SWITCH_ID = 8;
+static constexpr int LOW_LIMIT_SWITCH_ID = 9;
+

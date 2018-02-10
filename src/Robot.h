@@ -18,6 +18,7 @@
 #include "OI.h"
 // Subsystems
 #include "Subsystems/DriveTrain.h"
+#include "Subsystems/Elevator.h"
 
 // Commands
 //#include "Commands/Autonomous.h"
@@ -28,6 +29,7 @@ class Robot : public frc::TimedRobot
 public:
 	static std::unique_ptr<OI> oi;
 	static std::shared_ptr<DriveTrain> driveTrain;
+	static std::shared_ptr<Elevator> elevator;
 
 private:
 	//Autonomous m_autonomousCommand;

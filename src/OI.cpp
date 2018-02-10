@@ -9,8 +9,26 @@
 #include "WPILib.h"
 #include "Commands/ToggleFinesseMode.h"
 
+#include <math.h>
+
+#include <Commands/LowerElevatorCommand.h>
+#include <Commands/RaiseElevatorCommand.h>
+#include <Commands/GoToDesiredSetpointCommand.h>
+
+
 OI::OI()
 {
+	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+	AirForceOneController.reset(new Joystick(ALTERNATE_CONTROLLER_ID));
+
+	ElevatorUpButton.reset(new JoystickButton(xBoxControllerDriver.get(), ElevatorUpButtonNumber));
+	ElevatorDownButton.reset(new JoystickButton(xBoxControllerDriver.get(), ElevatorDownButtonNumber));
+
+	// Button trigger and command mappings
+	ElevatorUpButton->WhenPressed(new RaiseElevatorCommand());
+	ElevatorDownButton->WhenPressed(new LowerElevatorCommand());
+	GoToDesiredElevatorSetpointButton->WhenPressed(new GoToDesiredSetpointCommand());
+
 	// Selecting Joystick overrides xBox in case both are found enabled
 	useJoystick = SmartDashboard::GetBoolean("Drive With Joystick? 0", false);
 	if(useJoystick == false)
@@ -36,6 +54,11 @@ OI::OI()
 	}
 
 	FinesseButton->ToggleWhenPressed(new ToggleFinesseMode());
+}
+
+std::shared_ptr<Joystick> OI::getXBoxController()
+{
+	return xBoxControllerDriver;
 }
 
 double OI::GetJoystickX()
@@ -127,4 +150,21 @@ double OI::Clamp(double joystickAxis)
 	}
 
 	return joystickAxis;
+}
+
+int OI::GetDesiredElevatorSetpoint()
+{
+	int DesiredSetpoint = 1;
+	int NumberOfElevatorLimitSwitches = 5;
+	double SetPointDelimiterValue = 0.99/NumberOfElevatorLimitSwitches;
+	double CurrentActualElevatorSetpointControllerValue = AirForceOneController->GetRawAxis(DesiredElevatorSetpointAxis);
+
+	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
+
+	if(DesiredSetpoint == 0)
+	{
+		DesiredSetpoint = 1;
+	}
+
+	return DesiredSetpoint;
 }
