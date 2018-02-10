@@ -96,6 +96,7 @@ void Elevator::RaiseElevator()
 
 	LeftElevatorTalon->Set(speed);
 	RightElevatorTalon->Set(speed);
+	lumberJack->iLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)));
 	UpdateLimitSwitchTracker();
 }
 
@@ -110,30 +111,43 @@ void Elevator::LowerElevator()
 
 	LeftElevatorTalon->Set(speed);
 	RightElevatorTalon->Set(speed);
+	lumberJack->iLog(std::string("LowerElevator: ") + std::string(std::to_string(speed)));
 	UpdateLimitSwitchTracker();
 }
 
 void Elevator::UpdateLimitSwitchTracker()
 {
+	bool limitSwitchValueChanged = false;
+
 	if(MaxHeightLimitSwitch->Get())
 	{
 		LimitSwitchTracker = 5;
+		limitSwitchValueChanged = true;
 	}
 	if(HighLimitSwitch->Get())
 	{
 		LimitSwitchTracker = 4;
+		limitSwitchValueChanged = true;
 	}
 	else if(MedLimitSwitch->Get())
 	{
 		LimitSwitchTracker = 3;
+		limitSwitchValueChanged = true;
 	}
 	else if(LowLimitSwitch->Get())
 	{
 		LimitSwitchTracker = 2;
+		limitSwitchValueChanged = true;
 	}
 	else if(MinHeightLimitSwitch->Get())
 	{
 		LimitSwitchTracker = 1;
+		limitSwitchValueChanged = true;
+	}
+
+	if(limitSwitchValueChanged)
+	{
+		lumberJack->iLog(std::string(__FILE__) + std::string("; Limit switch value changed: ") + std::to_string(LimitSwitchTracker));
 	}
 }
 
@@ -154,6 +168,7 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 	{
 		direction = StopElevatorSpeed;
 		isAtDesiredSetpoint = true;
+		lumberJack->iLog(std::string(__FILE__) + "; Elevator at desired setpoint: "
 	}
 
 	LeftElevatorTalon->Set(direction);
