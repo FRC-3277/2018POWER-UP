@@ -24,6 +24,7 @@ void Robot::RobotInit()
 
 	try
 	{
+		lumberJack->dLog("OI Started");
 		oi.reset(new OI());
 	}
 	catch(const std::exception& e)
@@ -33,6 +34,7 @@ void Robot::RobotInit()
 
 	try
 	{
+		lumberJack->dLog("DriveTrain Subsystem Started");
 		driveTrain.reset(new DriveTrain());
 	}
 	catch(const std::exception& e)
@@ -42,6 +44,7 @@ void Robot::RobotInit()
 
 	try
 	{
+		lumberJack->dLog("Grabber Subsystem Started");
 		grabber.reset(new Grabber());
 	}
 	catch(const std::exception& e)
@@ -51,6 +54,7 @@ void Robot::RobotInit()
 
 	try
 	{
+		lumberJack->dLog("Elevator Subsystem Started");
 		elevator.reset(new Elevator());
 	}
 	catch(const std::exception& e)
@@ -60,6 +64,7 @@ void Robot::RobotInit()
 
 	try
 	{
+		lumberJack->dLog("Lifter Subsystem Started");
 		lifter.reset(new Lifter());
 	}
 	catch(const std::exception& e)
