@@ -18,11 +18,11 @@
 
 OI::OI()
 {
-	xBoxControllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+	controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
 	AirForceOneController.reset(new Joystick(ALTERNATE_CONTROLLER_ID));
 
-	ElevatorUpButton.reset(new JoystickButton(xBoxControllerDriver.get(), ElevatorUpButtonNumber));
-	ElevatorDownButton.reset(new JoystickButton(xBoxControllerDriver.get(), ElevatorDownButtonNumber));
+	ElevatorUpButton.reset(new JoystickButton(controllerDriver.get(), ElevatorUpButtonNumber));
+	ElevatorDownButton.reset(new JoystickButton(controllerDriver.get(), ElevatorDownButtonNumber));
 
 	// Button trigger and command mappings
 	ElevatorUpButton->WhenPressed(new RaiseElevatorCommand());
@@ -58,7 +58,7 @@ OI::OI()
 
 std::shared_ptr<Joystick> OI::getXBoxController()
 {
-	return xBoxControllerDriver;
+	return controllerDriver;
 }
 
 double OI::GetJoystickX()
