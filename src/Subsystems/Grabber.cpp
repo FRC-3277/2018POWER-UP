@@ -13,7 +13,7 @@ Grabber::Grabber()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("BlockFeedMotor.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("BlockFeedMotor.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -22,7 +22,7 @@ Grabber::Grabber()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("TiltMotor.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("TiltMotor.reset() failed; ") + std::string(e.what()));
 	}
 
 
@@ -33,7 +33,7 @@ Grabber::Grabber()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("InjectionStopLimitSwitch.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("InjectionStopLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -42,7 +42,7 @@ Grabber::Grabber()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("EjectionStopLimitSwitch.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("EjectionStopLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -51,7 +51,7 @@ Grabber::Grabber()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("TiltUpStopLimitSwitch.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("TiltUpStopLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -60,7 +60,7 @@ Grabber::Grabber()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("TiltDownStopLimitSwitch.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("TiltDownStopLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
 

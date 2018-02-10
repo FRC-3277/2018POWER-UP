@@ -20,7 +20,7 @@ Lifter::Lifter()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("LifterMotor.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("LifterMotor.reset() failed; ") + std::string(e.what()));
 	}
 
 

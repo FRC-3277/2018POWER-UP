@@ -12,7 +12,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("LeftElevatorTalon.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("LeftElevatorTalon.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -21,7 +21,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("RightElevatorTalon.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("RightElevatorTalon.reset() failed; ") + std::string(e.what()));
 	}
 
 
@@ -39,7 +39,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("MaxHeightLimitSwitch.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("MaxHeightLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -48,7 +48,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("MinHeightLimitSwitch.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("MinHeightLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
 
@@ -58,7 +58,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("HighLimitSwitch.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("HighLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -67,7 +67,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("MedLimitSwitch.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("MedLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -76,7 +76,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("LowLimitSwitch.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("LowLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
 }
@@ -168,7 +168,7 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 	{
 		direction = StopElevatorSpeed;
 		isAtDesiredSetpoint = true;
-		lumberJack->iLog(std::string(__FILE__) + "; Elevator at desired setpoint: "
+		lumberJack->iLog(std::string(__FILE__) + std::string("; Elevator at desired setpoint: ") + std::to_string(DesiredSetpoint));
 	}
 
 	LeftElevatorTalon->Set(direction);

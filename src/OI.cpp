@@ -30,7 +30,7 @@ OI::OI()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("controllerDriver.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("controllerDriver.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -39,7 +39,7 @@ OI::OI()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("AirForceOneController.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("AirForceOneController.reset() failed; ") + std::string(e.what()));
 	}
 
 	lumberJack->dLog("Assigning buttons");
@@ -49,7 +49,7 @@ OI::OI()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("InjectionButton.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("InjectionButton.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -58,7 +58,7 @@ OI::OI()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("EjectionButton.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("EjectionButton.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -67,7 +67,7 @@ OI::OI()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("AugmentorTiltUpButton.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("AugmentorTiltUpButton.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -76,7 +76,7 @@ OI::OI()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("AugmentorTiltDownButton.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("AugmentorTiltDownButton.reset() failed; ") + std::string(e.what()));
 	}
 
 
@@ -86,7 +86,7 @@ OI::OI()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("ElevatorUpButton.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("ElevatorUpButton.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -95,7 +95,7 @@ OI::OI()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("ElevatorDownButton.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("ElevatorDownButton.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -104,7 +104,7 @@ OI::OI()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("GoToDesiredElevatorSetpointButton.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("GoToDesiredElevatorSetpointButton.reset() failed; ") + std::string(e.what()));
 	}
 
 	// Lifter
@@ -114,7 +114,7 @@ OI::OI()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("LifterButton.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("LifterButton.reset() failed; ") + std::string(e.what()));
 	}
 
 	// Selecting Joystick overrides xBox in case both are found enabled
@@ -140,7 +140,7 @@ OI::OI()
 		}
 		catch(const std::exception& e)
 		{
-			lumberJack->dLog(std::string("FinesseButton.reset() failed; ") + std::string(e.what()));
+			lumberJack->eLog(std::string("FinesseButton.reset() failed; ") + std::string(e.what()));
 		}
 
 	}
@@ -152,7 +152,7 @@ OI::OI()
 		}
 		catch(const std::exception& e)
 		{
-			lumberJack->dLog(std::string("FinesseButton.reset() failed; ") + std::string(e.what()));
+			lumberJack->eLog(std::string("FinesseButton.reset() failed; ") + std::string(e.what()));
 		}
 
 	}

@@ -25,7 +25,7 @@ DriveTrain::DriveTrain()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("frontLeftTalon.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("frontLeftTalon.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -34,7 +34,7 @@ DriveTrain::DriveTrain()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("frontRightTalon.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("frontRightTalon.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -43,7 +43,7 @@ DriveTrain::DriveTrain()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("rearLeftTalon.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("rearLeftTalon.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -52,7 +52,7 @@ DriveTrain::DriveTrain()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("rearRightTalon.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("rearRightTalon.reset() failed; ") + std::string(e.what()));
 	}
 
 
@@ -74,7 +74,7 @@ DriveTrain::DriveTrain()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("robotDrive.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("robotDrive.reset() failed; ") + std::string(e.what()));
 	}
 
 	robotDrive->SetExpiration(0.5);

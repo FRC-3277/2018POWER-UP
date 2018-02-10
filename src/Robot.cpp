@@ -29,7 +29,7 @@ void Robot::RobotInit()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("oi.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("oi.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -39,7 +39,7 @@ void Robot::RobotInit()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("driveTrain.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("driveTrain.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -49,7 +49,7 @@ void Robot::RobotInit()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("grabber.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("grabber.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -59,7 +59,7 @@ void Robot::RobotInit()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("elevator.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("elevator.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -69,7 +69,7 @@ void Robot::RobotInit()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->dLog(std::string("lifter.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("lifter.reset() failed; ") + std::string(e.what()));
 	}
 
 }
