@@ -124,7 +124,6 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	{
 		lateral = -lateral;
 		forwardBackward = -forwardBackward;
-		rotation = -rotation;
 	}
 
 	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
