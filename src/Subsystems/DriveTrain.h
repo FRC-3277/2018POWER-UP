@@ -47,8 +47,14 @@ private:
 	double AverageLateral = 0.0;
 	double AverageForwardBackward = 0.0;
 	double AverageRotation = 0.0;
+	static const int NumberOfDataPointsForAverage = 100;
+	int AverageArrayIterator = 0;
+	double AverageLateralArray[NumberOfDataPointsForAverage] = { 0 };
+	double AverageForwardBackwardArray[NumberOfDataPointsForAverage] = { 0 };
+	double AverageRotationArray[NumberOfDataPointsForAverage] = { 0 };
 	// A a sudden higher than this for lateral, forward, backward, or rotation will enable average values overriding
 	double ValueToTriggerAverageOverride = 0.5;
 
 	double ApproxRollingAverage(double CurrentAverage, double CurrentValue);
+	double ActualAverage(double *Array, int ArraySize);
 };
