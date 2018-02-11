@@ -210,7 +210,8 @@ double OI::GetJoystickX()
 		}
 		else
 		{
-			x = controllerDriver->GetX();
+			// Inversed when driving normally
+			x = -controllerDriver->GetX();
 		}
 
 	}
@@ -229,7 +230,6 @@ double OI::GetJoystickX()
 		}
 		else
 		{
-
 			//Adding Xboxdeadzone for X axis
 			if(controllerDriver->GetRawAxis(XBoxForwardReverse) <= XboxDeadzone
 				 && controllerDriver->GetRawAxis(XBoxForwardReverse) >= -XboxDeadzone
