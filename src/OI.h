@@ -87,7 +87,6 @@ class OI {
 	// TODO: Add Winch Out Button - Add limit switch interlock for max
 	// TODO: Add Deploy Mechanism
 
-
 private:
 	std::shared_ptr<LumberJack> lumberJack;
 

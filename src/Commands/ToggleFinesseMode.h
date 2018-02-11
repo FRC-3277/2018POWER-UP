@@ -7,6 +7,9 @@
 #include "Robot.h"
 
 class ToggleFinesseMode : public frc::Command {
+private:
+	std::shared_ptr<LumberJack> lumberJack;
+
 public:
 	ToggleFinesseMode();
 	void Initialize();
