@@ -43,4 +43,12 @@ private:
 	std::chrono::system_clock::time_point TimerFinesseCurrent;
 	const int	FinesseReductionWaitPeriod = 500;
 	const double FinesseIncrementor = 0.05;
+
+	double AverageLateral = 0.0;
+	double AverageForwardBackward = 0.0;
+	double AverageRotation = 0.0;
+	// A a sudden higher than this for lateral, forward, backward, or rotation will enable average values overriding
+	double ValueToTriggerAverageOverride = 0.5;
+
+	double ApproxRollingAverage(double CurrentAverage, double CurrentValue);
 };

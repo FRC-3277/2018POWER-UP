@@ -118,6 +118,21 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	driveTrainDebugInfo += std::string("ForwardBackward: ") + std::to_string(forwardBackward);
 	driveTrainDebugInfo += std::string("Rotation: ") + std::to_string(rotation);
 	lumberJack->dLog(driveTrainDebugInfo);
+
+	// Smooth out speed if going fast
+	AverageLateral = ApproxRollingAverage(AverageLateral, lateral);
+	AverageForwardBackward = ApproxRollingAverage(AverageForwardBackward, forwardBackward);
+	AverageRotation = ApproxRollingAverage(AverageRotation, rotation);
+
+	if(lateral >= ValueToTriggerAverageOverride ||
+		forwardBackward >= ValueToTriggerAverageOverride ||
+		rotation >= ValueToTriggerAverageOverride)
+	{
+		lateral = AverageLateral;
+		forwardBackward = AverageForwardBackward;
+		rotation = AverageRotation;
+	}
+
 	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
 }
 
@@ -129,4 +144,12 @@ void DriveTrain::ToggleFinesseMode()
 	TimerFinesseBegin = std::chrono::system_clock::now();
 }
 
+double DriveTrain::ApproxRollingAverage(double CurrentAverage, double CurrentValue)
+{
+    double NumberOfDataPoints = 100.0;
 
+    CurrentAverage -= CurrentAverage / NumberOfDataPoints;
+    CurrentAverage += CurrentSpeed / NumberOfDataPoints;
+
+    return CurrentAverage;
+}
