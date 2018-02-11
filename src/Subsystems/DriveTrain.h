@@ -35,12 +35,12 @@ private:
 	std::shared_ptr<MecanumDrive> robotDrive;
 
 	bool IsFinesseModeEnabled = false;
-	double MaxFinesseReduction = .5;
-	double CurrentFinesseReduction = 0;
-	double MinFinesseReduction = .01;
+	double MaxFinesseReduction = 0.5;
+	double CurrentFinesseReduction = 0.0;
+	double MinFinesseReduction = 0.01;
 
 	std::chrono::system_clock::time_point TimerFinesseBegin;
 	std::chrono::system_clock::time_point TimerFinesseCurrent;
 	const int	FinesseReductionWaitPeriod = 500;
-	int FinesseIncrementor = 1;
+	const double FinesseIncrementor = 0.05;
 };

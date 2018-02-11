@@ -62,12 +62,6 @@ DriveTrain::DriveTrain()
 	rearLeftTalon->Set(ControlMode::PercentOutput, 0);
 	rearRightTalon->Set(ControlMode::PercentOutput, 0);
 
-	// Invert Right Side
- //   frontRightTalon->SetInverted(true);
- //   rearRightTalon->SetInverted(true);
-
-
-	// Create a RobotDrive object using PWMS 1, 2, 3, and 4
 	try
 	{
 		robotDrive.reset(new MecanumDrive(*frontLeftTalon, *rearLeftTalon, *frontRightTalon, *rearRightTalon));
@@ -93,25 +87,32 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 {
 	if(IsFinesseModeEnabled)
 	{
-		std::chrono::duration<double> elapsed_seconds = TimerFinesseCurrent - TimerFinesseBegin;
-		int DurationMicroseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed_seconds).count();
-
-		if(FinesseReductionWaitPeriod <= DurationMicroseconds)
+		// Only need to adjust finesse and use the clock if not at max yet
+		if(CurrentFinesseReduction <= MaxFinesseReduction)
 		{
 			TimerFinesseCurrent = std::chrono::system_clock::now();
-			CurrentFinesseReduction += FinesseIncrementor;
+			std::chrono::duration<double> elapsed_seconds = TimerFinesseCurrent - TimerFinesseBegin;
+			int DurationMicroseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed_seconds).count();
+
+			lumberJack->iLog(std::string("DurationMicroseconds: ") + std::to_string(DurationMicroseconds));
+			if(FinesseReductionWaitPeriod <= DurationMicroseconds)
+			{
+				TimerFinesseBegin = std::chrono::system_clock::now();
+				CurrentFinesseReduction += FinesseIncrementor;
+				lumberJack->iLog(std::string("CurrentFinesseReduction: ") + std::to_string(CurrentFinesseReduction));
+			}
 		}
-// TODO: Add Accelerometer Logic
+
+		// TODO: Add Accelerometer Logic
 		lateral = lateral * CurrentFinesseReduction;
 		forwardBackward = forwardBackward * CurrentFinesseReduction;
 		rotation = rotation * CurrentFinesseReduction;
 	}
 
-	/* Use the joystick X axis for lateral movement, Y axis for
-	 * forward
-	 * movement, and Z axis for rotation.
+	/* Use the joystick X axis for lateral movement,
+	 * Y axis for forward movement,
+	 * and Z axis for rotation.
 	 */
-
 	std::string driveTrainDebugInfo;
 	driveTrainDebugInfo += std::string("Lateral: ") + std::to_string(lateral);
 	driveTrainDebugInfo += std::string("ForwardBackward: ") + std::to_string(forwardBackward);
@@ -123,9 +124,9 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 void DriveTrain::ToggleFinesseMode()
 {
 	IsFinesseModeEnabled = !IsFinesseModeEnabled;
+	lumberJack->iLog(std::string("ToggleFinesseMode: ") + std::to_string(IsFinesseModeEnabled));
 	CurrentFinesseReduction = MinFinesseReduction;
 	TimerFinesseBegin = std::chrono::system_clock::now();
-
 }
 
 
