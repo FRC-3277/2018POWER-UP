@@ -36,7 +36,7 @@ private:
 
 	double SoftSpeedChangeArray[SoftSpeedChangeArraySize];
 
-	static constexpr double RaiseSpeedMultiplier = 3.0;
+	static constexpr double RaiseSpeedMultiplier = 4.0;
 	static constexpr double LowerSpeedMultiplier = 1.0;
 
 	void UpdateLimitSwitchTracker();
