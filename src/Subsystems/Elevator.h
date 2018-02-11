@@ -24,10 +24,22 @@ private:
 	// Track which limit switch has been recently visited.  Start with 1 from bottom until top limit switch
 	int LimitSwitchTracker;
 
-	const double ElevatorTravelSpeed = 0.25;
+	static constexpr double ElevatorTravelSpeed = 0.20;
 	const double StopElevatorSpeed = 0.0;
 
+	int SoftSpeedChangeArrayIterator = 0;
+
+	static const int SoftSpeedChangeArraySize = 100;
+
+	double SoftSpeedChangeArray[SoftSpeedChangeArraySize];
+
+	static constexpr double RaiseSpeedMultiplier = 3.0;
+	static constexpr double LowerSpeedMultiplier = 1.0;
+
 	void UpdateLimitSwitchTracker();
+	void UpdateSoftSpeedChangeArray(const double Multiplier);
+	double SoftStart();
+	double SoftStop();
 
 public:
 	Elevator();
