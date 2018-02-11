@@ -32,6 +32,10 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	LeftElevatorTalon->Set(ControlMode::PercentOutput, 0);
 	LeftElevatorTalon->Set(ControlMode::PercentOutput, 0);
 
+	// Servo goes to home position when this line of code is hit.  This drops
+	// the end effector when Teleop or Autonomous mode is hit.
+	EndEffectorDropServo.reset(new Servo(DROP_END_EFFECTOR_SERVO));
+
 	// Confident it is stopped at the beginning.
 	LimitSwitchTracker = 1;
 

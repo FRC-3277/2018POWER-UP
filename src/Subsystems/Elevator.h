@@ -14,6 +14,9 @@ private:
 	std::shared_ptr<WPI_TalonSRX> LeftElevatorTalon;
 	std::shared_ptr<WPI_TalonSRX> RightElevatorTalon;
 
+	std::shared_ptr<Servo> EndEffectorDropServo;
+
+	// TODO: Disable Max and Min
 	std::shared_ptr<DigitalInput> MaxHeightLimitSwitch;
 	std::shared_ptr<DigitalInput> MinHeightLimitSwitch;
 
