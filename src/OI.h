@@ -68,6 +68,9 @@
 #define AIRFORCEONE_Y_AXIS 1
 #define AIRFORCEONE_Z_AXIS 2
 
+// Drivetrain
+#define InvertDriverControlsButtonNumber JOYSTICK_BUTTON_TEN
+
 // Elevator
 #define ElevatorUpButtonNumber JOYSTICK_BUTTON_TWO
 #define ElevatorDownButtonNumber JOYSTICK_BUTTON_THREE
@@ -80,6 +83,7 @@
 #define ChangeMeAugmentorTiltUpButton 7
 #define ChangeMeAugmentorTiltDownButton 8
 
+// Lifter
 #define ChangeMeLifterButton 9
 
 class OI {
@@ -92,11 +96,12 @@ private:
 
 	std::shared_ptr<Joystick> controllerDriver;
 	std::shared_ptr<Joystick> AirForceOneController;
+	std::shared_ptr<JoystickButton> InvertDriverControlsButton;
+	std::shared_ptr<JoystickButton> FinesseButton;
 	std::shared_ptr<JoystickButton> InjectionButton;
 	std::shared_ptr<JoystickButton> EjectionButton;
 	std::shared_ptr<JoystickButton> AugmentorTiltUpButton;
 	std::shared_ptr<JoystickButton> AugmentorTiltDownButton;
-	std::shared_ptr<JoystickButton> FinesseButton;
 	std::shared_ptr<JoystickButton> LifterButton;
 	std::shared_ptr<JoystickButton> ElevatorUpButton;
 	std::shared_ptr<JoystickButton> ElevatorDownButton;
@@ -118,6 +123,7 @@ private:
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
 	double Clamp(double joystickAxis);
 
+	// TODO: Refactor these down to just the one
 	// Joystick Deadzone
 	const double JoystickDeadzone = 0.02;
 

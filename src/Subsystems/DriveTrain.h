@@ -23,6 +23,7 @@ public:
 	void InitDefaultCommand() override;
 	void SetDrive(double lateral, double forwardBackward, double rotation);
 	void ToggleFinesseMode();
+	void ToggleInvertDriverControls();
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;
@@ -35,6 +36,8 @@ private:
 	std::shared_ptr<MecanumDrive> robotDrive;
 
 	bool IsFinesseModeEnabled = false;
+	bool InvertDriverControls = false;
+
 	double MaxFinesseReduction = 0.5;
 	double CurrentFinesseReduction = 0.0;
 	double MinFinesseReduction = 0.01;

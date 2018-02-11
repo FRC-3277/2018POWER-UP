@@ -118,6 +118,15 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	driveTrainDebugInfo += std::string("ForwardBackward: ") + std::to_string(forwardBackward);
 	driveTrainDebugInfo += std::string("Rotation: ") + std::to_string(rotation);
 	lumberJack->dLog(driveTrainDebugInfo);
+
+	// Last modification before interacting with the drivetrain
+	if(InvertDriverControls)
+	{
+		lateral = -lateral;
+		forwardBackward = -forwardBackward;
+		rotation = -rotation;
+	}
+
 	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
 }
 
@@ -129,4 +138,7 @@ void DriveTrain::ToggleFinesseMode()
 	TimerFinesseBegin = std::chrono::system_clock::now();
 }
 
-
+void DriveTrain::ToggleInvertDriverControls()
+{
+	InvertDriverControls = !InvertDriverControls;
+}

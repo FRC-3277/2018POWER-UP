@@ -1,33 +1,33 @@
-#include "ToggleFinesseMode.h"
+#include <Commands/ToggleFinesseModeCommand.h>
 
-ToggleFinesseMode::ToggleFinesseMode() {
+ToggleFinesseModeCommand::ToggleFinesseModeCommand() {
 	// No exclusive access required to drivetrain subsystem.
 	lumberJack.reset(new LumberJack());
 }
 
 // Called just before this Command runs the first time
-void ToggleFinesseMode::Initialize() {
+void ToggleFinesseModeCommand::Initialize() {
 
 }
 
 // Called repeatedly when this Command is scheduled to run
-void ToggleFinesseMode::Execute() {
+void ToggleFinesseModeCommand::Execute() {
 	lumberJack->iLog("ToggleFinesseMode toggled");
-	Robot::driveTrain.get()->ToggleFinesseMode();
+	Robot::driveTrain->ToggleFinesseMode();
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ToggleFinesseMode::IsFinished() {
+bool ToggleFinesseModeCommand::IsFinished() {
 	return true;
 }
 
 // Called once after isFinished returns true
-void ToggleFinesseMode::End() {
+void ToggleFinesseModeCommand::End() {
 
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ToggleFinesseMode::Interrupted() {
+void ToggleFinesseModeCommand::Interrupted() {
 
 }

@@ -7,7 +7,6 @@
 
 #include "OI.h"
 #include "WPILib.h"
-#include "Commands/ToggleFinesseMode.h"
 #include "Commands/AugmentorTiltDownCommand.h"
 #include "Commands/AugmentorTiltUpCommand.h"
 #include "Commands/EatCubeCommand.h"
@@ -19,10 +18,12 @@
 #include <Commands/LowerElevatorCommand.h>
 #include <Commands/RaiseElevatorCommand.h>
 #include <Commands/GoToDesiredSetpointCommand.h>
+#include <Commands/ToggleFinesseModeCommand.h>
 
 
 OI::OI()
 {
+	// Controllers
 	lumberJack->dLog("Assigning controllers");
 	try
 	{
@@ -42,10 +43,21 @@ OI::OI()
 		lumberJack->eLog(std::string("AirForceOneController.reset() failed; ") + std::string(e.what()));
 	}
 
-	lumberJack->dLog("Assigning buttons");
+	// Buttons and commands
+	lumberJack->dLog("Assigning buttons and commands");
+	try
+	{
+		InvertDriverControlsButton.reset(new JoystickButton(controllerDriver.get(), InvertDriverControlsButtonNumber));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->eLog(std::string("InvertDriverControlsButton.reset() failed; ") + std::string(e.what()));
+	}
+
 	try
 	{
 		InjectionButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeInjectionButton));
+		InjectionButton->WhenPressed(new EatCubeCommand());
 	}
 	catch(const std::exception& e)
 	{
@@ -55,6 +67,7 @@ OI::OI()
 	try
 	{
 		EjectionButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeEjectionButton));
+		EjectionButton->WhenPressed(new SpitCubeCommand());
 	}
 	catch(const std::exception& e)
 	{
@@ -64,6 +77,7 @@ OI::OI()
 	try
 	{
 		AugmentorTiltUpButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeAugmentorTiltUpButton));
+		AugmentorTiltUpButton->WhenPressed(new AugmentorTiltUpCommand());
 	}
 	catch(const std::exception& e)
 	{
@@ -73,16 +87,17 @@ OI::OI()
 	try
 	{
 		AugmentorTiltDownButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeAugmentorTiltDownButton));
+		AugmentorTiltDownButton->WhenPressed(new AugmentorTiltDownCommand());
 	}
 	catch(const std::exception& e)
 	{
 		lumberJack->eLog(std::string("AugmentorTiltDownButton.reset() failed; ") + std::string(e.what()));
 	}
 
-
 	try
 	{
 		ElevatorUpButton.reset(new JoystickButton(controllerDriver.get(), ElevatorUpButtonNumber));
+		ElevatorUpButton->WhileHeld(new RaiseElevatorCommand());
 	}
 	catch(const std::exception& e)
 	{
@@ -92,6 +107,7 @@ OI::OI()
 	try
 	{
 		ElevatorDownButton.reset(new JoystickButton(controllerDriver.get(), ElevatorDownButtonNumber));
+		ElevatorDownButton->WhileHeld(new LowerElevatorCommand());
 	}
 	catch(const std::exception& e)
 	{
@@ -101,6 +117,7 @@ OI::OI()
 	try
 	{
 		GoToDesiredElevatorSetpointButton.reset(new JoystickButton(AirForceOneController.get(), DesiredElevatorSetpointButtonNumber));
+		GoToDesiredElevatorSetpointButton->WhenPressed(new GoToDesiredSetpointCommand());
 	}
 	catch(const std::exception& e)
 	{
@@ -111,6 +128,7 @@ OI::OI()
 	try
 	{
 		LifterButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeLifterButton));
+		LifterButton->WhenPressed(new StartLifterCommand());
 	}
 	catch(const std::exception& e)
 	{
@@ -137,48 +155,25 @@ OI::OI()
 		try
 		{
 			FinesseButton.reset(new JoystickButton(controllerDriver.get(), JoystickFinesseButton));
+			FinesseButton->ToggleWhenPressed(new ToggleFinesseModeCommand());
 		}
 		catch(const std::exception& e)
 		{
 			lumberJack->eLog(std::string("FinesseButton.reset() failed; ") + std::string(e.what()));
 		}
-
 	}
 	else
 	{
 		try
 		{
 			FinesseButton.reset(new JoystickButton(controllerDriver.get(), XBoxFinnesseButton));
+			FinesseButton->ToggleWhenPressed(new ToggleFinesseModeCommand());
 		}
 		catch(const std::exception& e)
 		{
 			lumberJack->eLog(std::string("FinesseButton.reset() failed; ") + std::string(e.what()));
 		}
-
 	}
-
-	lumberJack->dLog("Assigning button commands");
-	lumberJack->dLog("LifterButton");
-	LifterButton->WhenPressed(new StartLifterCommand());
-	lumberJack->dLog("InjectionButton");
-	InjectionButton->WhenPressed(new EatCubeCommand());
-	lumberJack->dLog("EjectionButton");
-	EjectionButton->WhenPressed(new SpitCubeCommand());
-	lumberJack->dLog("AugmentorTiltUpButton");
-	AugmentorTiltUpButton->WhenPressed(new AugmentorTiltUpCommand());
-	lumberJack->dLog("AugmentorTiltDownButton");
-	AugmentorTiltDownButton->WhenPressed(new AugmentorTiltDownCommand());
-
-	// Button trigger and command mappings
-	lumberJack->dLog("ElevatorUpButton");
-	ElevatorUpButton->WhileHeld(new RaiseElevatorCommand());
-	lumberJack->dLog("ElevatorDownButton");
-	ElevatorDownButton->WhileHeld(new LowerElevatorCommand());
-	lumberJack->dLog("GoToDesiredElevatorSetpointButton");
-	GoToDesiredElevatorSetpointButton->WhenPressed(new GoToDesiredSetpointCommand());
-	lumberJack->dLog("FinesseButton");
-	FinesseButton->ToggleWhenPressed(new ToggleFinesseMode());
-
 }
 
 std::shared_ptr<Joystick> OI::getXBoxController()

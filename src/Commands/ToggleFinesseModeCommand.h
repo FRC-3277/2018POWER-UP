@@ -3,15 +3,16 @@
 
 #include "LumberJack.h"
 
-#include "Commands/Command.h"
 #include "Robot.h"
+#include "Commands/Command.h"
 
-class ToggleFinesseMode : public frc::Command {
+
+class ToggleFinesseModeCommand : public frc::Command {
 private:
 	std::shared_ptr<LumberJack> lumberJack;
 
 public:
-	ToggleFinesseMode();
+	ToggleFinesseModeCommand();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
