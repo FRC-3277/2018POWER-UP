@@ -120,15 +120,16 @@ private:
 
 	// Joystick Deadzone
 	const double JoystickDeadzone = 0.02;
+	const double JoystickTwistDeadzone = 0.135;
+	const double XboxTwistDeadzone = 0.135;
 
+	// Deadzone bool values
 	bool OverrideXDeadzone = false;
 	bool OverrideYDeadzone = false;
+	bool OverrideZDeadzone = false;
 
-	// Adding Xbox Deadzone
+	// Xbox Deadzone
 	const double XboxDeadzone = 0.02;
-
-	bool OverrideXboxXDeadzone = false;
-	bool OverrideXboxYDeadzone = false;
 
 public:
 	OI();
