@@ -55,7 +55,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	try
 	{
-		MinHeightLimitSwitch.reset(new DigitalInput(MAX_HEIGHT_LIMIT_SWITCH_ID));
+		MinHeightLimitSwitch.reset(new DigitalInput(MIN_HEIGHT_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
