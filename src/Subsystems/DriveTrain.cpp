@@ -140,4 +140,5 @@ void DriveTrain::ToggleFinesseMode()
 void DriveTrain::ToggleInvertDriverControls()
 {
 	InvertDriverControls = !InvertDriverControls;
+	lumberJack->iLog(std::string("ToggleInvertDriverControls: ") + std::to_string(InvertDriverControls));
 }
