@@ -68,23 +68,6 @@
 #define AIRFORCEONE_Y_AXIS 1
 #define AIRFORCEONE_Z_AXIS 2
 
-// Drivetrain
-#define InvertDriverControlsButtonNumber JOYSTICK_BUTTON_TWELVE
-
-// Elevator
-#define ElevatorUpButtonNumber JOYSTICK_BUTTON_TWO
-#define ElevatorDownButtonNumber JOYSTICK_BUTTON_THREE
-#define DesiredElevatorSetpointAxis 4
-#define DesiredElevatorSetpointButtonNumber 5
-
-// Grabber
-#define ChangeMeInjectionButton 6
-#define ChangeMeEjectionButton 7
-#define ChangeMeAugmentorTiltUpButton 8
-#define ChangeMeAugmentorTiltDownButton 9
-
-#define ChangeMeLifterButton 10
-
 class OI {
 	// TODO: Add Winch In Button - Add limit switch interlock for min
 	// TODO: Add Winch Out Button - Add limit switch interlock for max
@@ -107,13 +90,28 @@ private:
 	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
 
 	// Joystick button role selection
-	int JoystickFinesseButton = JOYSTICK_BUTTON_SEVEN;
+	static constexpr int JoystickFinesseButton = JOYSTICK_BUTTON_SEVEN;
+	// Drivetrain
+	static constexpr int InvertDriverControlsButtonNumber = JOYSTICK_BUTTON_TWELVE;
+
+	// Elevator
+	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_TWO;
+	static constexpr int ElevatorDownButtonNumber = JOYSTICK_BUTTON_THREE;
+	static constexpr int DesiredElevatorSetpointAxis = JOYSTICK_BUTTON_FOUR;
+	static constexpr int DesiredElevatorSetpointButtonNumber = AIRFORCEONE_BUTTON_FIVE;
+
+	// Grabber
+	static constexpr int ChangeMeInjectionButton = AIRFORCEONE_BUTTON_SIX;
+	static constexpr int ChangeMeEjectionButton = JOYSTICK_BUTTON_SEVEN;
+	static constexpr int ChangeMeAugmentorTiltUpButton = JOYSTICK_BUTTON_EIGHT;
+	static constexpr int ChangeMeAugmentorTiltDownButton = JOYSTICK_BUTTON_NINE;
+	static constexpr int ChangeMeLifterButton = JOYSTICK_BUTTON_TEN;
 
 	// xBox button role selection
-	int XBoxFinnesseButton = XBOX_RIGHT_SHOLDER_BUTTON;
-	int XBoxLateral  = XBOX_LEFT_STICK_X_AXIS;
-	int XBoxForwardReverse = XBOX_LEFT_STICK_Y_AXIS;
-	int XBoxTwist = XBOX_RIGHT_STICK_X_AXIS;
+	static constexpr int XBoxFinnesseButton = XBOX_RIGHT_SHOLDER_BUTTON;
+	static constexpr int XBoxLateral  = XBOX_LEFT_STICK_X_AXIS;
+	static constexpr int XBoxForwardReverse = XBOX_LEFT_STICK_Y_AXIS;
+	static constexpr int XBoxTwist = XBOX_RIGHT_STICK_X_AXIS;
 
 	// Use the Joystick when true, Use the xBox controller when false
 	bool useJoystick;
@@ -124,9 +122,9 @@ private:
 
 	// TODO: Refactor these down to just the one
 	// Joystick Deadzone
-	const double JoystickDeadzone = 0.02;
-	const double JoystickTwistDeadzone = 0.135;
-	const double XboxTwistDeadzone = 0.135;
+	static constexpr double JoystickDeadzone = 0.02;
+	static constexpr double JoystickTwistDeadzone = 0.135;
+	static constexpr double XboxTwistDeadzone = 0.135;
 
 	// Deadzone bool values
 	bool OverrideXDeadzone = false;
