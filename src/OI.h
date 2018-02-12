@@ -69,7 +69,7 @@
 #define AIRFORCEONE_Z_AXIS 2
 
 // Drivetrain
-#define InvertDriverControlsButtonNumber JOYSTICK_BUTTON_TEN
+#define InvertDriverControlsButtonNumber JOYSTICK_BUTTON_TWELVE
 
 // Elevator
 #define ElevatorUpButtonNumber JOYSTICK_BUTTON_TWO
@@ -80,7 +80,7 @@
 // Grabber
 #define ChangeMeInjectionButton 5
 #define ChangeMeEjectionButton 6
-#define ChangeMeAugmentorTiltUpButton 7
+#define ChangeMeAugmentorTiltUpButton JOYSTICK_BUTTON_ELEVEN
 #define ChangeMeAugmentorTiltDownButton 8
 
 // Lifter

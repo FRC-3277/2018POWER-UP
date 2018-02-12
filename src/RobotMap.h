@@ -22,8 +22,6 @@ static constexpr int FRONT_RIGHT_MOTOR_CAN_ID = 3;
 static constexpr int REAR_LEFT_MOTOR_CAN_ID = 4;
 static constexpr int REAR_RIGHT_MOTOR_CAN_ID = 5;
 
-
-
 // Elevator
 static constexpr int ELEVATOR_MOTOR_LEFT_CAN_ID = 10;
 static constexpr int ELEVATOR_MOTOR_RIGHT_CAN_ID = 11;
