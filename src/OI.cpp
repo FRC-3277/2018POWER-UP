@@ -15,10 +15,10 @@
 #include "Commands/SpitCubeCommand.h"
 #include "Commands/StartLifterCommand.h"
 #include "Commands/InvertDriverControlsCommand.h"
-#include <Commands/LowerElevatorCommand.h>
-#include <Commands/RaiseElevatorCommand.h>
-#include <Commands/GoToDesiredSetpointCommand.h>
-#include <Commands/ToggleFinesseModeCommand.h>
+#include "Commands/LowerElevatorCommand.h"
+#include "Commands/RaiseElevatorCommand.h"
+#include "Commands/GoToDesiredSetpointCommand.h"
+#include "Commands/ToggleFinesseModeCommand.h"
 
 OI::OI()
 {
