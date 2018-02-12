@@ -140,10 +140,14 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	AverageLateralArray[AverageArrayIterator] = lateral;
 	AverageForwardBackwardArray[AverageArrayIterator] = forwardBackward;
 	AverageRotationArray[AverageArrayIterator] = rotation;
-	if(lateral >= ValueToTriggerAverageOverride ||
-		forwardBackward >= ValueToTriggerAverageOverride ||
-		rotation >= ValueToTriggerAverageOverride)
+	if(fabs(lateral) >= ValueToTriggerAverageOverride ||
+		fabs(forwardBackward) >= ValueToTriggerAverageOverride ||
+		fabs(rotation) >= ValueToTriggerAverageOverride)
 	{
+		lumberJack->iLog(std::string("lateral: ") + std::to_string(lateral) +
+				std::string("forwardBackward: ") + std::to_string(forwardBackward) +
+				std::string("rotation: ") + std::to_string(rotation) +
+				std::string("ValueToTriggerAverageOverride: ") + std::to_string(ValueToTriggerAverageOverride));
 		lateral = ActualAverage(AverageLateralArray, NumberOfDataPointsForAverage);
 		forwardBackward = ActualAverage(AverageForwardBackwardArray, NumberOfDataPointsForAverage);
 		rotation = ActualAverage(AverageRotationArray, NumberOfDataPointsForAverage);
