@@ -9,8 +9,7 @@
 #include "../RobotMap.h"
 #include "ctre/Phoenix.h"
 
-Lifter::Lifter()
-	: frc::Subsystem("Lifter") {
+Lifter::Lifter() : frc::Subsystem("Lifter") {
 	lumberJack.reset(new LumberJack());
 
 	//Lifter

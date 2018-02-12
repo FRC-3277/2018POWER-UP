@@ -78,13 +78,12 @@
 #define DesiredElevatorSetpointButtonNumber 5
 
 // Grabber
-#define ChangeMeInjectionButton 5
-#define ChangeMeEjectionButton 6
-#define ChangeMeAugmentorTiltUpButton JOYSTICK_BUTTON_ELEVEN
-#define ChangeMeAugmentorTiltDownButton 8
+#define ChangeMeInjectionButton 6
+#define ChangeMeEjectionButton 7
+#define ChangeMeAugmentorTiltUpButton 8
+#define ChangeMeAugmentorTiltDownButton 9
 
-// Lifter
-#define ChangeMeLifterButton 9
+#define ChangeMeLifterButton 10
 
 class OI {
 	// TODO: Add Winch In Button - Add limit switch interlock for min
@@ -126,15 +125,16 @@ private:
 	// TODO: Refactor these down to just the one
 	// Joystick Deadzone
 	const double JoystickDeadzone = 0.02;
+	const double JoystickTwistDeadzone = 0.135;
+	const double XboxTwistDeadzone = 0.135;
 
+	// Deadzone bool values
 	bool OverrideXDeadzone = false;
 	bool OverrideYDeadzone = false;
+	bool OverrideZDeadzone = false;
 
-	// Adding Xbox Deadzone
+	// Xbox Deadzone
 	const double XboxDeadzone = 0.02;
-
-	bool OverrideXboxXDeadzone = false;
-	bool OverrideXboxYDeadzone = false;
 
 public:
 	OI();

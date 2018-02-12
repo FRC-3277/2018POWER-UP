@@ -187,7 +187,7 @@ double OI::GetJoystickX()
 
 	if(useJoystick)
 	{
-		//Adding deadzone for X axis
+		// Deadzone for X axis
 		if(controllerDriver->GetY() <= JoystickDeadzone
 			 && controllerDriver->GetY() >= -JoystickDeadzone
 			 && fabs(controllerDriver->GetY()) > fabs(controllerDriver->GetX()))
@@ -225,19 +225,19 @@ double OI::GetJoystickX()
 		}
 		else
 		{
-			//Adding Xboxdeadzone for X axis
+			// Xboxdeadzone for X axis
 			if(controllerDriver->GetRawAxis(XBoxForwardReverse) <= XboxDeadzone
 				 && controllerDriver->GetRawAxis(XBoxForwardReverse) >= -XboxDeadzone
 				 && fabs(controllerDriver->GetRawAxis(XBoxForwardReverse)) > fabs(controllerDriver->GetRawAxis(XBoxLateral)))
 			{
-					OverrideXboxYDeadzone = true;
+					OverrideYDeadzone = true;
 			}
 			else
 			{
-					OverrideXboxYDeadzone = false;
+					OverrideYDeadzone = false;
 			}
 
-			if(OverrideXboxXDeadzone)
+			if(OverrideXDeadzone)
 			{
 				x = 0.0;
 			}
@@ -259,7 +259,7 @@ double OI::GetJoystickY()
 
 	if(useJoystick)
 	{
-		//Adding deadzone for Y axis
+		// Joystick deadzone for Y axis
 		if(controllerDriver->GetX() <= JoystickDeadzone
 			&& controllerDriver->GetX() >= -JoystickDeadzone
 			&& fabs(controllerDriver->GetX()) > fabs(controllerDriver->GetY()))
@@ -295,19 +295,19 @@ double OI::GetJoystickY()
 		}
 		else
 		{
-			//Adding Xboxdeadzone for Y axis
+			// Xboxdeadzone for Y axis
 			if(controllerDriver->GetRawAxis(XBoxLateral) <= XboxDeadzone
 				 && controllerDriver->GetRawAxis(XBoxLateral) >= -XboxDeadzone
 				 && fabs(controllerDriver->GetRawAxis(XBoxLateral)) > fabs(controllerDriver->GetRawAxis(XBoxForwardReverse)))
 			{
-					OverrideXboxYDeadzone = true;
+					OverrideYDeadzone = true;
 			}
 			else
 			{
-					OverrideXboxYDeadzone = false;
+					OverrideYDeadzone = false;
 			}
 
-			if(OverrideXboxXDeadzone)
+			if(OverrideXDeadzone)
 			{
 				y = 0.0;
 			}
@@ -330,11 +330,29 @@ double OI::GetJoystickTwist()
 	if(useJoystick)
 	{
 		// The direction turned is CW for negative and CCW for positive.
-		rotation = controllerDriver->GetTwist() * -1.0;
+		//Adding deadzone for Z axis
+		if(fabs(controllerDriver->GetTwist()) <= JoystickTwistDeadzone)
+		{
+			OverrideZDeadzone = true;
+			rotation += 0.0;
+		}
+		else
+		{
+			OverrideZDeadzone = false;
+			rotation = controllerDriver->GetTwist() * -1.0;
+		}
+
 	}
 	else
 	{
-		controllerDriver->GetRawAxis(XBoxTwist);
+		if(fabs(controllerDriver->GetRawAxis(XBoxTwist)) <= XboxTwistDeadzone)
+		{
+			rotation += 0.0;
+		}
+		else
+		{
+			rotation = controllerDriver->GetRawAxis(XBoxTwist);
+		}
 	}
 
 	rotation += 0.0;
