@@ -11,7 +11,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	lumberJack->dLog("Assigning talons");
 	try
 	{
-		LeftElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID));
+		//LeftElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID));
+		LeftElevatorTalon = new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID);
 	}
 	catch(const std::exception& e)
 	{
@@ -20,7 +21,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	try
 	{
-		RightElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID));
+		//RightElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID));
+		RightElevatorTalon = new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID);
 	}
 	catch(const std::exception& e)
 	{
@@ -30,7 +32,9 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	// Set every Talon to reset the motor safety timeout.
 	LeftElevatorTalon->Set(ControlMode::PercentOutput, 0);
-	LeftElevatorTalon->Set(ControlMode::PercentOutput, 0);
+	RightElevatorTalon->Follow(*LeftElevatorTalon);
+	RightElevatorTalon->SetInverted(true);
+	//RightElevatorTalon->Set(ControlMode::PercentOutput, 0);
 
 	// Servo goes to home position when this line of code is hit.  This drops
 	// the end effector when Teleop or Autonomous mode is hit.
@@ -103,7 +107,7 @@ void Elevator::RaiseElevator()
 	}
 
 	LeftElevatorTalon->Set(speed);
-	RightElevatorTalon->Set(-speed);
+	//RightElevatorTalon->Set(-speed);
 	lumberJack->iLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)));
 	//TODO: Re-enable once this is actually installed
 	//UpdateLimitSwitchTracker();
@@ -121,7 +125,7 @@ void Elevator::LowerElevator()
 	}
 
 	LeftElevatorTalon->Set(-speed);
-	RightElevatorTalon->Set(speed);
+	//RightElevatorTalon->Set(speed);
 	lumberJack->iLog(std::string("LowerElevator: ") + std::string(std::to_string(speed)));
 	//TODO: Re-enable once this is actually installed
 	//UpdateLimitSwitchTracker();
