@@ -1,5 +1,5 @@
-#include "Elevator.h"
-#include "../RobotMap.h"
+#include "Subsystems/Elevator.h"
+#include "RobotMap.h"
 
 Elevator::Elevator() : frc::Subsystem("Elevator")
 {
