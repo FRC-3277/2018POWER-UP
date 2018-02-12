@@ -11,8 +11,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	lumberJack->dLog("Assigning talons");
 	try
 	{
-		//LeftElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID));
-		LeftElevatorTalon = new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID);
+		LeftElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID));
+		//LeftElevatorTalon = new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID);
 	}
 	catch(const std::exception& e)
 	{
@@ -21,8 +21,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	try
 	{
-		//RightElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID));
-		RightElevatorTalon = new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID);
+		RightElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID));
+		//RightElevatorTalon = new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID);
 	}
 	catch(const std::exception& e)
 	{
@@ -116,7 +116,7 @@ void Elevator::RaiseElevator()
 void Elevator::LowerElevator()
 {
 	UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
-	double speed = -ElevatorTravelSpeed;
+	double speed = ElevatorTravelSpeed;
 
 	if(MinHeightLimitSwitch->Get())
 	{

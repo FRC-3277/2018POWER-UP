@@ -36,11 +36,11 @@ private:
 
 	int SoftSpeedChangeArrayIterator = 0;
 
-	static const int SoftSpeedChangeArraySize = 100;
+	static const int SoftSpeedChangeArraySize = 75;
 
 	double SoftSpeedChangeArray[SoftSpeedChangeArraySize];
 
-	static constexpr double RaiseSpeedMultiplier = 4.0;
+	static constexpr double RaiseSpeedMultiplier = 3.0;
 	static constexpr double LowerSpeedMultiplier = 1.0;
 
 	void UpdateLimitSwitchTracker();
