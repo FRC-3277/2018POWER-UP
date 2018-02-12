@@ -134,7 +134,7 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 		forwardBackward = AverageForwardBackward;
 		rotation = AverageRotation;
 	}
-	*/
+
 
 	// Actual Average
 	AverageLateralArray[AverageArrayIterator] = lateral;
@@ -158,6 +158,7 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	{
 		AverageArrayIterator = 0;
 	}
+	*/
 
 	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
 }
