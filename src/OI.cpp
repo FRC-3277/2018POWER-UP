@@ -5,6 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+#include <math.h>
+
 #include "OI.h"
 #include "WPILib.h"
 #include "Commands/AugmentorTiltDownCommand.h"
@@ -12,14 +14,11 @@
 #include "Commands/EatCubeCommand.h"
 #include "Commands/SpitCubeCommand.h"
 #include "Commands/StartLifterCommand.h"
-
-#include <math.h>
-
+#include "Commands/InvertDriverControlsCommand.h"
 #include <Commands/LowerElevatorCommand.h>
 #include <Commands/RaiseElevatorCommand.h>
 #include <Commands/GoToDesiredSetpointCommand.h>
 #include <Commands/ToggleFinesseModeCommand.h>
-
 
 OI::OI()
 {
@@ -48,6 +47,7 @@ OI::OI()
 	try
 	{
 		InvertDriverControlsButton.reset(new JoystickButton(controllerDriver.get(), InvertDriverControlsButtonNumber));
+		InvertDriverControlsButton->WhenPressed(new InvertDriverControlsCommand());
 	}
 	catch(const std::exception& e)
 	{
