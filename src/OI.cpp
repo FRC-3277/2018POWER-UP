@@ -4,6 +4,7 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
+#include <string>
 
 #include "OI.h"
 #include "WPILib.h"
@@ -376,4 +377,14 @@ int OI::GetDesiredElevatorSetpoint()
 	}
 
 	return DesiredSetpoint;
+}
+
+void OI::GetExponentFromDashBoard()
+{
+	Exponent = std::stod(SmartDashboard::GetString("DB/String5", to_string(Exponent)));
+}
+
+double OI::GetExponent()
+{
+	return Exponent;
 }

@@ -130,6 +130,10 @@ private:
 	bool OverrideXboxXDeadzone = false;
 	bool OverrideXboxYDeadzone = false;
 
+	//DashBoard
+	void GetExponentFromDashBoard();
+	double Exponent;
+
 public:
 	OI();
 
@@ -137,5 +141,6 @@ public:
 	double GetJoystickX();
 	double GetJoystickY();
 	double GetJoystickTwist();
+	double GetExponent();
 	int GetDesiredElevatorSetpoint();
 };
