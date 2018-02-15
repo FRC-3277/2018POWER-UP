@@ -28,6 +28,11 @@ void LumberJack::iLog(char* msg)
 	//defaultLogger->info("%v\n", msg);
 }
 
+void LumberJack::iLog(char* msg, int loggingFrequency)
+{
+	LOG_EVERY_N(loggingFrequency, INFO) << msg;
+}
+
 void LumberJack::dLog(char* msg)
 {
 	LOG_IF(isDebugLoggingEnabled, DEBUG) << msg;
@@ -62,6 +67,11 @@ void LumberJack::iLog(const string& msg)
 {
 	LOG_IF(isInfoLoggingEnabled, INFO) << msg;
 	//defaultLogger->info("%v\n", msg);
+}
+
+void LumberJack::iLog(const string& msg, int loggingFrequency)
+{
+	LOG_EVERY_N(loggingFrequency, INFO) << msg;
 }
 
 void LumberJack::dLog(const string& msg)

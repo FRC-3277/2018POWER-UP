@@ -51,12 +51,14 @@ public:
 	void SetLoggingLevel(el::Level argSeverityLevel);
 	void SetConfig();
 	void iLog(char* msg);
+	void iLog(char* msg, int loggingFrequency);
 	void dLog(char* msg);
 	void eLog(char* msg);
 	void wLog(char* msg);
 	void fLog(char* msg);
 	void tLog(char* msg);
 	void iLog(const string& msg);
+	void iLog(const string& msg, int loggingFrequency);
 	void dLog(const string& msg);
 	void eLog(const string& msg);
 	void wLog(const string& msg);
