@@ -20,12 +20,24 @@ void GameStates::GetGameDataFromField() {
 	GameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 }
 
-std::string GameStates::GetGameData() {
-	if(GameData.size() >= 3)
+std::string GameStates::GetGameData()
+{
+	if(GameData.size() <= 3)
 	{
 		GetGameDataFromField();
+	}
+
+	if(GameData.size() >= 3 && GameDataFullyPopulated == false)
+	{
 		lumberJack->iLog(std::string("GameData: ") + GameData);
+		SmartDashboard::PutString("DB/String 9", GameData);
+		GameDataFullyPopulated = true;
 	}
 
 	return GameData;
+}
+
+bool GameStates::IsGameDataReady()
+{
+	return GameDataFullyPopulated;
 }
