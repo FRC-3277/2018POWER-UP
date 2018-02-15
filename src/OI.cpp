@@ -381,7 +381,7 @@ int OI::GetDesiredElevatorSetpoint()
 
 void OI::GetExponentFromDashBoard()
 {
-	Exponent = std::stod(SmartDashboard::GetString("DB/String5", to_string(Exponent)));
+	Exponent = std::stod(SmartDashboard::GetString("DB/String 5", to_string(Exponent)));
 }
 
 double OI::GetExponent()
