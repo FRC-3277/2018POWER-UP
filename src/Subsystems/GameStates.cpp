@@ -10,6 +10,7 @@
 
 GameStates::GameStates() : Subsystem("GameStates") {
 	lumberJack.reset(new LumberJack());
+	GameDataTemp = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 }
 
 void GameStates::InitDefaultCommand() {
@@ -17,15 +18,25 @@ void GameStates::InitDefaultCommand() {
 }
 
 void GameStates::GetGameDataFromField() {
-	GameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+	if(GameDataTemp.compare(GameData) != 0)
+	{
+		GameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+
+		if(GameDataFullyPopulated)
+		{
+			// Not sure if this could happen, but here just in case
+			SmartDashboard::PutString("DB/String 9", GameData + std::string(" changed from ") + GameDataTemp);
+			lumberJack->wLog(std::string("GameData: ") + GameData + std::string(" changed from ") + GameDataTemp);
+			GameDataChanged = true;
+		}
+	}
+
+	GameDataTemp = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 }
 
 std::string GameStates::GetGameData()
 {
-	if(GameData.size() <= 3)
-	{
-		GetGameDataFromField();
-	}
+	GetGameDataFromField();
 
 	if(GameData.size() >= 3 && GameDataFullyPopulated == false)
 	{

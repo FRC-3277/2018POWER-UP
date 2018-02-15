@@ -17,8 +17,10 @@ class GameStates : public frc::Subsystem
 private:
 	std::shared_ptr<LumberJack> lumberJack;
 	std::string GameData;
+	std::string GameDataTemp;
 	void GetGameDataFromField();
 	bool GameDataFullyPopulated = false;
+	bool GameDataChanged = false;
 
 public:
 	GameStates();
