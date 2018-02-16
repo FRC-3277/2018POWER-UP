@@ -30,7 +30,7 @@ void AutonomousScenarios::Execute()
  * GS = Spit Cube
  */
 
-	std::vector<std::string> listOfCommands = split("EU;ED;D15;T2;D10;", ';');
+	std::vector<std::string> listOfCommands = Split("EU;ED;D15;T2;D10;", ';');
 
 	for(auto eachCommand : listOfCommands)
 	{
@@ -81,7 +81,7 @@ void AutonomousScenarios::Interrupted()
 }
 
 // Shameless borrowing from https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
-std::vector<std::string> AutonomousScenarios::split(const std::string& s, char delimiter)
+std::vector<std::string> AutonomousScenarios::Split(const std::string& s, char delimiter)
 {
    std::vector<std::string> tokens;
    std::string token;
@@ -92,3 +92,5 @@ std::vector<std::string> AutonomousScenarios::split(const std::string& s, char d
    }
    return tokens;
 }
+
+double

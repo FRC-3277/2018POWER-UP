@@ -10,7 +10,7 @@ class AutonomousScenarios : public frc::Command
 private:
 	std::shared_ptr<LumberJack> lumberJack;
 
-	std::vector<std::string> split(const std::string& s, char delimiter);
+	std::vector<std::string> Split(const std::string& s, char delimiter);
 public:
 	AutonomousScenarios();
 	void Initialize();
