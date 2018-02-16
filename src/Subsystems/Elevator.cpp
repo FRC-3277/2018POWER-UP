@@ -232,5 +232,11 @@ double Elevator::SoftStart()
 
 double Elevator::SoftStop()
 {
+	//TODO:  Finish this now that we have limit switches.
+}
 
+
+int Elevator::GetLimitSwitchTracker()
+{
+	return LimitSwitchTracker;
 }

@@ -55,6 +55,7 @@ public:
 	void LowerElevator();
 	bool GoToSetPoint(int DesiredSetpoint);
 	void StopElevator();
+	int GetLimitSwitchTracker();
 };
 
 #endif  // Elevator_H
