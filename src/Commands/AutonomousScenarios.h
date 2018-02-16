@@ -1,9 +1,12 @@
 #ifndef AutonomousScenarios_H
 #define AutonomousScenarios_H
 
-#include "../CommandBase.h"
+#include "LumberJack.h"
+#include "Robot.h"
+#include <Commands/Command.h>
 
-class AutonomousScenarios : public CommandBase {
+class AutonomousScenarios : public frc::Command
+{
 public:
 	AutonomousScenarios();
 	void Initialize();

@@ -1,8 +1,7 @@
 #include "AutonomousScenarios.h"
 
-AutonomousScenarios::AutonomousScenarios() {
-	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(Robot::chassis.get());
+AutonomousScenarios::AutonomousScenarios()
+{
 }
 
 // Called just before this Command runs the first time
