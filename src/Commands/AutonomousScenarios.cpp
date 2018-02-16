@@ -159,11 +159,13 @@ void AutonomousScenarios::ParseElevatorBasedCommands(const std::string& CommandT
     {
         DebugLog("Elevator Up\n");
         // Get current setpoint and add one
+        DesiredSetpoint = Robot::elevator->GetLimitSwitchTracker() + 1;
     }
     else if(CommandToParse[1] == 'D')
     {
         DebugLog("Elevator Down\n");
         // Get current setpoint and subtract one
+        DesiredSetpoint = Robot::elevator->GetLimitSwitchTracker() - 1;
     }
     else
     {
@@ -172,7 +174,7 @@ void AutonomousScenarios::ParseElevatorBasedCommands(const std::string& CommandT
         DesiredSetpoint = std::stoi(CommandToParse.substr(1, CommandToParse.size() - 1));
     }
 
-    //AutonomousElevatorToSetpointCommand(DesiredSetpoint);
+    AutonomousElevatorToSetpointCommand(DesiredSetpoint);
 }
 
 // This includes all grabber commands which can be eat or spit
@@ -181,12 +183,12 @@ void AutonomousScenarios::ParseGrabberBasedCommands(const std::string& CommandTo
     if(CommandToParse[1] == 'E')
     {
         DebugLog("Grabber Eat\n");
-        //AutonomousEatCubeCommand();
+        AutonomousEatCubeCommand();
     }
     else if(CommandToParse[1] == 'S')
     {
         DebugLog("Grabber Spit\n");
-        //AutonomousSpitCubeCommand();
+        AutonomousSpitCubeCommand();
     }
 }
 
