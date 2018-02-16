@@ -29,9 +29,9 @@ static constexpr int ELEVATOR_MOTOR_RIGHT_CAN_ID = 11;
 static constexpr int MAX_HEIGHT_LIMIT_SWITCH_ID = 10;
 static constexpr int MIN_HEIGHT_LIMIT_SWITCH_ID = 11;
 static constexpr int DROP_END_EFFECTOR_SERVO = 5;
-static constexpr int HIGH_LIMIT_SWITCH_ID = 7;
+static constexpr int HIGH_LIMIT_SWITCH_ID = 9;
 static constexpr int MED_LIMIT_SWITCH_ID = 8;
-static constexpr int LOW_LIMIT_SWITCH_ID = 9;
+static constexpr int LOW_LIMIT_SWITCH_ID = 7;
 
 
 // Grabber
