@@ -168,7 +168,7 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 		forwardBackward = -forwardBackward;
 	}
 
-	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
+	//robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
 }
 
 void DriveTrain::ToggleFinesseMode()
