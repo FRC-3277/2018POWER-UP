@@ -103,7 +103,7 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
     double AutonomousDriveWaitPeriod = 0.0;
     double Distance = 0.0;
     bool useDistanceMode = true;
-double
+
     std::vector<std::string> listOfParams;
 
     listOfParams = Split(CommandToParse, '|');
@@ -174,7 +174,7 @@ void AutonomousScenarios::ParseElevatorBasedCommands(const std::string& CommandT
         DesiredSetpoint = std::stoi(CommandToParse.substr(1, CommandToParse.size() - 1));
     }
 
-    AutonomousElevatorToSetpointCommand(DesiredSetpoint);
+    AutonomousElevatorToSetpointCommand GoElevator { DesiredSetpoint };
 }
 
 // This includes all grabber commands which can be eat or spit
