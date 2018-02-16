@@ -110,7 +110,7 @@ void Elevator::RaiseElevator()
 	RightElevatorTalon->Set(-speed);
 	lumberJack->iLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)));
 	//TODO: Re-enable once this is actually installed
-	//UpdateLimitSwitchTracker();
+	UpdateLimitSwitchTracker();
 }
 
 void Elevator::LowerElevator()
@@ -128,7 +128,7 @@ void Elevator::LowerElevator()
 	RightElevatorTalon->Set(speed);
 	lumberJack->iLog(std::string("LowerElevator: ") + std::string(std::to_string(speed)));
 	//TODO: Re-enable once this is actually installed
-	//UpdateLimitSwitchTracker();
+	UpdateLimitSwitchTracker();
 }
 
 void Elevator::UpdateLimitSwitchTracker()
