@@ -46,7 +46,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	lumberJack->dLog("Assigning limit switches");
 	try
 	{
-		MaxHeightLimitSwitch.reset(new DigitalInput(MAX_HEIGHT_LIMIT_SWITCH_ID));
+		//MaxHeightLimitSwitch.reset(new DigitalInput(MAX_HEIGHT_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
@@ -55,7 +55,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	try
 	{
-		MinHeightLimitSwitch.reset(new DigitalInput(MIN_HEIGHT_LIMIT_SWITCH_ID));
+		//MinHeightLimitSwitch.reset(new DigitalInput(MIN_HEIGHT_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
@@ -135,30 +135,25 @@ void Elevator::UpdateLimitSwitchTracker()
 {
 	bool limitSwitchValueChanged = false;
 
-	if(MaxHeightLimitSwitch->Get())
-	{
-		LimitSwitchTracker = 5;
-		limitSwitchValueChanged = true;
-	}
-	if(HighLimitSwitch->Get())
+	if(!HighLimitSwitch->Get() && !limitSwitchValueChanged)
 	{
 		LimitSwitchTracker = 4;
 		limitSwitchValueChanged = true;
 	}
-	else if(MedLimitSwitch->Get())
+	else if(!MedLimitSwitch->Get() && !limitSwitchValueChanged)
 	{
 		LimitSwitchTracker = 3;
 		limitSwitchValueChanged = true;
 	}
-	else if(LowLimitSwitch->Get())
+	else if(!LowLimitSwitch->Get() && !limitSwitchValueChanged)
 	{
 		LimitSwitchTracker = 2;
 		limitSwitchValueChanged = true;
 	}
-	else if(MinHeightLimitSwitch->Get())
+	else
 	{
-		LimitSwitchTracker = 1;
-		limitSwitchValueChanged = true;
+		// Reset
+		limitSwitchValueChanged = false;
 	}
 
 	if(limitSwitchValueChanged)
