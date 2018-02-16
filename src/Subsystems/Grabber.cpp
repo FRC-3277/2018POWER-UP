@@ -2,8 +2,7 @@
 #include "../RobotMap.h"
 #include "Subsystems/Grabber.h"
 
-Grabber::Grabber()
-	: frc::Subsystem("Grabber") {
+Grabber::Grabber() : frc::Subsystem("Grabber") {
 	lumberJack.reset(new LumberJack());
 
 	//Talons.
@@ -13,7 +12,7 @@ Grabber::Grabber()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->eLog(std::string("BlockFeedMotor.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("GrabberLeftMotor.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -22,7 +21,7 @@ Grabber::Grabber()
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->eLog(std::string("TiltMotor.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("GrabberRightMotor.reset() failed; ") + std::string(e.what()));
 	}
 
 

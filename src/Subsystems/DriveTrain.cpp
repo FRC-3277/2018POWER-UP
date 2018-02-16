@@ -14,8 +14,8 @@
 
 #include "../Commands/DriveWithJoystick.h"
 
-DriveTrain::DriveTrain()
-    : frc::Subsystem("DriveTrain") {
+DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
+{
 	lumberJack.reset(new LumberJack());
 
 	// Talons
