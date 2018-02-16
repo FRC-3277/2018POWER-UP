@@ -2,27 +2,26 @@
 #include "../RobotMap.h"
 #include "Subsystems/Grabber.h"
 
-Grabber::Grabber()
-	: frc::Subsystem("Grabber") {
+Grabber::Grabber() : frc::Subsystem("Grabber") {
 	lumberJack.reset(new LumberJack());
 
 	//Talons.
 	try
 	{
-		BlockFeedMotor.reset(new WPI_TalonSRX(BLOCK_FEED_MOTOR_CAN_ID));
+		GrabberLeftMotor.reset(new WPI_TalonSRX(GRABBER_LEFT_MOTOR_CAN_ID));
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->eLog(std::string("BlockFeedMotor.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("GrabberLeftMotor.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
 	{
-		TiltMotor.reset(new WPI_TalonSRX(TILT_MOTOR_CAN_ID));
+		GrabberRightMotor.reset(new WPI_TalonSRX(GRABBER_RIGHT_MOTOR_CAN_ID));
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->eLog(std::string("TiltMotor.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("GrabberRightMotor.reset() failed; ") + std::string(e.what()));
 	}
 
 
@@ -65,8 +64,8 @@ Grabber::Grabber()
 
 
 	// Set every Talon to reset the motor safety timeout.
-	BlockFeedMotor->Set(ControlMode::PercentOutput, 0);
-	TiltMotor->Set(ControlMode::PercentOutput, 0);
+	GrabberLeftMotor->Set(ControlMode::PercentOutput, 0);
+	GrabberRightMotor->Set(ControlMode::PercentOutput, 0);
 
 
 
@@ -80,48 +79,48 @@ void Grabber::SpitCube() {
 
 	if(EjectionStopLimitSwitch->Get())
 	{
-		BlockFeedMotor->Set(0.0);
+		GrabberLeftMotor->Set(0.0);
 		EndSpitCommand = true;
 	}
 	else
 	{
-		BlockFeedMotor->Set(0.5);
+		GrabberLeftMotor->Set(0.5);
 	}
 }
 
 void Grabber::EatCube() {
 	if(InjectionStopLimitSwitch->Get())
 	{
-		BlockFeedMotor->Set(0.0);
+		GrabberLeftMotor->Set(0.0);
 		EndEatCommand = true;
 	}
 	else
 	{
-		BlockFeedMotor->Set(0.5);
+		GrabberLeftMotor->Set(0.5);
 	}
 }
 
 void Grabber::AugmentorTiltUp() {
 	if(TiltUpStopLimitSwitch->Get())
 	{
-		TiltMotor->Set(0.0);
+		GrabberRightMotor->Set(0.0);
 		EndAugmentorTiltUpCommand = true;
 	}
 	else
 	{
-		TiltMotor->Set(0.5);
+		GrabberRightMotor->Set(0.5);
 	}
 }
 
 void Grabber::AugmentorTiltDown() {
 	if(TiltUpStopLimitSwitch->Get())
 	{
-		TiltMotor->Set(0.0);
+		GrabberRightMotor->Set(0.0);
 		EndAugmentorTiltDownCommand = true;
 	}
 	else
 	{
-		TiltMotor->Set(0.5);
+		GrabberRightMotor->Set(0.5);
 	}
 }
 

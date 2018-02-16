@@ -43,7 +43,6 @@ private:
 	static constexpr double RaiseSpeedMultiplier = 3.0;
 	static constexpr double LowerSpeedMultiplier = 1.0;
 
-	void UpdateLimitSwitchTracker();
 	void UpdateSoftSpeedChangeArray(const double Multiplier);
 	double SoftStart();
 	double SoftStop();
@@ -55,6 +54,8 @@ public:
 	void LowerElevator();
 	bool GoToSetPoint(int DesiredSetpoint);
 	void StopElevator();
+	void UpdateLimitSwitchTracker();
+	int GetLimitSwitchTracker();
 };
 
 #endif  // Elevator_H

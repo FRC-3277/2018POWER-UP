@@ -46,7 +46,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	lumberJack->dLog("Assigning limit switches");
 	try
 	{
-		MaxHeightLimitSwitch.reset(new DigitalInput(MAX_HEIGHT_LIMIT_SWITCH_ID));
+		//MaxHeightLimitSwitch.reset(new DigitalInput(MAX_HEIGHT_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
@@ -55,7 +55,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	try
 	{
-		MinHeightLimitSwitch.reset(new DigitalInput(MIN_HEIGHT_LIMIT_SWITCH_ID));
+		//MinHeightLimitSwitch.reset(new DigitalInput(MIN_HEIGHT_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
@@ -110,7 +110,7 @@ void Elevator::RaiseElevator()
 	RightElevatorTalon->Set(-speed);
 	lumberJack->iLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)));
 	//TODO: Re-enable once this is actually installed
-	//UpdateLimitSwitchTracker();
+	UpdateLimitSwitchTracker();
 }
 
 void Elevator::LowerElevator()
@@ -128,37 +128,32 @@ void Elevator::LowerElevator()
 	RightElevatorTalon->Set(speed);
 	lumberJack->iLog(std::string("LowerElevator: ") + std::string(std::to_string(speed)));
 	//TODO: Re-enable once this is actually installed
-	//UpdateLimitSwitchTracker();
+	UpdateLimitSwitchTracker();
 }
 
 void Elevator::UpdateLimitSwitchTracker()
 {
 	bool limitSwitchValueChanged = false;
 
-	if(MaxHeightLimitSwitch->Get())
-	{
-		LimitSwitchTracker = 5;
-		limitSwitchValueChanged = true;
-	}
-	if(HighLimitSwitch->Get())
+	if(!HighLimitSwitch->Get() && !limitSwitchValueChanged)
 	{
 		LimitSwitchTracker = 4;
 		limitSwitchValueChanged = true;
 	}
-	else if(MedLimitSwitch->Get())
+	else if(!MedLimitSwitch->Get() && !limitSwitchValueChanged)
 	{
 		LimitSwitchTracker = 3;
 		limitSwitchValueChanged = true;
 	}
-	else if(LowLimitSwitch->Get())
+	else if(!LowLimitSwitch->Get() && !limitSwitchValueChanged)
 	{
 		LimitSwitchTracker = 2;
 		limitSwitchValueChanged = true;
 	}
-	else if(MinHeightLimitSwitch->Get())
+	else
 	{
-		LimitSwitchTracker = 1;
-		limitSwitchValueChanged = true;
+		// Reset
+		limitSwitchValueChanged = false;
 	}
 
 	if(limitSwitchValueChanged)
@@ -167,28 +162,27 @@ void Elevator::UpdateLimitSwitchTracker()
 	}
 }
 
+// Meant not to be used directly, but called by commands
 bool Elevator::GoToSetPoint(int DesiredSetpoint)
 {
-	// Go up by default
-	double direction = ElevatorTravelSpeed;
 	bool isAtDesiredSetpoint = false;
 
 	UpdateLimitSwitchTracker();
 
 	// Go up or go down?
-	if(LimitSwitchTracker < DesiredSetpoint)
+	if(DesiredSetpoint > LimitSwitchTracker)
 	{
-		direction = -direction;
+		RaiseElevator();
+	}
+	else if(DesiredSetpoint < LimitSwitchTracker)
+	{
+		LowerElevator();
 	}
 	else if(LimitSwitchTracker == DesiredSetpoint)
 	{
-		direction = StopElevatorSpeed;
 		isAtDesiredSetpoint = true;
 		lumberJack->iLog(std::string(__FILE__) + std::string("; Elevator at desired setpoint: ") + std::to_string(DesiredSetpoint));
 	}
-
-	LeftElevatorTalon->Set(direction);
-	RightElevatorTalon->Set(direction);
 
 	return isAtDesiredSetpoint;
 }
@@ -232,5 +226,11 @@ double Elevator::SoftStart()
 
 double Elevator::SoftStop()
 {
+	//TODO:  Finish this now that we have limit switches.
+}
 
+
+int Elevator::GetLimitSwitchTracker()
+{
+	return LimitSwitchTracker;
 }

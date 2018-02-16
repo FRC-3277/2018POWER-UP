@@ -6,12 +6,12 @@
 /*----------------------------------------------------------------------------*/
 #include "Robot.h"
 
-std::unique_ptr<OI> Robot::oi;
 std::shared_ptr<DriveTrain> Robot::driveTrain;
 std::shared_ptr<Elevator> Robot::elevator;
 std::shared_ptr<Grabber> Robot::grabber;
 std::shared_ptr<Lifter> Robot::lifter;
 std::shared_ptr<GameStates> Robot::gamestates;
+std::unique_ptr<OI> Robot::oi;
 
 void Robot::RobotInit()
 {
@@ -25,16 +25,6 @@ void Robot::RobotInit()
 
 	try
 	{
-		lumberJack->dLog("OI Started");
-		oi.reset(new OI());
-	}
-	catch(const std::exception& e)
-	{
-		lumberJack->eLog(std::string("oi.reset() failed; ") + std::string(e.what()));
-	}
-
-	try
-	{
 		lumberJack->dLog("AutonomousScenarios Started");
 		autonomousScenarios.reset(new AutonomousScenarios());
 	}
@@ -42,11 +32,14 @@ void Robot::RobotInit()
 	{
 		lumberJack->eLog(std::string("autonomousScenarios.reset() failed; ") + std::string(e.what()));
 	}
-
+	
 	try
 	{
-		lumberJack->dLog("DriveTrain Subsystem Started");
-		driveTrain.reset(new DriveTrain());
+		if(EnableDriveTrain)
+		{
+			lumberJack->dLog("DriveTrain Subsystem Started");
+			driveTrain.reset(new DriveTrain());
+		}
 	}
 	catch(const std::exception& e)
 	{
@@ -55,8 +48,11 @@ void Robot::RobotInit()
 
 	try
 	{
-		lumberJack->dLog("Grabber Subsystem Started");
-		grabber.reset(new Grabber());
+		if(EnableGrabber)
+		{
+			lumberJack->dLog("Grabber Subsystem Started");
+			grabber.reset(new Grabber());
+		}
 	}
 	catch(const std::exception& e)
 	{
@@ -65,8 +61,11 @@ void Robot::RobotInit()
 
 	try
 	{
-		lumberJack->dLog("Elevator Subsystem Started");
-		elevator.reset(new Elevator());
+		if(EnableElevator)
+		{
+			lumberJack->dLog("Elevator Subsystem Started");
+			elevator.reset(new Elevator());
+		}
 	}
 	catch(const std::exception& e)
 	{
@@ -75,8 +74,11 @@ void Robot::RobotInit()
 
 	try
 	{
-		lumberJack->dLog("Lifter Subsystem Started");
-		lifter.reset(new Lifter());
+		if(EnableLifter)
+		{
+			lumberJack->dLog("Lifter Subsystem Started");
+			lifter.reset(new Lifter());
+		}
 	}
 	catch(const std::exception& e)
 	{
@@ -91,6 +93,21 @@ void Robot::RobotInit()
 	catch(const std::exception& e)
 	{
 		lumberJack->eLog(std::string("gamestates.reset() failed; ") + std::string(e.what()));
+	}
+
+	// This MUST be here. If the OI creates Commands (which it very likely
+	// will), constructing it during the construction of CommandBase (from
+	// which commands extend), subsystems are not guaranteed to be
+	// yet. Thus, their requires() statements may grab null pointers. Bad
+	// news. Don't move it.
+	try
+	{
+		lumberJack->dLog("OI Started");
+		oi.reset(new OI());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->eLog(std::string("oi.reset() failed; ") + std::string(e.what()));
 	}
 
 	gamestates->GetGameData();
@@ -139,6 +156,10 @@ void Robot::AutonomousInit()
 void Robot::AutonomousPeriodic()
 {
 	gamestates->GetGameData();
+	if(EnableElevator)
+	{
+		elevator->UpdateLimitSwitchTracker();
+	}
 	frc::Scheduler::GetInstance()->Run();
 }
 
@@ -159,6 +180,10 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 {
+	if(EnableElevator)
+	{
+		elevator->UpdateLimitSwitchTracker();
+	}
 	frc::Scheduler::GetInstance()->Run();
 }
 
