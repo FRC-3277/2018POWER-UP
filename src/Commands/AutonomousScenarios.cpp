@@ -22,8 +22,8 @@ void AutonomousScenarios::Execute()
 	* T(rotation) = Turn; Positive for Right and Negative for Left speed; Modifiers - (t=time;d=distance)
 	* L(lateral) = Lateral; Positive for Right and Negative for Left speed; Modifiers - (t=time;d=distance)
 	* S = Stop Everything
-	* ER = Raise Elevator
-	* EL = Lower Elevator
+	* ER = Raise Elevator Up One Level
+	* EL = Lower Elevator Down One Level
 	* E(setpoint) = Go to Elevator Numbered Setpoint - 0 for floor up to 4
 	* GE = Eat Cube
 	* GS = Spit Cube
