@@ -35,6 +35,16 @@ void Robot::RobotInit()
 
 	try
 	{
+		lumberJack->dLog("AutonomousScenarios Started");
+		autonomousScenarios.reset(new AutonomousScenarios());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->eLog(std::string("autonomousScenarios.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
 		lumberJack->dLog("DriveTrain Subsystem Started");
 		driveTrain.reset(new DriveTrain());
 	}
@@ -82,6 +92,8 @@ void Robot::RobotInit()
 	{
 		lumberJack->eLog(std::string("gamestates.reset() failed; ") + std::string(e.what()));
 	}
+
+	gamestates->GetGameData();
 }
 
 /**
@@ -114,18 +126,13 @@ void Robot::DisabledPeriodic()
  */
 void Robot::AutonomousInit()
 {
-	std::string autoSelected = frc::SmartDashboard::GetString(
-			"Auto Selector", "Default");
-	if (autoSelected == "My Auto") {
-		//m_autonomousCommand = &m_myAuto;
-	} else {
-		//m_autonomousCommand = &m_defaultAuto;
-	}
+	lumberJack->iLog("Begin Autonomous");
 
-	m_autonomousCommand = m_chooser.GetSelected();
+	gamestates->GetGameData();
 
-	if (m_autonomousCommand != nullptr) {
-		m_autonomousCommand->Start();
+	if (autonomousScenarios.get() != nullptr)
+	{
+		autonomousScenarios->Start();
 	}
 }
 
@@ -137,13 +144,16 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit()
 {
+	lumberJack->iLog("Begin Teleop");
+
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to
 	// continue until interrupted by another command, remove
 	// this line or comment it out.
-	if (m_autonomousCommand != nullptr) {
-		m_autonomousCommand->Cancel();
-		m_autonomousCommand = nullptr;
+	if (autonomousScenarios.get() != nullptr)
+	{
+		autonomousScenarios->Cancel();
+		autonomousScenarios = nullptr;
 	}
 }
 
