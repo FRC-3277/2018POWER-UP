@@ -138,42 +138,15 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
         }
     }
 
-    if(Command == 'D')
-    {
-        if(useDistanceMode)
-        {
-            // When using distance mode the time period value will override distance travelled as a means of timeout
-            //AutonomousDriveCommand(0.0, forwardBackward, 0.0, AutonomousDriveWaitPeriod);
-        }
-        else
-        {
-           AutonomousDriveCommand(0.0, forwardBackward, 0.0, AutonomousDriveWaitPeriod);
-        }
-    }
-    else if(Command == 'T')
-    {
-        if(useDistanceMode)
-        {
-            // When using distance mode the time period value will override distance travelled as a means of timeout
-            //AutonomousDriveCommand(0.0, 0.0, rotation, AutonomousDriveWaitPeriod);
-        }
-        else
-        {
-            AutonomousDriveCommand(0.0, 0.0, rotation, AutonomousDriveWaitPeriod);
-        }
-    }
-    else if(Command == 'L')
-    {
-        if(useDistanceMode)
-        {
-            // When using distance mode the time period value will override distance travelled as a means of timeout
-            //AutonomousDriveCommand(lateral, 0.0, 0.0, double AutonomousDriveWaitPeriod);
-        }
-        else
-        {
-            AutonomousDriveCommand(lateral, 0.0, 0.0, AutonomousDriveWaitPeriod);
-        }
-    }
+	if(useDistanceMode)
+	{
+		// When using distance mode the time period value will override distance traveled as a means of timeout
+		//AutonomousDriveCommand(lateral, forwardBackward, rotation, AutonomousDriveWaitPeriod, Distance);
+	}
+	else
+	{
+		AutonomousDriveCommand(lateral, forwardBackward, rotation, AutonomousDriveWaitPeriod);
+	}
 }
 
 // This includes all elevator commands which can be up, down, or to a specified floor setpoint
