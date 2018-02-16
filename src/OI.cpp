@@ -9,8 +9,6 @@
 
 #include "OI.h"
 #include "WPILib.h"
-#include "Commands/AugmentorTiltDownCommand.h"
-#include "Commands/AugmentorTiltUpCommand.h"
 #include "Commands/EatCubeCommand.h"
 #include "Commands/SpitCubeCommand.h"
 #include "Commands/StartLifterCommand.h"
@@ -65,26 +63,6 @@ OI::OI()
 		catch(const std::exception& e)
 		{
 			lumberJack->eLog(std::string("EjectionButton.reset() failed; ") + std::string(e.what()));
-		}
-
-		try
-		{
-			AugmentorTiltUpButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeAugmentorTiltUpButton));
-			//AugmentorTiltUpButton->WhenPressed(new AugmentorTiltUpCommand());
-		}
-		catch(const std::exception& e)
-		{
-			lumberJack->eLog(std::string("AugmentorTiltUpButton.reset() failed; ") + std::string(e.what()));
-		}
-
-		try
-		{
-			AugmentorTiltDownButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeAugmentorTiltDownButton));
-			//AugmentorTiltDownButton->WhenPressed(new AugmentorTiltDownCommand());
-		}
-		catch(const std::exception& e)
-		{
-			lumberJack->eLog(std::string("AugmentorTiltDownButton.reset() failed; ") + std::string(e.what()));
 		}
 	}
 

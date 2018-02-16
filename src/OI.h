@@ -78,12 +78,11 @@ private:
 
 	std::shared_ptr<Joystick> controllerDriver;
 	std::shared_ptr<Joystick> AirForceOneController;
+
 	std::shared_ptr<JoystickButton> InvertDriverControlsButton;
 	std::shared_ptr<JoystickButton> FinesseButton;
 	std::shared_ptr<JoystickButton> InjectionButton;
 	std::shared_ptr<JoystickButton> EjectionButton;
-	std::shared_ptr<JoystickButton> AugmentorTiltUpButton;
-	std::shared_ptr<JoystickButton> AugmentorTiltDownButton;
 	std::shared_ptr<JoystickButton> LifterButton;
 	std::shared_ptr<JoystickButton> ElevatorUpButton;
 	std::shared_ptr<JoystickButton> ElevatorDownButton;
