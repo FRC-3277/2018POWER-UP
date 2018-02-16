@@ -161,7 +161,7 @@ void AutonomousScenarios::ParseElevatorBasedCommands(const std::string& CommandT
         // Get current setpoint and add one
         DesiredSetpoint = Robot::elevator->GetLimitSwitchTracker() + 1;
     }
-    else if(CommandToParse[1] == 'D')
+    else if(CommandToParse[1] == 'L')
     {
         DebugLog("Elevator Down\n");
         // Get current setpoint and subtract one
