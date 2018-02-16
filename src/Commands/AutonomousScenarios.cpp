@@ -36,19 +36,19 @@ void AutonomousScenarios::Execute()
 	{
 		if(eachCommand[0] == 'D')
 		{
-
+			AutonomousDriveCommand(0.0, double forwardBackward, 0.0, double AutonomousDriveWaitPeriod);
 		}
 		else if(eachCommand[0] == 'T')
 		{
-
+			AutonomousDriveCommand(0.0, 0.0, double rotation, double AutonomousDriveWaitPeriod);
 		}
 		else if(eachCommand[0] == 'L')
 		{
-
+			AutonomousDriveCommand(double lateral, 0.0, 0.0, double AutonomousDriveWaitPeriod);
 		}
 		else if(eachCommand[0] == 'S')
 		{
-
+			AutonomousDriveCommand(0.0, 0.0, 0.0, 0.0);
 		}
 		else if(eachCommand[0] == 'E')
 		{
