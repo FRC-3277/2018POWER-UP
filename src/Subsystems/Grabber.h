@@ -15,8 +15,8 @@ private:
 	// for methods that implement subsystem capabilities
 
 	//Motors
-	std::shared_ptr<WPI_TalonSRX> BlockFeedMotor;
-	std::shared_ptr<WPI_TalonSRX> TiltMotor;
+	std::shared_ptr<WPI_TalonSRX> GrabberLeftMotor;
+	std::shared_ptr<WPI_TalonSRX> GrabberRightMotor;
 
 	//Limit Switches
 	std::shared_ptr<DigitalInput> InjectionStopLimitSwitch;

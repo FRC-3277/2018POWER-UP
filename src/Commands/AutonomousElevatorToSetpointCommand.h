@@ -11,7 +11,7 @@ private:
 	int DesiredSetpoint;
 public:
 	// Provide the setpoint where the elevator is desired to go to.  0 is bottom floor.
-	AutonomousElevatorToSetpointCommand(int DesiredSetpoint);
+	explicit AutonomousElevatorToSetpointCommand(int DesiredSetpoint);
 	void Initialize();
 	void Execute();
 	bool IsFinished();

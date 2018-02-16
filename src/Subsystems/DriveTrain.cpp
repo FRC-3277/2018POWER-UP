@@ -14,8 +14,8 @@
 
 #include "../Commands/DriveWithJoystick.h"
 
-DriveTrain::DriveTrain()
-    : frc::Subsystem("DriveTrain") {
+DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
+{
 	lumberJack.reset(new LumberJack());
 
 	// Talons
@@ -168,7 +168,7 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 		forwardBackward = -forwardBackward;
 	}
 
-	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
+	//robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
 }
 
 void DriveTrain::ToggleFinesseMode()
