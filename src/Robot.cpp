@@ -6,12 +6,12 @@
 /*----------------------------------------------------------------------------*/
 #include "Robot.h"
 
-std::unique_ptr<OI> Robot::oi;
 std::shared_ptr<DriveTrain> Robot::driveTrain;
 std::shared_ptr<Elevator> Robot::elevator;
 std::shared_ptr<Grabber> Robot::grabber;
 std::shared_ptr<Lifter> Robot::lifter;
 std::shared_ptr<GameStates> Robot::gamestates;
+std::unique_ptr<OI> Robot::oi;
 
 void Robot::RobotInit()
 {
@@ -22,16 +22,6 @@ void Robot::RobotInit()
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 	SmartDashboard::PutBoolean("Drive With Joystick? 0", true);
 	SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
-
-	try
-	{
-		lumberJack->dLog("OI Started");
-		oi.reset(new OI());
-	}
-	catch(const std::exception& e)
-	{
-		lumberJack->eLog(std::string("oi.reset() failed; ") + std::string(e.what()));
-	}
 
 	try
 	{
@@ -93,6 +83,21 @@ void Robot::RobotInit()
 	catch(const std::exception& e)
 	{
 		lumberJack->eLog(std::string("gamestates.reset() failed; ") + std::string(e.what()));
+	}
+
+	// This MUST be here. If the OI creates Commands (which it very likely
+	// will), constructing it during the construction of CommandBase (from
+	// which commands extend), subsystems are not guaranteed to be
+	// yet. Thus, their requires() statements may grab null pointers. Bad
+	// news. Don't move it.
+	try
+	{
+		lumberJack->dLog("OI Started");
+		oi.reset(new OI());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->eLog(std::string("oi.reset() failed; ") + std::string(e.what()));
 	}
 }
 

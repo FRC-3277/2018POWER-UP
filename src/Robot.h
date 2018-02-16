@@ -32,12 +32,12 @@
 class Robot : public frc::TimedRobot
 {
 public:
-	static std::unique_ptr<OI> oi;
 	static std::shared_ptr<DriveTrain> driveTrain;
 	static std::shared_ptr<Elevator> elevator;
 	static std::shared_ptr<Grabber> grabber;
 	static std::shared_ptr<Lifter> lifter;
 	static std::shared_ptr<GameStates> gamestates;
+	static std::unique_ptr<OI> oi;
 
 	// Disable subsystems for debugging and testing
 	static constexpr bool EnableDriveTrain = false;
