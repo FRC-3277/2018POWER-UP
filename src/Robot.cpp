@@ -11,6 +11,7 @@ std::shared_ptr<DriveTrain> Robot::driveTrain;
 std::shared_ptr<Elevator> Robot::elevator;
 std::shared_ptr<Grabber> Robot::grabber;
 std::shared_ptr<Lifter> Robot::lifter;
+std::shared_ptr<GameStates> Robot::gamestates;
 
 void Robot::RobotInit()
 {
@@ -72,6 +73,15 @@ void Robot::RobotInit()
 		lumberJack->eLog(std::string("lifter.reset() failed; ") + std::string(e.what()));
 	}
 
+	try
+	{
+		lumberJack->dLog("GameStates Started");
+		gamestates.reset(new GameStates());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->eLog(std::string("gamestates.reset() failed; ") + std::string(e.what()));
+	}
 }
 
 /**
@@ -121,6 +131,7 @@ void Robot::AutonomousInit()
 
 void Robot::AutonomousPeriodic()
 {
+	gamestates->GetGameData();
 	frc::Scheduler::GetInstance()->Run();
 }
 

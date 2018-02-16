@@ -23,6 +23,7 @@
 #include "Subsystems/Elevator.h"
 #include "Subsystems/Grabber.h"
 #include "Subsystems/Lifter.h"
+#include "Subsystems/GameStates.h"
 
 // Commands
 //#include "Commands/Autonomous.h"
@@ -36,6 +37,7 @@ public:
 	static std::shared_ptr<Elevator> elevator;
 	static std::shared_ptr<Grabber> grabber;
 	static std::shared_ptr<Lifter> lifter;
+	static std::shared_ptr<GameStates> gamestates;
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;

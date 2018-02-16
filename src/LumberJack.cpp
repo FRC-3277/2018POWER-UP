@@ -25,73 +25,154 @@ void LumberJack::SetConfig()
 void LumberJack::iLog(char* msg)
 {
 	LOG_IF(isInfoLoggingEnabled, INFO) << msg;
-	//defaultLogger->info("%v\n", msg);
+}
+
+void LumberJack::iLog(char* msg, int loggingFrequency)
+{
+	if(isInfoLoggingEnabled)
+	{
+		LOG_EVERY_N(loggingFrequency, INFO) << msg;
+	}
 }
 
 void LumberJack::dLog(char* msg)
 {
 	LOG_IF(isDebugLoggingEnabled, DEBUG) << msg;
-	//defaultLogger->debug("%v\n", msg);
+}
+
+void LumberJack::dLog(char* msg, int loggingFrequency)
+{
+	if(isDebugLoggingEnabled)
+	{
+		LOG_EVERY_N(loggingFrequency, DEBUG) << msg;
+	}
 }
 
 void LumberJack::eLog(char* msg)
 {
 	LOG_IF(isErrorLoggingEnabled, ERROR) << msg;
-	//defaultLogger->error("%v\n", msg);
+}
+
+void LumberJack::eLog(char* msg, int loggingFrequency)
+{
+	if(isErrorLoggingEnabled)
+	{
+		LOG_EVERY_N(loggingFrequency, ERROR) << msg;
+	}
 }
 
 void LumberJack::wLog(char* msg)
 {
 	LOG_IF(isWarningLoggingEnabled, WARNING) << msg;
-	//defaultLogger->warn("%v\n", msg);
+}
+
+void LumberJack::wLog(char* msg, int loggingFrequency)
+{
+	if(isWarningLoggingEnabled)
+	{
+		LOG_EVERY_N(loggingFrequency, WARNING) << msg;
+	}
 }
 
 void LumberJack::fLog(char* msg)
 {
 	LOG_IF(isFatalLoggingEnabled, FATAL) << msg;
-	//defaultLogger->fatal("%v\n", msg);
+}
+
+void LumberJack::fLog(char* msg, int loggingFrequency)
+{
+	if(isFatalLoggingEnabled)
+	{
+		LOG_EVERY_N(loggingFrequency, FATAL) << msg;
+	}
 }
 
 void LumberJack::tLog(char* msg)
 {
 	LOG_IF(isTraceLoggingEnabled, TRACE) << msg;
-	//defaultLogger->trace("%v\n", msg);
+}
+
+void LumberJack::tLog(char* msg, int loggingFrequency)
+{
+	if(isTraceLoggingEnabled)
+	{
+		LOG_EVERY_N(loggingFrequency, TRACE) << msg;
+	}
 }
 
 void LumberJack::iLog(const string& msg)
 {
 	LOG_IF(isInfoLoggingEnabled, INFO) << msg;
-	//defaultLogger->info("%v\n", msg);
+}
+
+void LumberJack::iLog(const string& msg, int loggingFrequency)
+{
+	LOG_EVERY_N(loggingFrequency, INFO) << msg;
 }
 
 void LumberJack::dLog(const string& msg)
 {
 	LOG_IF(isDebugLoggingEnabled, DEBUG) << msg;
-	//defaultLogger->debug("%v\n", msg);
+}
+
+void LumberJack::dLog(const string& msg, int loggingFrequency)
+{
+	if(isDebugLoggingEnabled)
+	{
+		LOG_EVERY_N(loggingFrequency, DEBUG) << msg;
+	}
 }
 
 void LumberJack::eLog(const string& msg)
 {
 	LOG_IF(isErrorLoggingEnabled, ERROR) << msg;
-	//defaultLogger->error("%v\n", msg);
+}
+
+void LumberJack::eLog(const string& msg, int loggingFrequency)
+{
+	if(isErrorLoggingEnabled)
+	{
+		LOG_EVERY_N(loggingFrequency, ERROR) << msg;
+	}
 }
 
 void LumberJack::wLog(const string& msg)
 {
 	LOG_IF(isWarningLoggingEnabled, WARNING) << msg;
-	//defaultLogger->warn("%v\n", msg);
+}
+
+void LumberJack::wLog(const string& msg, int loggingFrequency)
+{
+	if(isWarningLoggingEnabled)
+	{
+		LOG_EVERY_N(loggingFrequency, WARNING) << msg;
+	}
 }
 
 void LumberJack::fLog(const string& msg)
 {
 	LOG_IF(isFatalLoggingEnabled, FATAL) << msg;
-	//defaultLogger->fatal("%v\n", msg);
+}
+
+void LumberJack::fLog(const string& msg, int loggingFrequency)
+{
+	if(isFatalLoggingEnabled)
+	{
+		LOG_EVERY_N(loggingFrequency, FATAL) << msg;
+	}
 }
 
 void LumberJack::tLog(const string& msg)
 {
 	LOG_IF(isTraceLoggingEnabled, TRACE) << msg;
-	//defaultLogger->trace("%v\n", msg);
+}
+
+void LumberJack::tLog(const string& msg, int loggingFrequency)
+{
+	if(isTraceLoggingEnabled)
+	{
+		LOG_EVERY_N(loggingFrequency, TRACE) << msg;
+	}
 }
 
 /**
