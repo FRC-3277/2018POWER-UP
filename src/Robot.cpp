@@ -35,8 +35,11 @@ void Robot::RobotInit()
 
 	try
 	{
-		lumberJack->dLog("DriveTrain Subsystem Started");
-		driveTrain.reset(new DriveTrain());
+		if(EnableDriveTrain)
+		{
+			lumberJack->dLog("DriveTrain Subsystem Started");
+			driveTrain.reset(new DriveTrain());
+		}
 	}
 	catch(const std::exception& e)
 	{
@@ -45,8 +48,11 @@ void Robot::RobotInit()
 
 	try
 	{
-		lumberJack->dLog("Grabber Subsystem Started");
-		grabber.reset(new Grabber());
+		if(EnableGrabber)
+		{
+			lumberJack->dLog("Grabber Subsystem Started");
+			grabber.reset(new Grabber());
+		}
 	}
 	catch(const std::exception& e)
 	{
@@ -55,8 +61,11 @@ void Robot::RobotInit()
 
 	try
 	{
-		lumberJack->dLog("Elevator Subsystem Started");
-		elevator.reset(new Elevator());
+		if(EnableElevator)
+		{
+			lumberJack->dLog("Elevator Subsystem Started");
+			elevator.reset(new Elevator());
+		}
 	}
 	catch(const std::exception& e)
 	{
@@ -65,8 +74,11 @@ void Robot::RobotInit()
 
 	try
 	{
-		lumberJack->dLog("Lifter Subsystem Started");
-		lifter.reset(new Lifter());
+		if(EnableLifter)
+		{
+			lumberJack->dLog("Lifter Subsystem Started");
+			lifter.reset(new Lifter());
+		}
 	}
 	catch(const std::exception& e)
 	{
@@ -132,6 +144,10 @@ void Robot::AutonomousInit()
 void Robot::AutonomousPeriodic()
 {
 	gamestates->GetGameData();
+	if(EnableElevator)
+	{
+		elevator->UpdateLimitSwitchTracker();
+	}
 	frc::Scheduler::GetInstance()->Run();
 }
 
@@ -141,7 +157,8 @@ void Robot::TeleopInit()
 	// teleop starts running. If you want the autonomous to
 	// continue until interrupted by another command, remove
 	// this line or comment it out.
-	if (m_autonomousCommand != nullptr) {
+	if (m_autonomousCommand != nullptr)
+	{
 		m_autonomousCommand->Cancel();
 		m_autonomousCommand = nullptr;
 	}
@@ -149,6 +166,10 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 {
+	if(EnableElevator)
+	{
+		elevator->UpdateLimitSwitchTracker();
+	}
 	frc::Scheduler::GetInstance()->Run();
 }
 

@@ -39,6 +39,12 @@ public:
 	static std::shared_ptr<Lifter> lifter;
 	static std::shared_ptr<GameStates> gamestates;
 
+	// Disable subsystems for debugging and testing
+	static constexpr bool EnableDriveTrain = false;
+	static constexpr bool EnableElevator = false;
+	static constexpr bool EnableGrabber = false;
+	static constexpr bool EnableLifter = false;
+
 private:
 	std::shared_ptr<LumberJack> lumberJack;
 

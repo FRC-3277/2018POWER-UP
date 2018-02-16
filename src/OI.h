@@ -102,7 +102,7 @@ private:
 
 	// Grabber
 	static constexpr int ChangeMeInjectionButton = AIRFORCEONE_BUTTON_SIX;
-	static constexpr int ChangeMeEjectionButton = JOYSTICK_BUTTON_SEVEN;
+	static constexpr int ChangeMeEjectionButton = AIRFORCEONE_BUTTON_SEVEN;
 	static constexpr int ChangeMeAugmentorTiltUpButton = JOYSTICK_BUTTON_EIGHT;
 	static constexpr int ChangeMeAugmentorTiltDownButton = JOYSTICK_BUTTON_NINE;
 	static constexpr int ChangeMeLifterButton = JOYSTICK_BUTTON_TEN;
