@@ -7,6 +7,9 @@
 
 class AutonomousScenarios : public frc::Command
 {
+private:
+	std::shared_ptr<LumberJack> lumberJack;
+
 public:
 	AutonomousScenarios();
 	void Initialize();
