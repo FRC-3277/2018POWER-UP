@@ -37,7 +37,7 @@ void AutonomousScenarios::Execute()
 
 	for (auto eachCommand : listOfCommands)
 	{
-		printf("%s\n", eachCommand.c_str());
+		DebugLog(eachCommand);
 		if(eachCommand[0] == 'D' || eachCommand[0] == 'T' || eachCommand[0] == 'L')
 		{
 		   ParseDriveTrainBasedCommands(eachCommand, eachCommand[0]);
@@ -112,29 +112,29 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
         if(eachParam[0] == 'D')
         {
             forwardBackward = std::stod(eachParam.substr(1, eachParam.size() - 1));
-            printf("Drive speed: %s\n", eachParam.substr(1, eachParam.size() - 1).c_str());
+            DebugLog(std::string("Drive speed: ") + eachParam.substr(1, eachParam.size() - 1).c_str());
         }
         if(eachParam[0] == 'T')
         {
             rotation = std::stod(eachParam.substr(1, eachParam.size() - 1));
-            printf("Turn speed: %s\n", eachParam.substr(1, eachParam.size() - 1).c_str());
+            DebugLog(std::string("Turn speed: ") + eachParam.substr(1, eachParam.size() - 1).c_str());
         }
         if(eachParam[0] == 'L')
         {
             lateral = std::stod(eachParam.substr(1, eachParam.size() - 1));
-            printf("Lateral speed: %s\n", eachParam.substr(1, eachParam.size() - 1).c_str());
+            DebugLog(std::string("Lateral speed: ") + eachParam.substr(1, eachParam.size() - 1).c_str());
         }
         if(eachParam[0] == 't')
         {
             useDistanceMode = false;
             AutonomousDriveWaitPeriod = std::stod(eachParam.substr(1, eachParam.size() - 1));
-            printf("Time: %s\n", eachParam.substr(1, eachParam.size() - 1).c_str());
+            DebugLog(std::string("Time: ") + eachParam.substr(1, eachParam.size() - 1).c_str());
         }
         if(eachParam[0] == 'd')
         {
             //TODO: Create distance method.  Requires encoders
             Distance = std::stod(eachParam.substr(1, eachParam.size() - 1));
-            printf("Distance: %s\n", eachParam.substr(1, eachParam.size() - 1).c_str());
+            DebugLog(std::string("Distance: ") + eachParam.substr(1, eachParam.size() - 1).c_str());
         }
     }
 
@@ -147,7 +147,7 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
         }
         else
         {
-           //AutonomousDriveCommand(0.0, forwardBackward, 0.0, AutonomousDriveWaitPeriod);
+           AutonomousDriveCommand(0.0, forwardBackward, 0.0, AutonomousDriveWaitPeriod);
         }
     }
     else if(Command == 'T')
@@ -155,11 +155,11 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
         if(useDistanceMode)
         {
             // When using distance mode the time period value will override distance travelled as a means of timeout
-            //AutonomousDriveCommand(0.0, 0.0, double rotation, double AutonomousDriveWaitPeriod);
+            //AutonomousDriveCommand(0.0, 0.0, rotation, AutonomousDriveWaitPeriod);
         }
         else
         {
-            //AutonomousDriveCommand(0.0, 0.0, double rotation, double AutonomousDriveWaitPeriod);
+            AutonomousDriveCommand(0.0, 0.0, rotation, AutonomousDriveWaitPeriod);
         }
     }
     else if(Command == 'L')
@@ -167,11 +167,11 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
         if(useDistanceMode)
         {
             // When using distance mode the time period value will override distance travelled as a means of timeout
-            //AutonomousDriveCommand(double lateral, 0.0, 0.0, double AutonomousDriveWaitPeriod);
+            //AutonomousDriveCommand(lateral, 0.0, 0.0, double AutonomousDriveWaitPeriod);
         }
         else
         {
-            //AutonomousDriveCommand(double lateral, 0.0, 0.0, double AutonomousDriveWaitPeriod);
+            AutonomousDriveCommand(lateral, 0.0, 0.0, AutonomousDriveWaitPeriod);
         }
     }
 }
@@ -184,17 +184,17 @@ void AutonomousScenarios::ParseElevatorBasedCommands(const std::string& CommandT
 
     if(CommandToParse[1] == 'U')
     {
-        printf("Elevator Up\n");
+        DebugLog("Elevator Up\n");
         // Get current setpoint and add one
     }
     else if(CommandToParse[1] == 'D')
     {
-        printf("Elevator Down\n");
+        DebugLog("Elevator Down\n");
         // Get current setpoint and subtract one
     }
     else
     {
-        printf("Elevator Setpoint: %d", std::stoi(CommandToParse.substr(1, CommandToParse.size() - 1)));
+        DebugLog(std::string("Elevator Setpoint: ") + CommandToParse.substr(1, CommandToParse.size() - 1));
         // Since neither up nor down then setpoint
         DesiredSetpoint = std::stoi(CommandToParse.substr(1, CommandToParse.size() - 1));
     }
@@ -207,12 +207,20 @@ void AutonomousScenarios::ParseGrabberBasedCommands(const std::string& CommandTo
 {
     if(CommandToParse[1] == 'E')
     {
-        printf("Grabber Eat\n");
+        DebugLog("Grabber Eat\n");
         //AutonomousEatCubeCommand();
     }
     else if(CommandToParse[1] == 'S')
     {
-        printf("Grabber Spit\n");
+        DebugLog("Grabber Spit\n");
         //AutonomousSpitCubeCommand();
     }
+}
+
+void AutonomousScenarios::DebugLog(const std::string& msg)
+{
+	if(Robot::EnableAutonomousDebugLogging)
+	{
+		lumberJack->dLog(msg);
+	}
 }

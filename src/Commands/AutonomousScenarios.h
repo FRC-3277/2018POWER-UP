@@ -2,7 +2,7 @@
 #define AutonomousScenarios_H
 
 #include "LumberJack.h"
-#include "Robot.h"
+#include "../Robot.h"
 #include <Commands/Command.h>
 
 #include "AutonomousDriveCommand.h"
@@ -21,6 +21,7 @@ private:
 	void ParseDriveTrainBasedCommands(const std::string& CommandToParse, const char Command);
 	void ParseElevatorBasedCommands(const std::string& CommandToParse);
 	void ParseGrabberBasedCommands(const std::string& CommandToParse);
+	void DebugLog(const std::string& msg);
 
 public:
 	AutonomousScenarios();
