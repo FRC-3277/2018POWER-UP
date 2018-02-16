@@ -15,7 +15,13 @@ class AutonomousScenarios : public frc::Command
 private:
 	std::shared_ptr<LumberJack> lumberJack;
 
-	std::vector<std::string> split(const std::string& s, char delimiter);
+	bool AllDoneWithAutonomousCommands = false;
+
+	std::vector<std::string> Split(const std::string& s, char delimiter);
+	void ParseDriveTrainBasedCommands(const std::string& CommandToParse, const char Command);
+	void ParseElevatorBasedCommands(const std::string& CommandToParse);
+	void ParseGrabberBasedCommands(const std::string& CommandToParse);
+
 public:
 	AutonomousScenarios();
 	void Initialize();
