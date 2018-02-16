@@ -5,6 +5,11 @@
 #include "Robot.h"
 #include <Commands/Command.h>
 
+#include "AutonomousDriveCommand.h"
+#include "AutonomousEatCubeCommand.h"
+#include "AutonomousElevatorToSetpointCommand.h"
+#include "AutonomousSpitCubeCommand.h"
+
 class AutonomousScenarios : public frc::Command
 {
 private:
