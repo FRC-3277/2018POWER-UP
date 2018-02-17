@@ -98,8 +98,9 @@ void Elevator::InitDefaultCommand()
 
 void Elevator::RaiseElevator()
 {
+	IsElevatorOnTheMove = true;
 	UpdateSoftSpeedChangeArray(RaiseSpeedMultiplier);
-	double speed = SoftStart();
+	double speed = SoftSpeedChange();
 
 	//if(MaxHeightLimitSwitch->Get())
 	if(false)
@@ -117,6 +118,7 @@ void Elevator::RaiseElevator()
 
 void Elevator::LowerElevator()
 {
+	IsElevatorOnTheMove = true;
 	UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
 	double speed = ElevatorTravelSpeed;
 
@@ -167,6 +169,8 @@ void Elevator::UpdateLimitSwitchTracker()
 
 bool Elevator::GoToSetPoint(int DesiredSetpoint)
 {
+	IsElevatorOnTheMove = true;
+
 	// Go up by default
 	double direction = ElevatorTravelSpeed;
 	bool isAtDesiredSetpoint = false;
@@ -196,11 +200,19 @@ void Elevator::StopElevator()
 	std::fill_n(SoftSpeedChangeArray, SoftSpeedChangeArraySize, ElevatorTravelSpeed);
 	LeftElevatorTalon->Set(StopElevatorSpeed);
 	RightElevatorTalon->Set(StopElevatorSpeed);
+	IsElevatorOnTheMove = false;
 }
 
 void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 {
-	SoftSpeedChangeArray[SoftSpeedChangeArrayIterator] = ElevatorTravelSpeed * Multiplier;
+	if(LimitSwitchTracker >= 4)
+	{
+		SoftSpeedChangeArray[SoftSpeedChangeArrayIterator] = ElevatorTravelSpeed * Multiplier/2;
+	}
+	else
+	{
+		SoftSpeedChangeArray[SoftSpeedChangeArrayIterator] = ElevatorTravelSpeed * Multiplier;
+	}
 
 	lumberJack->iLog(std::string("RaiseSpeedMultiplier: ") + std::to_string(RaiseSpeedMultiplier));
 	lumberJack->iLog(std::string("Multiplier: ") + std::to_string(Multiplier));
@@ -213,7 +225,7 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 	}
 }
 
-double Elevator::SoftStart()
+double Elevator::SoftSpeedChange()
 {
 	double sum = 0.0;
 	double denominator = SoftSpeedChangeArraySize * 1.0;
@@ -228,7 +240,12 @@ double Elevator::SoftStart()
 	return sum/denominator;
 }
 
-double Elevator::SoftStop()
+// Bellhop, hold please!
+void Elevator::HoldElevator()
 {
-
+	if(IsElevatorOnTheMove == false)
+	{
+		LeftElevatorTalon->Set(ElevatorHoldSpeed);
+		RightElevatorTalon->Set(-ElevatorHoldSpeed);
+	}
 }

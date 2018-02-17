@@ -173,6 +173,7 @@ void Robot::TeleopPeriodic()
 {
 	if(EnableElevator)
 	{
+		elevator->HoldElevator();
 		elevator->UpdateLimitSwitchTracker();
 	}
 	frc::Scheduler::GetInstance()->Run();
