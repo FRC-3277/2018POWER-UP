@@ -5,13 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+#include <Commands/PrepareLifterCoreForEjectCommand.h>
 #include <math.h>
 
 #include "OI.h"
 #include "WPILib.h"
 #include "Commands/EatCubeCommand.h"
 #include "Commands/SpitCubeCommand.h"
-#include "Commands/StartLifterCommand.h"
 #include "Commands/InvertDriverControlsCommand.h"
 #include "Commands/LowerElevatorCommand.h"
 #include "Commands/RaiseElevatorCommand.h"
@@ -106,7 +106,7 @@ OI::OI()
 		try
 		{
 			LifterButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeLifterButton));
-			LifterButton->WhenPressed(new StartLifterCommand());
+			LifterButton->WhenPressed(new PrepareLifterCoreForEjectCommand());
 		}
 		catch(const std::exception& e)
 		{
