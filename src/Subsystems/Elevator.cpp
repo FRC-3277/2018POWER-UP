@@ -8,11 +8,10 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	// Defaulting
 	std::fill_n(SoftSpeedChangeArray, SoftSpeedChangeArraySize, ElevatorTravelSpeed);
 
-	lumberJack->dLog("Assigning talons");
+	lumberJack->dLog("Assigning Talons");
 	try
 	{
 		LeftElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID));
-		//LeftElevatorTalon = new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID);
 	}
 	catch(const std::exception& e)
 	{
@@ -22,7 +21,6 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	try
 	{
 		RightElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID));
-		//RightElevatorTalon = new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID);
 	}
 	catch(const std::exception& e)
 	{

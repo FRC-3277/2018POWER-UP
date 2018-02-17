@@ -14,10 +14,6 @@ private:
 	std::shared_ptr<WPI_TalonSRX> LeftElevatorTalon;
 	std::shared_ptr<WPI_TalonSRX> RightElevatorTalon;
 
-	// Junk that doesn't work
-	//WPI_TalonSRX *LeftElevatorTalon;
-	//WPI_TalonSRX *RightElevatorTalon;
-
 	std::shared_ptr<Servo> EndEffectorDropServo;
 
 	// TODO: Disable Max and Min
