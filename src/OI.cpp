@@ -47,7 +47,7 @@ OI::OI()
 	{
 		try
 		{
-			InjectionButton.reset(new JoystickButton(AirForceOneController.get(), GrabberInjectionButtonNumber));
+			InjectionButton.reset(new JoystickButton(controllerDriver.get(), GrabberInjectionButtonNumber));
 			InjectionButton->WhileHeld(new EatCubeCommand());
 		}
 		catch(const std::exception& e)
@@ -57,7 +57,7 @@ OI::OI()
 
 		try
 		{
-			EjectionButton.reset(new JoystickButton(AirForceOneController.get(), GrabberEjectionButtonNumber));
+			EjectionButton.reset(new JoystickButton(controllerDriver.get(), GrabberEjectionButtonNumber));
 			EjectionButton->WhileHeld(new SpitCubeCommand());
 		}
 		catch(const std::exception& e)
@@ -91,7 +91,7 @@ OI::OI()
 
 		try
 		{
-			GoToDesiredElevatorSetpointButton.reset(new JoystickButton(AirForceOneController.get(), DesiredElevatorSetpointButtonNumber));
+			GoToDesiredElevatorSetpointButton.reset(new JoystickButton(controllerDriver.get(), DesiredElevatorSetpointButtonNumber));
 			GoToDesiredElevatorSetpointButton->WhenPressed(new GoToDesiredSetpointCommand());
 		}
 		catch(const std::exception& e)
@@ -332,7 +332,7 @@ double OI::GetJoystickTwist()
 		else
 		{
 			OverrideZDeadzone = false;
-			rotation = controllerDriver->GetTwist() * -1.0;
+			rotation = controllerDriver->GetTwist() * -0.5;
 		}
 
 	}
@@ -372,7 +372,7 @@ int OI::GetDesiredElevatorSetpoint()
 	int DesiredSetpoint = 1;
 	int NumberOfElevatorLimitSwitches = 5;
 	double SetPointDelimiterValue = 0.99/NumberOfElevatorLimitSwitches;
-	double CurrentActualElevatorSetpointControllerValue = AirForceOneController->GetRawAxis(DesiredElevatorSetpointAxisNumber);
+	double CurrentActualElevatorSetpointControllerValue = controllerDriver->GetRawAxis(DesiredElevatorSetpointAxisNumber);
 
 	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
 
@@ -385,7 +385,7 @@ int OI::GetDesiredElevatorSetpoint()
 }
 
 double OI::GetAirForceOneXAxis() {
-	return Clamp(AirForceOneController->GetRawAxis(GrabberSpitCubeLeverAxisNumber));
+	return Clamp(controllerDriver->GetRawAxis(GrabberSpitCubeLeverAxisNumber));
 }
 
 double OI::ScaleAirForceOneAxis(double ValueToRescale) {

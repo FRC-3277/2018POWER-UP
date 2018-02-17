@@ -88,22 +88,22 @@ private:
 	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
 
 	// Joystick button role selection
-	static constexpr int JoystickFinesseButton = JOYSTICK_BUTTON_SEVEN;
+	static constexpr int JoystickFinesseButton = JOYSTICK_BUTTON_TWO;
 	// Drivetrain
-	static constexpr int InvertDriverControlsButtonNumber = JOYSTICK_BUTTON_TWELVE;
+	static constexpr int InvertDriverControlsButtonNumber = JOYSTICK_BUTTON_ELEVEN;
 
 	// Elevator
-	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_TWO;
+	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_FIVE;
 	static constexpr int ElevatorDownButtonNumber = JOYSTICK_BUTTON_THREE;
-	static constexpr int DesiredElevatorSetpointAxisNumber = AIRFORCEONE_Z_AXIS;
-	static constexpr int DesiredElevatorSetpointButtonNumber = JOYSTICK_BUTTON_FOUR;
+	static constexpr int DesiredElevatorSetpointAxisNumber = JOYSTICK_TRIGGER;
+	static constexpr int DesiredElevatorSetpointButtonNumber = JOYSTICK_BUTTON_TWELVE;
 
 	// Grabber
-	static constexpr int GrabberInjectionButtonNumber = AIRFORCEONE_BUTTON_FIVE;
-	static constexpr int GrabberEjectionButtonNumber = AIRFORCEONE_BUTTON_SIX;
+	static constexpr int GrabberInjectionButtonNumber = JOYSTICK_BUTTON_SIX;
+	static constexpr int GrabberEjectionButtonNumber = JOYSTICK_BUTTON_FOUR;
 	static constexpr int LifterPrepareToEjectCoreButtonNumber = JOYSTICK_BUTTON_TEN;
 	// Not actually mapped to Controller, but in use
-	static constexpr int GrabberSpitCubeLeverAxisNumber = AIRFORCEONE_X_AXIS;
+	static constexpr int GrabberSpitCubeLeverAxisNumber = JOYSTICK_SLIDER;
 
 	// xBox button role selection
 	static constexpr int XBoxFinnesseButtonNumber = XBOX_RIGHT_SHOLDER_BUTTON;
@@ -120,7 +120,7 @@ private:
 
 	// Joystick Deadzone
 	static constexpr double JoystickDeadzone = 0.02;
-	static constexpr double JoystickTwistDeadzone = 0.135;
+	static constexpr double JoystickTwistDeadzone = 0.16;
 	static constexpr double XboxTwistDeadzone = 0.135;
 
 	// Deadzone bool values

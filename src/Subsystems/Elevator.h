@@ -40,7 +40,7 @@ private:
 
 	double SoftSpeedChangeArray[SoftSpeedChangeArraySize];
 
-	static constexpr double RaiseSpeedMultiplier = 3.0;
+	static constexpr double RaiseSpeedMultiplier = 3.5;
 	static constexpr double LowerSpeedMultiplier = 1.0;
 
 	void UpdateSoftSpeedChangeArray(const double Multiplier);
