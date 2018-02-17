@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include <Commands/AutonomousEatCubeCommand.h>
+#include "Commands/AutonomousEatCubeCommand.h"
 
 AutonomousEatCubeCommand::AutonomousEatCubeCommand() {
 	Requires(Robot::grabber.get());
