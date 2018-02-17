@@ -1,0 +1,34 @@
+#ifndef SRC_CONTROLLER_EXTREME3DPRO_H_
+#define SRC_CONTROLLER_EXTREME3DPRO_H_
+
+/* Logitech EXTREME3DPRO Definitions */
+#define JOYSTICK_X_AXIS 0
+#define JOYSTICK_Y_AXIS 1
+#define JOYSTICK_Z_AXIS 2
+
+#define JOYSTICK_TRIGGER 1
+#define JOYSTICK_SLIDER 3
+
+#define JOYSTICK_BUTTON_TWO 2
+#define JOYSTICK_BUTTON_THREE 3
+#define JOYSTICK_BUTTON_FOUR 4
+#define JOYSTICK_BUTTON_FIVE 5
+#define JOYSTICK_BUTTON_SIX 6
+#define JOYSTICK_BUTTON_SEVEN 7
+#define JOYSTICK_BUTTON_EIGHT 8
+#define JOYSTICK_BUTTON_NINE 9
+#define JOYSTICK_BUTTON_TEN 10
+#define JOYSTICK_BUTTON_ELEVEN 11
+#define JOYSTICK_BUTTON_TWELVE 12
+
+namespace Controller {
+
+class Extreme3D_Pro {
+public:
+	Extreme3D_Pro();
+	virtual ~Extreme3D_Pro();
+};
+
+} /* namespace Controller */
+
+#endif /* SRC_CONTROLLER_EXTREME3DPRO_H_ */
