@@ -17,6 +17,9 @@ private:
 	//Motors
 	std::shared_ptr<WPI_TalonSRX> GrabberLeftMotor;
 	std::shared_ptr<WPI_TalonSRX> GrabberRightMotor;
+	double GrabberMotorSpeed = 0.0;
+	static constexpr double DefaultGrabberMotorSpeed = 0.99;
+
 
 	//Limit Switches
 	std::shared_ptr<DigitalInput> InjectionStopLimitSwitch;
@@ -26,17 +29,21 @@ private:
 
 
 public:
+	bool EndSpitCommand = false;
+	bool EndEatCommand = false;
+	bool EndAugmentorTiltUpCommand = false;
+	bool EndAugmentorTiltDownCommand = false;
+
 	Grabber();
 	void InitDefaultCommand();
 	void SpitCube();
 	void EatCube();
 	void AugmentorTiltUp();
 	void AugmentorTiltDown();
+	void GrabberEatStop();
+	void GrabberSpitStop();
+	void SetGrabberSpitSpeed(double GrabberMotorSpeed);
 
-	bool EndSpitCommand = false;
-	bool EndEatCommand = false;
-	bool EndAugmentorTiltUpCommand = false;
-	bool EndAugmentorTiltDownCommand = false;
 };
 
 #endif  // Grabber_H

@@ -7,6 +7,9 @@
 #include "Commands/Command.h"
 
 class SpitCubeCommand : public frc::Command {
+private:
+	std::shared_ptr<LumberJack> lumberJack;
+
 public:
 	SpitCubeCommand();
 	void Initialize();
