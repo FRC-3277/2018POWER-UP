@@ -98,7 +98,7 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 			std::chrono::duration<double> elapsed_seconds = TimerFinesseCurrent - TimerFinesseBegin;
 			int DurationMicroseconds = std::chrono::duration_cast<std::chrono::microseconds>(elapsed_seconds).count();
 
-			lumberJack->iLog(std::string("DurationMicroseconds: ") + std::to_string(DurationMicroseconds));
+			lumberJack->dLog(std::string("DurationMicroseconds: ") + std::to_string(DurationMicroseconds));
 			if(FinesseReductionWaitPeriod <= DurationMicroseconds)
 			{
 				TimerFinesseBegin = std::chrono::system_clock::now();

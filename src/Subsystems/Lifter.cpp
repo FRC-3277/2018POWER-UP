@@ -43,10 +43,17 @@ void Lifter::InitDefaultCommand() {
 // Matches are 2 minutes and 15 seconds long.
 void Lifter::PrepareLifterCoreForEject()
 {
-	// TODO: push the elevator down to ground zero prior to running this
-	LifterLeftEjectCoreServo->SetAngle(LeftEjectCoreServoAngleDefault - 180);
-	LifterRightEjectCoreServo->SetAngle(RightEjectCoreServoAngleDefault + 180);
-	IsCorePreparedToBeEjected = true;
+	if(EnableLifterSubsystemLast30Seconds)
+	{
+		// TODO: push the elevator down to ground zero prior to running this
+		LifterLeftEjectCoreServo->SetAngle(LeftEjectCoreServoAngleDefault - 180);
+		LifterRightEjectCoreServo->SetAngle(RightEjectCoreServoAngleDefault + 180);
+		IsCorePreparedToBeEjected = true;
+	}
+	else
+	{
+		lumberJack->wLog("PrepareLifterCoreForEject is not authorized to launch!");
+	}
 }
 
 void Lifter::RunTheWinch()
@@ -60,4 +67,9 @@ void Lifter::RunTheWinch()
 void Lifter::StopTheWinch()
 {
 	LifterMotor->Set(0.0);
+}
+
+void Lifter::EnableLifterSubsystem()
+{
+	EnableLifterSubsystemLast30Seconds = true;
 }

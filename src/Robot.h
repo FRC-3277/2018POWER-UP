@@ -7,6 +7,9 @@
 
 #pragma once
 
+#include <chrono>
+#include <ctime>
+
 #include "LumberJack.h"
 
 #include <Commands/Command.h>
@@ -59,6 +62,10 @@ private:
 	void TestPeriodic() override;
 	void DisabledInit() override;
 	void DisabledPeriodic() override;
+
+	std::chrono::system_clock::time_point TimerBegin;
+	std::chrono::system_clock::time_point TimerCurrent;
+	static constexpr int ElapsedSecondsBeforeEnableLifter = 135 - 30;
 
 	// Have it null by default so that if testing teleop it
 	// doesn't have undefined behavior and potentially crash.

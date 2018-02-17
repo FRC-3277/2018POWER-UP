@@ -30,6 +30,7 @@ private:
 	static constexpr double WinchDefaultSpeed = 0.5;
 
 	bool IsCorePreparedToBeEjected = false;
+	bool EnableLifterSubsystemLast30Seconds = false;
 
 public:
 	Lifter();
@@ -37,5 +38,6 @@ public:
 	void PrepareLifterCoreForEject();
 	void RunTheWinch();
 	void StopTheWinch();
+	void EnableLifterSubsystem();
 };
 
