@@ -19,7 +19,7 @@ void AutonomousScenarios::Execute()
 {
 	/** R.O.B. (Robotic Operating Buddy)-code language (Subject to change)
 	* D(forwards/backwards) = Drive forwards/backwards speed; Modifiers - (t=time;d=distance)
-	* T(rotation) = Turn; Positive for Right and Negative for Left speed; Modifiers - (t=time;d=distance)
+	* T(rotation) = Turn; Positive for Right and Negative for Left speed; Modifiers - (t=time;d=degrees)
 	* L(lateral) = Lateral; Positive for Right and Negative for Left speed; Modifiers - (t=time;d=distance)
 	* S = Stop Everything
 	* ER = Raise Elevator Up One Level
@@ -34,12 +34,15 @@ void AutonomousScenarios::Execute()
 
 	// Testing command string
 	listOfCommands = Split("EU;ED;D15|t12;GE;T2|t5;D10|t6;E3;GS", ';');
-	// R1
 
+	// R1
+	// Distance: D0.5|d11;T-0.3|d-90;D0.5|d4.5;ER;GS;S;
+	// Time: D0.5|t500;T-0.3|t0.5;D0.5|t200;ER;GS;S;
 	// R2
 
 	// R3
-
+	// Distance: D0.5|d19.5;ER;GS;D-0.5|d7;T-0.3|d-90;D0.5|d1.5;S;
+	// Time: D0.5|t800;ER;GS;D-0.5|t300;T-0.3|d-90;D0.5|d1.5;S;
 	// R4
 
 	for (auto eachCommand : listOfCommands)
@@ -140,6 +143,7 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
         if(eachParam[0] == 'd')
         {
             //TODO: Create distance method.  Requires encoders
+        	// If rotation, then distance is a measure of degrees
             Distance = std::stod(eachParam.substr(1, eachParam.size() - 1));
             DebugLog(std::string("Distance: ") + eachParam.substr(1, eachParam.size() - 1).c_str());
         }
