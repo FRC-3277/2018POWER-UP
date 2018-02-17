@@ -34,6 +34,13 @@ void AutonomousScenarios::Execute()
 
 	// Testing command string
 	listOfCommands = Split("EU;ED;D15|t12;GE;T2|t5;D10|t6;E3;GS", ';');
+	// R1
+
+	// R2
+
+	// R3
+
+	// R4
 
 	for (auto eachCommand : listOfCommands)
 	{
