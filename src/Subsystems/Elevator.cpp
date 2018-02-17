@@ -93,6 +93,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 void Elevator::InitDefaultCommand()
 {
+	EndEffectorDropServo->SetAngle(25);
 }
 
 void Elevator::RaiseElevator()
@@ -100,7 +101,8 @@ void Elevator::RaiseElevator()
 	UpdateSoftSpeedChangeArray(RaiseSpeedMultiplier);
 	double speed = SoftStart();
 
-	if(MaxHeightLimitSwitch->Get())
+	//if(MaxHeightLimitSwitch->Get())
+	if(false)
 	{
 		//TODO: Re-enable once this is actually installed
 		//speed = StopElevatorSpeed;
@@ -118,7 +120,8 @@ void Elevator::LowerElevator()
 	UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
 	double speed = ElevatorTravelSpeed;
 
-	if(MinHeightLimitSwitch->Get())
+	//if(MinHeightLimitSwitch->Get())
+	if(false)
 	{
 		//TODO: Re-enable once this is actually installed
 		//speed = StopElevatorSpeed;
