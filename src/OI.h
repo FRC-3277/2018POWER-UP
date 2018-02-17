@@ -97,14 +97,16 @@ private:
 	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_TWO;
 	static constexpr int ElevatorDownButtonNumber = JOYSTICK_BUTTON_THREE;
 	static constexpr int DesiredElevatorSetpointAxis = JOYSTICK_BUTTON_FOUR;
-	static constexpr int DesiredElevatorSetpointButtonNumber = AIRFORCEONE_BUTTON_FIVE;
+	static constexpr int DesiredElevatorSetpointButtonNumber = AIRFORCEONE_Z_AXIS;
 
 	// Grabber
-	static constexpr int ChangeMeInjectionButton = AIRFORCEONE_BUTTON_SIX;
-	static constexpr int ChangeMeEjectionButton = AIRFORCEONE_BUTTON_SEVEN;
+	static constexpr int ChangeMeInjectionButton = AIRFORCEONE_BUTTON_FIVE;
+	static constexpr int ChangeMeEjectionButton = AIRFORCEONE_BUTTON_SIX;
 	static constexpr int ChangeMeAugmentorTiltUpButton = JOYSTICK_BUTTON_EIGHT;
 	static constexpr int ChangeMeAugmentorTiltDownButton = JOYSTICK_BUTTON_NINE;
 	static constexpr int ChangeMeLifterButton = JOYSTICK_BUTTON_TEN;
+	// Not actually mapped to Controller, but in use
+	static constexpr int GrabberSpitCubeLeverButtonNumber = AIRFORCEONE_X_AXIS;
 
 	// xBox button role selection
 	static constexpr int XBoxFinnesseButton = XBOX_RIGHT_SHOLDER_BUTTON;
@@ -136,9 +138,11 @@ private:
 public:
 	OI();
 
-	std::shared_ptr<Joystick> getXBoxController();
+	std::shared_ptr<Joystick> GetDriverController();
 	double GetJoystickX();
 	double GetJoystickY();
 	double GetJoystickTwist();
+	double GetAirForceOneXAxis();
+	double ScaleAirForceOneAxis(double ValueToRescale);
 	int GetDesiredElevatorSetpoint();
 };

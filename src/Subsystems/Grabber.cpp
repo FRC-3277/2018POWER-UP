@@ -5,7 +5,7 @@
 Grabber::Grabber() : frc::Subsystem("Grabber") {
 	lumberJack.reset(new LumberJack());
 
-	//Talons.
+	//Talons
 	try
 	{
 		GrabberLeftMotor.reset(new WPI_TalonSRX(GRABBER_LEFT_MOTOR_CAN_ID));
@@ -62,13 +62,9 @@ Grabber::Grabber() : frc::Subsystem("Grabber") {
 		lumberJack->eLog(std::string("TiltDownStopLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
-
 	// Set every Talon to reset the motor safety timeout.
 	GrabberLeftMotor->Set(ControlMode::PercentOutput, 0);
 	GrabberRightMotor->Set(ControlMode::PercentOutput, 0);
-
-
-
 }
 
 
@@ -77,55 +73,45 @@ void Grabber::InitDefaultCommand() {
 
 void Grabber::SpitCube() {
 
-	if(EjectionStopLimitSwitch->Get())
+	//if(EjectionStopLimitSwitch->Get()) //Anticipation of some sort of limit switch... not installed
+	if(false)
 	{
-		GrabberLeftMotor->Set(0.0);
+		GrabberSpitStop();
 		EndSpitCommand = true;
 	}
 	else
 	{
-		GrabberLeftMotor->Set(0.5);
+		GrabberLeftMotor->Set(-GrabberMotorSpeed);
+		GrabberRightMotor->Set(GrabberMotorSpeed);
 	}
 }
 
 void Grabber::EatCube() {
-	if(InjectionStopLimitSwitch->Get())
+	//if(InjectionStopLimitSwitch->Get()) //Anticipation of some sort of limit switch... not installed
+	if(false)
 	{
-		GrabberLeftMotor->Set(0.0);
+		GrabberEatStop();
 		EndEatCommand = true;
 	}
 	else
 	{
-		GrabberLeftMotor->Set(0.5);
+		GrabberLeftMotor->Set(DefaultGrabberMotorSpeed);
+		GrabberRightMotor->Set(-DefaultGrabberMotorSpeed);
 	}
 }
 
-void Grabber::AugmentorTiltUp() {
-	if(TiltUpStopLimitSwitch->Get())
-	{
-		GrabberRightMotor->Set(0.0);
-		EndAugmentorTiltUpCommand = true;
-	}
-	else
-	{
-		GrabberRightMotor->Set(0.5);
-	}
+void Grabber::GrabberEatStop() {
+	GrabberLeftMotor->Set(0.0);
+	GrabberRightMotor->Set(0.0);
+	EndEatCommand = false;
 }
 
-void Grabber::AugmentorTiltDown() {
-	if(TiltUpStopLimitSwitch->Get())
-	{
-		GrabberRightMotor->Set(0.0);
-		EndAugmentorTiltDownCommand = true;
-	}
-	else
-	{
-		GrabberRightMotor->Set(0.5);
-	}
+void Grabber::GrabberSpitStop() {
+	GrabberLeftMotor->Set(0.0);
+	GrabberRightMotor->Set(0.0);
+	EndSpitCommand = false;
 }
 
-
-
-
-
-
+void Grabber::SetGrabberSpitSpeed(double GrabberMotorSpeed) {
+	this->GrabberMotorSpeed = GrabberMotorSpeed;
+}

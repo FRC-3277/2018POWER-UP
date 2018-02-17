@@ -48,7 +48,7 @@ OI::OI()
 		try
 		{
 			InjectionButton.reset(new JoystickButton(AirForceOneController.get(), ChangeMeInjectionButton));
-			//InjectionButton->WhenPressed(new EatCubeCommand());
+			InjectionButton->WhileHeld(new EatCubeCommand());
 		}
 		catch(const std::exception& e)
 		{
@@ -58,7 +58,7 @@ OI::OI()
 		try
 		{
 			EjectionButton.reset(new JoystickButton(AirForceOneController.get(), ChangeMeEjectionButton));
-			//EjectionButton->WhenPressed(new SpitCubeCommand());
+			EjectionButton->WhileHeld(new SpitCubeCommand());
 		}
 		catch(const std::exception& e)
 		{
@@ -169,7 +169,7 @@ OI::OI()
 	}
 }
 
-std::shared_ptr<Joystick> OI::getXBoxController()
+std::shared_ptr<Joystick> OI::GetDriverController()
 {
 	return controllerDriver;
 }
@@ -382,4 +382,29 @@ int OI::GetDesiredElevatorSetpoint()
 	}
 
 	return DesiredSetpoint;
+}
+
+double OI::GetAirForceOneXAxis() {
+	return Clamp(AirForceOneController->GetRawAxis(GrabberSpitCubeLeverButtonNumber));
+}
+
+double OI::ScaleAirForceOneAxis(double ValueToRescale) {
+	double Output = 0.0;
+
+	if(ValueToRescale > 0.0)
+	{
+		double NewMax = 0.99;
+		double NewMin = 0.500001;
+		Output = (((NewMax - NewMin) * (ValueToRescale - 0.0)) / (0.99 - 0.0)) + NewMin;
+	}
+	else if(ValueToRescale == 0.0)
+	{
+		Output = 0.5;
+	}
+	else
+	{
+		Output = fabs((ValueToRescale + 0.99) / 2);
+	}
+
+	return Output;
 }
