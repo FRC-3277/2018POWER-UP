@@ -34,10 +34,12 @@ void AutonomousScenarios::Execute()
 
 	// Testing command string
 	listOfCommands = Split("EU;ED;D15|t12;GE;T2|t5;D10|t6;E3;GS", ';');
+	// Distance modes area in feet
 	// R1
 
 	// R2
-
+	// Distance: D0.50|d24;E4;GS;D-0.50|d7;T-0.3|d-90.0;D0.50|d1.5;S;
+	// Time: D0.50|t2400;E4;GS;D-0.50|t700;T-0.3|t90.0;D0.50|t100.5;S;
 	// R3
 
 	// R4
