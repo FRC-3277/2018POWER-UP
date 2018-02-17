@@ -31,44 +31,94 @@ void AutonomousScenarios::Execute()
 	*/
 
 	std::vector<std::string> listOfCommands;
+	std::string GameData = Robot::gamestates->GetGameData();
 
-	// Testing command string
-	listOfCommands = Split("EU;ED;D15|t12;GE;T2|t5;D10|t6;E3;GS", ';');
-	// Distance modes area in feet
-	// Time modes are in milliseconds
+	// TODO: Handle "E" scenario
+	std::string LocationOfRobot = SmartDashboard::GetString("DB/String 0", "E");
 
-	// R1 for Switch
-	// Distance: D0.5|d11;T-0.3|d-90;D0.5|d4.5;ER;GS;S;
-	// Time:     D0.5|t500;T-0.3|t0.5;D0.5|t200;ER;GS;S;
-	// R2 for Scale
-	// Distance: D0.50|d24;E4;GS;D-0.50|d7;T-0.3|d-90.0;D0.50|d1.5;S;
-	// Time:     D0.50|t2400;E4;GS;D-0.50|t700;T-0.3|t90.0;D0.50|t100.5;S;
-	// R3 for Switch   TODO: Ask Micah to elaborate
-	// Distance: D0.5|d19.5;T-0.3|t-90;D0.5|d15;
-	// Time:     D0.5|t800;
-	// R4 for Scale
-	// Distance:
-	// Time:
+	switch(LocationOfRobot[0])
+	{
+		case 'R':
+		{
+			if (GameData.compare("RR") == 0 || GameData.compare("RL") == 0)
+			{
+				// Distance modes area in feet
+				// Time modes are in milliseconds
 
-	// L1 for Switch
-	// Distance: D0.5|d11;ER;GS;T0.3|t90;D0.5|d3.5;S;
-	// Time:     D0.5|t400;ER;GS;T0.3|t90;D0.5|t250;S;
-	// L2 for Scale
-	// Distance: D0.5|d24;ER;GS;D-0.5|d-8;T0.3|90;D0.5|d1;S;
-	// Time:     D0.5|t900;ER;GS;D-0.5|t600;T0.3|90;D0.5|t0.3;S;
-	// L3 for Switch
-	// Distance: D0.5|19.5;T0.3|90;D0.5|d15;T-0.3|t-90;T0.3|t90;D0.5|d1;T-0.3|t-90;D-0.5|d-4;ER;GS;S;
-	// Time:     D0.5|t900;T0.3|90;D0.5|t800;T-0.3|t-90;T0.3|t90;D0.5|t0.300;T-0.3|t-90;D-0.5|t200;ER;GS;S;
-	// L4 for Scale
-	// Time:
-	// Distance:
+				// RR or RL
+				// R1 for Switch
+				// Distance: D0.5|d11;T-0.3|d-90;D0.5|d4.5;ER;GS;S;
+				listOfCommands = Split("D0.5|t500;T-0.3|t0.5;D0.5|t200;ER;GS;S;", ';');
+			}
+			else if(GameData.compare("LR") == 0)
+			{
+				//LR
+				// R2 for Scale
+				// Distance: D0.50|d24;E4;GS;D-0.50|d7;T-0.3|d-90.0;D0.50|d1.5;S;
+				listOfCommands = Split("D0.50|t1100;E4;GS;D-0.50|t700;T-0.3|t500;D0.50|t100.5;S;", ';');
+			}
+			else if(GameData.compare("LL") == 0)
+			{
+				//LL
+				// R3 for Switch
+				// Distance: D0.5|d19.5;T-0.3|d-90;D0.5|d15;T0.3|d90;T-0.3|d-90;D0.5|d1;T0.3|d90;D-0.5|d-4;ER;GS;S;
+				listOfCommands = Split("D0.5|t800;T-0.3|t-90;D0.5|t600;T0.3|t90;T-0.3|t500;D0.5|d1;T0.3|t500;D-0.5|t200;ER;GS;S;", ';');
 
-	// M1 for Switch
-	// Distance: D0.5|d11;ER;GS;S;
-	// Time:     D0.5|t800;ER;GS;S;
-	// M2 for Scale
-	// Distance: D0.5|d6;T-0.3|t-90;D0.5|d7;T0.3|t90;D0.5;d6.5;ER;GS;T-0.3|t-90;D0.5|d2;S;
-	// Time:     D0.5|t300;T-0.3|t-90;D0.5|t400;T0.3|t90;D0.5;t350;ER;GS;T-0.3|t-90;D0.5|t100;S;
+				//Decide depending on team
+				// R4 for Scale
+				// Distance: D0.5|d19.5;T-0.3|d-90;D0.5|d15;T0.3|d90;T-0.3|t-90;D0.5|d4;ER;GS;D-0.5|d-6.5;S;
+				// listOfCommands = Split("D0.5|t900;T-0.3|t500;D0.5|t700;T0.3|t90;T-0.3|t500;D0.5|t300;ER;GS;D-0.5|t400;S;", ';');
+			}
+			break;
+		}
+		case 'L':
+		{
+			if (GameData.compare("LL") == 0 || GameData.compare("LR") == 0)
+			{
+				//LL or LR
+				// L1 for Switch
+				// Distance: D0.5|d11;ER;GS;T0.3|d90;D0.5|d3.5;S;
+				listOfCommands = Split("D0.5|t400;ER;GS;T0.3|t500;D0.5|t250;S;", ';');
+			}
+			else if(GameData.compare("RL") == 0)
+			{
+				//RL
+				// L2 for Scale
+				// Distance: D0.5|d24;ER;GS;D-0.5|d-8;T0.3|d90;D0.5|d1;S;
+				listOfCommands = Split("D0.5|t900;ER;GS;D-0.5|t600;T0.3|t500;D0.5|t0.3;S;", ';');
+			}
+			else if(GameData.compare("RR") == 0)
+			{
+				//RR
+				// L3 for Switch
+				// Distance: D0.5|19.5;T0.3|d90;D0.5|d15;T-0.3|d-90;T0.3|d90;D0.5|d1;T-0.3|d-90;D-0.5|d-4;ER;GS;S;
+				listOfCommands = Split("D0.5|t900;T0.3|t500;D0.5|t800;T-0.3|t500;T0.3|t500;D0.5|t0.300;T-0.3|t500;D-0.5|t200;ER;GS;S;", ';');
+
+				// L4 for Scale
+				// Time:
+				// Distance:
+			}
+			break;
+		}
+		case 'M':
+		{
+			if(GameData.compare("RL") == 0 || GameData.compare("RR") == 0)
+			{
+				// RL Or RR
+				// M1 for Switch
+				// Distance: D0.5|d11;ER;GS;S;
+				listOfCommands = Split("D0.5|t800;ER;GS;S;", ';');
+			}
+			else if(GameData.compare("LR") == 0 || GameData.compare("LL") == 0)
+			{
+			//LR Or LL
+			// M2 for Scale
+			// Distance: D0.5|d6;T-0.3|d-90;D0.5|d7;T0.3|d90;D0.5;d6.5;ER;GS;T-0.3|d-90;D0.5|d2;S;
+				listOfCommands = Split("D0.5|t300;T-0.3|t500;D0.5|t400;T0.3|500;D0.5;t350;ER;GS;T-0.3|t500;D0.5|t100;S;", ';');
+			}
+			break;
+		}
+	}
 
 	for (auto eachCommand : listOfCommands)
 	{

@@ -16,6 +16,7 @@ private:
 	std::shared_ptr<LumberJack> lumberJack;
 
 	bool AllDoneWithAutonomousCommands = false;
+	bool UseTimeBasedMode = true;
 
 	std::vector<std::string> Split(const std::string& s, char delimiter);
 	void ParseDriveTrainBasedCommands(const std::string& CommandToParse, const char Command);
