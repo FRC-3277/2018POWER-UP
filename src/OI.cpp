@@ -47,7 +47,7 @@ OI::OI()
 	{
 		try
 		{
-			InjectionButton.reset(new JoystickButton(AirForceOneController.get(), ChangeMeInjectionButton));
+			InjectionButton.reset(new JoystickButton(AirForceOneController.get(), GrabberInjectionButtonNumber));
 			InjectionButton->WhileHeld(new EatCubeCommand());
 		}
 		catch(const std::exception& e)
@@ -57,7 +57,7 @@ OI::OI()
 
 		try
 		{
-			EjectionButton.reset(new JoystickButton(AirForceOneController.get(), ChangeMeEjectionButton));
+			EjectionButton.reset(new JoystickButton(AirForceOneController.get(), GrabberEjectionButtonNumber));
 			EjectionButton->WhileHeld(new SpitCubeCommand());
 		}
 		catch(const std::exception& e)
@@ -372,7 +372,7 @@ int OI::GetDesiredElevatorSetpoint()
 	int DesiredSetpoint = 1;
 	int NumberOfElevatorLimitSwitches = 5;
 	double SetPointDelimiterValue = 0.99/NumberOfElevatorLimitSwitches;
-	double CurrentActualElevatorSetpointControllerValue = AirForceOneController->GetRawAxis(DesiredElevatorSetpointAxis);
+	double CurrentActualElevatorSetpointControllerValue = AirForceOneController->GetRawAxis(DesiredElevatorSetpointAxisNumber);
 
 	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
 
@@ -385,7 +385,7 @@ int OI::GetDesiredElevatorSetpoint()
 }
 
 double OI::GetAirForceOneXAxis() {
-	return Clamp(AirForceOneController->GetRawAxis(GrabberSpitCubeLeverButtonNumber));
+	return Clamp(AirForceOneController->GetRawAxis(GrabberSpitCubeLeverAxisNumber));
 }
 
 double OI::ScaleAirForceOneAxis(double ValueToRescale) {

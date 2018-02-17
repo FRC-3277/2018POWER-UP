@@ -34,7 +34,6 @@
 #define ALTERNATE_CONTROLLER_ID 1
 
 /* Logitech EXTREME3DPRO Joystick Definitions */
-//TODO: Find IDs for POV
 #define JOYSTICK_X_AXIS 0
 #define JOYSTICK_Y_AXIS 1
 #define JOYSTICK_Z_AXIS 2
@@ -96,17 +95,17 @@ private:
 	// Elevator
 	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_TWO;
 	static constexpr int ElevatorDownButtonNumber = JOYSTICK_BUTTON_THREE;
-	static constexpr int DesiredElevatorSetpointAxis = JOYSTICK_BUTTON_FOUR;
-	static constexpr int DesiredElevatorSetpointButtonNumber = AIRFORCEONE_Z_AXIS;
+	static constexpr int DesiredElevatorSetpointAxisNumber = AIRFORCEONE_Z_AXIS;
+	static constexpr int DesiredElevatorSetpointButtonNumber = JOYSTICK_BUTTON_FOUR;
 
 	// Grabber
-	static constexpr int ChangeMeInjectionButton = AIRFORCEONE_BUTTON_FIVE;
-	static constexpr int ChangeMeEjectionButton = AIRFORCEONE_BUTTON_SIX;
+	static constexpr int GrabberInjectionButtonNumber = AIRFORCEONE_BUTTON_FIVE;
+	static constexpr int GrabberEjectionButtonNumber = AIRFORCEONE_BUTTON_SIX;
 	static constexpr int ChangeMeAugmentorTiltUpButton = JOYSTICK_BUTTON_EIGHT;
 	static constexpr int ChangeMeAugmentorTiltDownButton = JOYSTICK_BUTTON_NINE;
 	static constexpr int ChangeMeLifterButton = JOYSTICK_BUTTON_TEN;
 	// Not actually mapped to Controller, but in use
-	static constexpr int GrabberSpitCubeLeverButtonNumber = AIRFORCEONE_X_AXIS;
+	static constexpr int GrabberSpitCubeLeverAxisNumber = AIRFORCEONE_X_AXIS;
 
 	// xBox button role selection
 	static constexpr int XBoxFinnesseButton = XBOX_RIGHT_SHOLDER_BUTTON;
