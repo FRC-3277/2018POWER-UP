@@ -29,10 +29,13 @@ private:
 
 	static constexpr double WinchDefaultSpeed = 0.5;
 
+	bool IsCorePreparedToBeEjected = false;
+
 public:
 	Lifter();
 	void InitDefaultCommand() override;
 	void PrepareLifterCoreForEject();
 	void RunTheWinch();
+	void StopTheWinch();
 };
 

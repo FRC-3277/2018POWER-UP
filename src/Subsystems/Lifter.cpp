@@ -43,11 +43,21 @@ void Lifter::InitDefaultCommand() {
 // Matches are 2 minutes and 15 seconds long.
 void Lifter::PrepareLifterCoreForEject()
 {
+	// TODO: push the elevator down to ground zero prior to running this
 	LifterLeftEjectCoreServo->SetAngle(LeftEjectCoreServoAngleDefault - 180);
 	LifterRightEjectCoreServo->SetAngle(RightEjectCoreServoAngleDefault + 180);
+	IsCorePreparedToBeEjected = true;
 }
 
 void Lifter::RunTheWinch()
 {
-	LifterMotor->Set(WinchDefaultSpeed);
+	if(IsCorePreparedToBeEjected)
+	{
+		LifterMotor->Set(WinchDefaultSpeed);
+	}
+}
+
+void Lifter::StopTheWinch()
+{
+	LifterMotor->Set(0.0);
 }

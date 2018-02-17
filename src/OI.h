@@ -83,7 +83,8 @@ private:
 	std::shared_ptr<JoystickButton> FinesseButton;
 	std::shared_ptr<JoystickButton> InjectionButton;
 	std::shared_ptr<JoystickButton> EjectionButton;
-	std::shared_ptr<JoystickButton> LifterButton;
+	std::shared_ptr<JoystickButton> LifterEjectCoreButton;
+	std::shared_ptr<JoystickButton> LifterRunWinchButton;
 	std::shared_ptr<JoystickButton> ElevatorUpButton;
 	std::shared_ptr<JoystickButton> ElevatorDownButton;
 	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
@@ -104,9 +105,12 @@ private:
 	static constexpr int ChangeMeEjectionButton = AIRFORCEONE_BUTTON_SIX;
 	static constexpr int ChangeMeAugmentorTiltUpButton = JOYSTICK_BUTTON_EIGHT;
 	static constexpr int ChangeMeAugmentorTiltDownButton = JOYSTICK_BUTTON_NINE;
-	static constexpr int ChangeMeLifterButton = JOYSTICK_BUTTON_TEN;
 	// Not actually mapped to Controller, but in use
 	static constexpr int GrabberSpitCubeLeverButtonNumber = AIRFORCEONE_X_AXIS;
+
+	// Lifter
+	static constexpr int LifterPrepareCoreEjectionButtonNumber = JOYSTICK_BUTTON_TEN;
+	static constexpr int LifterRunWinchButtonNumber = JOYSTICK_BUTTON_ELEVEN;
 
 	// xBox button role selection
 	static constexpr int XBoxFinnesseButton = XBOX_RIGHT_SHOLDER_BUTTON;

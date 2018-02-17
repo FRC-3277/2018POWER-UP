@@ -17,6 +17,7 @@
 #include "Commands/RaiseElevatorCommand.h"
 #include "Commands/GoToDesiredSetpointCommand.h"
 #include "Commands/ToggleFinesseModeCommand.h"
+#include "Commands/LifterRunWinchCommand.h"
 
 OI::OI()
 {
@@ -105,12 +106,22 @@ OI::OI()
 	{
 		try
 		{
-			LifterButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeLifterButton));
-			LifterButton->WhenPressed(new PrepareLifterCoreForEjectCommand());
+			LifterEjectCoreButton.reset(new JoystickButton(controllerDriver.get(), LifterPrepareCoreEjectionButtonNumber));
+			LifterEjectCoreButton->WhenPressed(new PrepareLifterCoreForEjectCommand());
 		}
 		catch(const std::exception& e)
 		{
-			lumberJack->eLog(std::string("LifterButton.reset() failed; ") + std::string(e.what()));
+			lumberJack->eLog(std::string("LifterEjectCoreButton.reset() failed; ") + std::string(e.what()));
+		}
+
+		try
+		{
+			LifterRunWinchButton.reset(new JoystickButton(controllerDriver.get(), LifterRunWinchButtonNumber));
+			LifterRunWinchButton->WhileHeld(new LifterRunWinchCommand());
+		}
+		catch(const std::exception& e)
+		{
+			lumberJack->eLog(std::string("LifterRunWinchButtonNumber.reset() failed; ") + std::string(e.what()));
 		}
 	}
 
