@@ -62,6 +62,10 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	rearLeftTalon->Set(ControlMode::PercentOutput, 0);
 	rearRightTalon->Set(ControlMode::PercentOutput, 0);
 
+	//Invert Rear Motors
+	rearLeftTalon->SetInverted(true);
+	rearRightTalon->SetInverted(true);
+
 	try
 	{
 		robotDrive.reset(new MecanumDrive(*frontLeftTalon, *rearLeftTalon, *frontRightTalon, *rearRightTalon));
@@ -168,7 +172,7 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 		forwardBackward = -forwardBackward;
 	}
 
-	//robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
+	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
 }
 
 void DriveTrain::ToggleFinesseMode()
