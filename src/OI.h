@@ -101,17 +101,15 @@ private:
 	// Grabber
 	static constexpr int GrabberInjectionButtonNumber = AIRFORCEONE_BUTTON_FIVE;
 	static constexpr int GrabberEjectionButtonNumber = AIRFORCEONE_BUTTON_SIX;
-	static constexpr int ChangeMeAugmentorTiltUpButton = JOYSTICK_BUTTON_EIGHT;
-	static constexpr int ChangeMeAugmentorTiltDownButton = JOYSTICK_BUTTON_NINE;
-	static constexpr int ChangeMeLifterButton = JOYSTICK_BUTTON_TEN;
+	static constexpr int LifterPrepareToEjectCoreButtonNumber = JOYSTICK_BUTTON_TEN;
 	// Not actually mapped to Controller, but in use
 	static constexpr int GrabberSpitCubeLeverAxisNumber = AIRFORCEONE_X_AXIS;
 
 	// xBox button role selection
-	static constexpr int XBoxFinnesseButton = XBOX_RIGHT_SHOLDER_BUTTON;
-	static constexpr int XBoxLateral  = XBOX_LEFT_STICK_X_AXIS;
-	static constexpr int XBoxForwardReverse = XBOX_LEFT_STICK_Y_AXIS;
-	static constexpr int XBoxTwist = XBOX_RIGHT_STICK_X_AXIS;
+	static constexpr int XBoxFinnesseButtonNumber = XBOX_RIGHT_SHOLDER_BUTTON;
+	static constexpr int XBoxLateralAxisNumber  = XBOX_LEFT_STICK_X_AXIS;
+	static constexpr int XBoxForwardReverseAxisNumber = XBOX_LEFT_STICK_Y_AXIS;
+	static constexpr int XBoxTwistAxisNumber = XBOX_RIGHT_STICK_X_AXIS;
 
 	// Use the Joystick when true, Use the xBox controller when false
 	bool useJoystick;
@@ -120,7 +118,6 @@ private:
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
 	double Clamp(double joystickAxis);
 
-	// TODO: Refactor these down to just the one
 	// Joystick Deadzone
 	static constexpr double JoystickDeadzone = 0.02;
 	static constexpr double JoystickTwistDeadzone = 0.135;

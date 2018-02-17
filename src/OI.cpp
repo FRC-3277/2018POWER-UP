@@ -105,7 +105,7 @@ OI::OI()
 	{
 		try
 		{
-			LifterButton.reset(new JoystickButton(controllerDriver.get(), ChangeMeLifterButton));
+			LifterButton.reset(new JoystickButton(controllerDriver.get(), LifterPrepareToEjectCoreButtonNumber));
 			LifterButton->WhenPressed(new StartLifterCommand());
 		}
 		catch(const std::exception& e)
@@ -158,7 +158,7 @@ OI::OI()
 		{
 			try
 			{
-				FinesseButton.reset(new JoystickButton(controllerDriver.get(), XBoxFinnesseButton));
+				FinesseButton.reset(new JoystickButton(controllerDriver.get(), XBoxFinnesseButtonNumber));
 				FinesseButton->ToggleWhenPressed(new ToggleFinesseModeCommand());
 			}
 			catch(const std::exception& e)
@@ -219,9 +219,9 @@ double OI::GetJoystickX()
 		else
 		{
 			// Xboxdeadzone for X axis
-			if(controllerDriver->GetRawAxis(XBoxForwardReverse) <= XboxDeadzone
-				 && controllerDriver->GetRawAxis(XBoxForwardReverse) >= -XboxDeadzone
-				 && fabs(controllerDriver->GetRawAxis(XBoxForwardReverse)) > fabs(controllerDriver->GetRawAxis(XBoxLateral)))
+			if(controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber) <= XboxDeadzone
+				 && controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber) >= -XboxDeadzone
+				 && fabs(controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber)) > fabs(controllerDriver->GetRawAxis(XBoxLateralAxisNumber)))
 			{
 					OverrideYDeadzone = true;
 			}
@@ -236,7 +236,7 @@ double OI::GetJoystickX()
 			}
 			else
 			{
-				x = controllerDriver->GetRawAxis(XBoxLateral);
+				x = controllerDriver->GetRawAxis(XBoxLateralAxisNumber);
 			}
 		}
 	}
@@ -289,9 +289,9 @@ double OI::GetJoystickY()
 		else
 		{
 			// Xboxdeadzone for Y axis
-			if(controllerDriver->GetRawAxis(XBoxLateral) <= XboxDeadzone
-				 && controllerDriver->GetRawAxis(XBoxLateral) >= -XboxDeadzone
-				 && fabs(controllerDriver->GetRawAxis(XBoxLateral)) > fabs(controllerDriver->GetRawAxis(XBoxForwardReverse)))
+			if(controllerDriver->GetRawAxis(XBoxLateralAxisNumber) <= XboxDeadzone
+				 && controllerDriver->GetRawAxis(XBoxLateralAxisNumber) >= -XboxDeadzone
+				 && fabs(controllerDriver->GetRawAxis(XBoxLateralAxisNumber)) > fabs(controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber)))
 			{
 					OverrideYDeadzone = true;
 			}
@@ -306,7 +306,7 @@ double OI::GetJoystickY()
 			}
 			else
 			{
-				y = controllerDriver->GetRawAxis(XBoxForwardReverse);
+				y = controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber);
 			}
 		}
 	}
@@ -338,13 +338,13 @@ double OI::GetJoystickTwist()
 	}
 	else
 	{
-		if(fabs(controllerDriver->GetRawAxis(XBoxTwist)) <= XboxTwistDeadzone)
+		if(fabs(controllerDriver->GetRawAxis(XBoxTwistAxisNumber)) <= XboxTwistDeadzone)
 		{
 			rotation += 0.0;
 		}
 		else
 		{
-			rotation = controllerDriver->GetRawAxis(XBoxTwist);
+			rotation = controllerDriver->GetRawAxis(XBoxTwistAxisNumber);
 		}
 	}
 
