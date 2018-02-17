@@ -36,6 +36,7 @@ void AutonomousScenarios::Execute()
 	// TODO: Handle "E" scenario
 	std::string LocationOfRobot = SmartDashboard::GetString("DB/String 0", "E");
 
+	// TODO: Use the flag to enable/disable time/distance modes.
 	switch(LocationOfRobot[0])
 	{
 		case 'R':
