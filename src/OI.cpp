@@ -332,7 +332,7 @@ double OI::GetJoystickTwist()
 		else
 		{
 			OverrideZDeadzone = false;
-			rotation = controllerDriver->GetTwist() * -1.0;
+			rotation = controllerDriver->GetTwist() * -0.5;
 		}
 
 	}

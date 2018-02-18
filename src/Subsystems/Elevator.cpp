@@ -125,7 +125,7 @@ void Elevator::LowerElevator()
 
 	IsElevatorOnTheMove = true;
 	UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
-	double speed = ElevatorTravelSpeed;
+	double speed = ElevatorTravelSpeed * 2;
 
 	//if(MinHeightLimitSwitch->Get())
 	if(false)

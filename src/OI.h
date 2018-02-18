@@ -120,7 +120,7 @@ private:
 
 	// Joystick Deadzone
 	static constexpr double JoystickDeadzone = 0.02;
-	static constexpr double JoystickTwistDeadzone = 0.135;
+	static constexpr double JoystickTwistDeadzone = 0.16;
 	static constexpr double XboxTwistDeadzone = 0.135;
 
 	// Deadzone bool values
