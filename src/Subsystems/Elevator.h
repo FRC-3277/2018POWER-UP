@@ -3,6 +3,7 @@
 
 #include "LumberJack.h"
 
+#include "../RobotMap.h"
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include <Commands/Subsystem.h>
@@ -28,6 +29,10 @@ private:
 	std::shared_ptr<DigitalInput> MedLimitSwitch;
 	std::shared_ptr<DigitalInput> LowLimitSwitch;
 
+	static constexpr int HIGH_LIMIT_SWITCH_NUMBER = 4;
+	static constexpr int MED_LIMIT_SWITCH_NUMBER = 3;
+	static constexpr int LOW_LIMIT_SWITCH_NUMBER = 2;
+
 	bool IsElevatorOnTheMove = false;
 
 	// Track which limit switch has been recently visited.  Start with 1 from bottom until top limit switch
@@ -38,16 +43,18 @@ private:
 
 	int SoftSpeedChangeArrayIterator = 0;
 
-	static const int SoftSpeedChangeArraySize = 75;
+	static constexpr int SoftSpeedChangeArraySize = 75;
 
 	double SoftSpeedChangeArray[SoftSpeedChangeArraySize];
-	double ElevatorHoldSpeed = 0.15;
+	static constexpr double ElevatorHoldSpeed = 0.15;
 
 	static constexpr double RaiseSpeedMultiplier = 3.0;
 	static constexpr double LowerSpeedMultiplier = 1.0;
 
 	void UpdateSoftSpeedChangeArray(const double Multiplier);
 	double SoftSpeedChange();
+	void DebugLog(const string& msg);
+	void DebugLog(const string& msg, int loggingEveryNth);
 
 public:
 	Elevator();
