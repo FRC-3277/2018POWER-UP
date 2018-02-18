@@ -118,7 +118,7 @@ void Elevator::RaiseElevator()
 void Elevator::LowerElevator()
 {
 	UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
-	double speed = ElevatorTravelSpeed;
+	double speed = ElevatorTravelSpeed * 2;
 
 	//if(MinHeightLimitSwitch->Get())
 	if(false)
@@ -193,7 +193,7 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 
 void Elevator::StopElevator()
 {
-	std::fill_n(SoftSpeedChangeArray, SoftSpeedChangeArraySize, ElevatorTravelSpeed);
+	std::fill_n(SoftSpeedChangeArray, SoftSpeedChangeArraySize, ElevatorTravelSpeed * 1.5);
 	LeftElevatorTalon->Set(StopElevatorSpeed);
 	RightElevatorTalon->Set(StopElevatorSpeed);
 }
