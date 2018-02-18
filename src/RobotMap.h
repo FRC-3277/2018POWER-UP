@@ -43,3 +43,6 @@ static constexpr int BLOCK_TILT_DOWN_STOP_LIMIT_SWITCH_ID = 3;
 
 // Lifter
 static constexpr int LIFTER_MOTOR_CAN_ID = 22;
+
+// Boolean enable or disable subsystem debug logging
+static constexpr bool ElevatorDebugLoggingEnabled = true;
