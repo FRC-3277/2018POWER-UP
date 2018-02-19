@@ -22,6 +22,8 @@ void Robot::RobotInit()
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 	SmartDashboard::PutBoolean("Drive With Joystick? 0", true);
 	SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
+	// Defaulting Robot Location in Driver Station
+	SmartDashboard::PutString("DB/String 0", "R");
 
 	try
 	{
