@@ -43,7 +43,7 @@ OI::OI()
 	// Buttons and commands
 	lumberJack->dLog("Assigning buttons and commands");
 	//	GRABBER
-	if(Robot::EnableGrabber)
+	if(EnableGrabber)
 	{
 		try
 		{
@@ -67,7 +67,7 @@ OI::OI()
 	}
 
 	//	ELEVATOR
-	if(Robot::EnableElevator)
+	if(EnableElevator)
 	{
 		try
 		{
@@ -101,7 +101,7 @@ OI::OI()
 	}
 
 	// LIFTER
-	if(Robot::EnableLifter)
+	if(EnableLifter)
 	{
 		try
 		{
@@ -130,7 +130,7 @@ OI::OI()
 	useJoystick = true;
 
 	// DRIVETRAIN
-	if(Robot::EnableDriveTrain)
+	if(EnableDriveTrain)
 	{
 		if(useJoystick)
 		{

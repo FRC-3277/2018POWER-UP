@@ -42,16 +42,6 @@ public:
 	static std::shared_ptr<GameStates> gamestates;
 	static std::unique_ptr<OI> oi;
 
-	// Disable subsystems for debugging and testing
-	static constexpr bool EnableDriveTrain = true;
-	static constexpr bool EnableElevator = false;
-	static constexpr bool EnableGrabber = false;
-	static constexpr bool EnableLifter = false;
-
-	// Enable subsystem or command area focused debug logging.  Requires debug logging severity enabled as well.
-	static constexpr bool EnableAutonomousDebugLogging = true;
-	static constexpr bool EnableDriveTrainDebugLogging = false;
-
 private:
 	std::shared_ptr<LumberJack> lumberJack;
 

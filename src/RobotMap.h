@@ -43,3 +43,13 @@ static constexpr int BLOCK_TILT_DOWN_STOP_LIMIT_SWITCH_ID = 3;
 
 // Lifter
 static constexpr int LIFTER_MOTOR_CAN_ID = 22;
+
+// Disable subsystems for debugging and testing
+static constexpr bool EnableDriveTrain = true;
+static constexpr bool EnableElevator = false;
+static constexpr bool EnableGrabber = false;
+static constexpr bool EnableLifter = false;
+
+// Enable subsystem or command area focused debug logging.  Requires debug logging severity enabled as well.
+static constexpr bool EnableAutonomousDebugLogging = true;
+static constexpr bool EnableDriveTrainDebugLogging = false;
