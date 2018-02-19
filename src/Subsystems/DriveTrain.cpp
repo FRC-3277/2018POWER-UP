@@ -169,7 +169,7 @@ void DriveTrain::ToggleInvertDriverControls()
 
 void DriveTrain::DebugLog(const std::string& msg)
 {
-	if(Robot::EnableDriveTrainDebugLogging)
+	if(EnableDriveTrainDebugLogging)
 	{
 		lumberJack->dLog(msg, 10);
 	}

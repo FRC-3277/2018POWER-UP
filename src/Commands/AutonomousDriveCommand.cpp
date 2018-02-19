@@ -9,6 +9,10 @@
 #include "Subsystems/DriveTrain.h"
 
 AutonomousDriveCommand::AutonomousDriveCommand(double lateral, double forwardBackward, double rotation, double AutonomousDriveWaitPeriod) {
+	lumberJack.reset(new LumberJack());
+
+	lumberJack->dLog("AutonomousDriveCommand::Initialize");
+
 	Requires(Robot::driveTrain.get());
 	this->lateral = lateral;
 	this->forwardBackward = forwardBackward;
@@ -21,24 +25,33 @@ AutonomousDriveCommand::AutonomousDriveCommand(double lateral, double forwardBac
 
 // Called just before this Command runs the first time
 void AutonomousDriveCommand::Initialize() {
-
+	lumberJack->dLog("AutonomousDriveCommand::Initialize");
 }
 
 // Called repeatedly when this Command is scheduled to run
-void AutonomousDriveCommand::Execute() {
+void AutonomousDriveCommand::Execute()
+{
 	AutonomousDriveCurrent = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed_seconds = AutonomousDriveCurrent - AutonomousDriveBegin;
 	int DurationMilliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed_seconds).count();
 
-	if(DurationMilliseconds >= AutonomousDriveWaitPeriod)
+	while(DurationMilliseconds < AutonomousDriveWaitPeriod)
 	{
-		EndAutonomousDriveCommand = true;
-		lateral = 0.0;
-		forwardBackward = 0.0;
-		rotation = 0.0;
-	}
+		AutonomousDriveCurrent = std::chrono::system_clock::now();
+		elapsed_seconds = AutonomousDriveCurrent - AutonomousDriveBegin;
+		DurationMilliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed_seconds).count();
 
-	Robot::driveTrain->SetDrive(lateral, forwardBackward, rotation);
+		lumberJack->dLog("AutonomousDriveCommand elapsed millis: " + std::to_string(DurationMilliseconds) + " : " + std::to_string(AutonomousDriveWaitPeriod));
+		if(DurationMilliseconds >= AutonomousDriveWaitPeriod)
+		{
+			EndAutonomousDriveCommand = true;
+			lateral = 0.0;
+			forwardBackward = 0.0;
+			rotation = 0.0;
+		}
+
+		Robot::driveTrain->SetDrive(lateral, forwardBackward, rotation);
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()

@@ -2,7 +2,6 @@
 #define AutonomousScenarios_H
 
 #include "LumberJack.h"
-#include "Robot.h"
 #include "../RobotMap.h"
 #include <Commands/Command.h>
 
@@ -17,7 +16,7 @@ private:
 	std::shared_ptr<LumberJack> lumberJack;
 
 	bool AllDoneWithAutonomousCommands = false;
-	bool UseTimeBasedMode = true;
+	bool UseTimeBasedMode = false;
 
 	std::vector<std::string> Split(const std::string& s, char delimiter);
 	void ParseDriveTrainBasedCommands(const std::string& CommandToParse, const char Command);

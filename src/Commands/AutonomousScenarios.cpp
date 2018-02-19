@@ -35,6 +35,7 @@ void AutonomousScenarios::Execute()
 
 	// TODO: Handle "E" scenario
 	std::string LocationOfRobot = SmartDashboard::GetString("DB/String 0", "E");
+	DebugLog("D0.5|t500;T-0.3|t0.5;D0.5|t200;ER;GS;S;");
 
 	// TODO: Use the flag to enable/disable time/distance modes.
 	switch(LocationOfRobot[0])
@@ -44,28 +45,35 @@ void AutonomousScenarios::Execute()
 		case 'R':
 		case 'r':
 		{
-			if (GameData.compare(0, 2, "RR") == 0 || GameData.compare(0, 2, "RL") == 0)
+			if(GameData.compare(0, 2, "RR") == 0 || GameData.compare(0, 2, "RL") == 0)
 			{
+				DebugLog(GameData);
 				// Distance modes area in feet
 				// Time modes are in milliseconds
 
 				// RR or RL
 				// R1 for Switch
 				// Distance: D0.5|d11;T-0.3|d-90;D0.5|d4.5;ER;GS;S;
-				listOfCommands = Split("D0.5|t500;T-0.3|t0.5;D0.5|t200;ER;GS;S;", ';');
+				DebugLog("D0.5|t500;T-0.3|t0.5;D0.5|t200;ER;GS;S;");
+				//TODO: Fix this... butchered for testing
+				listOfCommands = Split("D0.5|t300;T-0.3|t0.5;D-0.5|t300;ER;GS;S;", ';');
 			}
 			else if(GameData.compare(0, 2, "LR") == 0)
 			{
+				DebugLog(GameData);
 				//LR
 				// R2 for Scale
 				// Distance: D0.50|d24;E4;GS;D-0.50|d7;T-0.3|d-90.0;D0.50|d1.5;S;
+				DebugLog("D0.50|t1100;E4;GS;D-0.50|t700;T-0.3|t500;D0.50|t100.5;S;");
 				listOfCommands = Split("D0.50|t1100;E4;GS;D-0.50|t700;T-0.3|t500;D0.50|t100.5;S;", ';');
 			}
 			else if(GameData.compare(0, 2, "LL") == 0)
 			{
+				DebugLog(GameData);
 				//LL
 				// R3 for Switch
 				// Distance: D0.5|d19.5;T-0.3|d-90;D0.5|d15;T0.3|d90;T-0.3|d-90;D0.5|d1;T0.3|d90;D-0.5|d-4;ER;GS;S;
+				DebugLog("D0.5|t800;T-0.3|t-90;D0.5|t600;T0.3|t90;T-0.3|t500;D0.5|d1;T0.3|t500;D-0.5|t200;ER;GS;S;");
 				listOfCommands = Split("D0.5|t800;T-0.3|t-90;D0.5|t600;T0.3|t90;T-0.3|t500;D0.5|d1;T0.3|t500;D-0.5|t200;ER;GS;S;", ';');
 
 				//Decide depending on team
@@ -83,20 +91,25 @@ void AutonomousScenarios::Execute()
 				//LL or LR
 				// L1 for Switch
 				// Distance: D0.5|d11;ER;GS;T0.3|d90;D0.5|d3.5;S;
+				DebugLog("D0.5|t400;ER;GS;T0.3|t500;D0.5|t250;S;");
 				listOfCommands = Split("D0.5|t400;ER;GS;T0.3|t500;D0.5|t250;S;", ';');
 			}
 			else if(GameData.compare(0, 2, "RL") == 0)
 			{
+				DebugLog(GameData);
 				//RL
 				// L2 for Scale
 				// Distance: D0.5|d24;ER;GS;D-0.5|d-8;T0.3|d90;D0.5|d1;S;
+				DebugLog("D0.5|t900;ER;GS;D-0.5|t600;T0.3|t500;D0.5|t0.3;S;");
 				listOfCommands = Split("D0.5|t900;ER;GS;D-0.5|t600;T0.3|t500;D0.5|t0.3;S;", ';');
 			}
 			else if(GameData.compare(0, 2, "RR") == 0)
 			{
+				DebugLog(GameData);
 				//RR
 				// L3 for Switch
 				// Distance: D0.5|19.5;T0.3|d90;D0.5|d15;T-0.3|d-90;T0.3|d90;D0.5|d1;T-0.3|d-90;D-0.5|d-4;ER;GS;S;
+				DebugLog("D0.5|t900;T0.3|t500;D0.5|t800;T-0.3|t500;T0.3|t500;D0.5|t0.300;T-0.3|t500;D-0.5|t200;ER;GS;S;");
 				listOfCommands = Split("D0.5|t900;T0.3|t500;D0.5|t800;T-0.3|t500;T0.3|t500;D0.5|t0.300;T-0.3|t500;D-0.5|t200;ER;GS;S;", ';');
 
 				// L4 for Scale
@@ -110,16 +123,20 @@ void AutonomousScenarios::Execute()
 		{
 			if(GameData.compare(0, 2, "RL") == 0 || GameData.compare(0, 2, "RR") == 0)
 			{
+				DebugLog(GameData);
 				// RL Or RR
 				// M1 for Switch
 				// Distance: D0.5|d11;ER;GS;S;
+				DebugLog("D0.5|t800;ER;GS;S;");
 				listOfCommands = Split("D0.5|t800;ER;GS;S;", ';');
 			}
 			else if(GameData.compare(0, 2, "LR") == 0 || GameData.compare(0, 2, "LL") == 0)
 			{
-			//LR Or LL
-			// M2 for Scale
-			// Distance: D0.5|d6;T-0.3|d-90;D0.5|d7;T0.3|d90;D0.5;d6.5;ER;GS;T-0.3|d-90;D0.5|d2;S;
+				DebugLog(GameData);
+				//LR Or LL
+				// M2 for Scale
+				// Distance: D0.5|d6;T-0.3|d-90;D0.5|d7;T0.3|d90;D0.5;d6.5;ER;GS;T-0.3|d-90;D0.5|d2;S;
+				DebugLog("D0.5|t300;T-0.3|t500;D0.5|t400;T0.3|500;D0.5;t350;ER;GS;T-0.3|t500;D0.5|t100;S;");
 				listOfCommands = Split("D0.5|t300;T-0.3|t500;D0.5|t400;T0.3|500;D0.5;t350;ER;GS;T-0.3|t500;D0.5|t100;S;", ';');
 			}
 			break;
@@ -128,7 +145,7 @@ void AutonomousScenarios::Execute()
 
 	for (auto eachCommand : listOfCommands)
 	{
-		DebugLog(eachCommand);
+		DebugLog("eachCommand: " + eachCommand);
 		if(eachCommand[0] == 'D' || eachCommand[0] == 'T' || eachCommand[0] == 'L')
 		{
 		   ParseDriveTrainBasedCommands(eachCommand, eachCommand[0]);
@@ -150,6 +167,7 @@ void AutonomousScenarios::Execute()
 
 	// Once all the commands are issued then its time to report completed
 	AllDoneWithAutonomousCommands = true;
+	DebugLog("AutonomousScenarios Completed");
 }
 
 bool AutonomousScenarios::IsFinished()
@@ -187,19 +205,20 @@ std::vector<std::string> AutonomousScenarios::Split(const std::string& s, char d
 // This includes drive forward, reverse, turn, and lateral movements
 void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& CommandToParse, const char Command)
 {
+	DebugLog("ParseDriveTrainBasedCommands");
     // Based on which command is provided one of these will be populated
     double forwardBackward = 0.0;
     double rotation = 0.0;
     double lateral = 0.0;
     double AutonomousDriveWaitPeriod = 0.0;
     double Distance = 0.0;
-    bool useDistanceMode = true;
 
     std::vector<std::string> listOfParams;
 
     listOfParams = Split(CommandToParse, '|');
     for (auto eachParam : listOfParams)
     {
+    	DebugLog("eachParam: " + eachParam);
         if(eachParam[0] == 'D')
         {
             forwardBackward = std::stod(eachParam.substr(1, eachParam.size() - 1));
@@ -217,7 +236,7 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
         }
         if(eachParam[0] == 't')
         {
-            useDistanceMode = false;
+            UseTimeBasedMode = true;
             AutonomousDriveWaitPeriod = std::stod(eachParam.substr(1, eachParam.size() - 1));
             DebugLog(std::string("Time: ") + eachParam.substr(1, eachParam.size() - 1).c_str());
         }
@@ -230,16 +249,18 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
         }
     }
 
-    if(Robot::EnableDriveTrain)
+    if(EnableDriveTrain)
     {
-		if(useDistanceMode)
+		if(UseTimeBasedMode)
 		{
-			// When using distance mode the time period value will override distance traveled as a means of timeout
-			//AutonomousDriveCommand(lateral, forwardBackward, rotation, AutonomousDriveWaitPeriod, Distance);
+			std::shared_ptr<AutonomousDriveCommand> autonomousDriveCommand;
+			autonomousDriveCommand.reset(new AutonomousDriveCommand(lateral, forwardBackward, rotation, AutonomousDriveWaitPeriod));
+			autonomousDriveCommand->Execute();
 		}
 		else
 		{
-			AutonomousDriveCommand(lateral, forwardBackward, rotation, AutonomousDriveWaitPeriod);
+			// When using distance mode the time period value will override distance traveled as a means of timeout
+			//AutonomousDriveCommand(lateral, forwardBackward, rotation, AutonomousDriveWaitPeriod, Distance);
 		}
     }
 }
@@ -247,30 +268,31 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
 // This includes all elevator commands which can be up, down, or to a specified floor setpoint
 void AutonomousScenarios::ParseElevatorBasedCommands(const std::string& CommandToParse)
 {
-    // Safest default value.  No tippy bot.
-    int DesiredSetpoint = 0;
+	DebugLog("ParseElevatorBasedCommands");
+	if(EnableElevator)
+	{
+		// Safest default value.  No tippy bot.
+		int DesiredSetpoint = 0;
 
-    if(CommandToParse[1] == 'U')
-    {
-        DebugLog("Elevator Up\n");
-        // Get current setpoint and add one
-        DesiredSetpoint = Robot::elevator->GetLimitSwitchTracker() + 1;
-    }
-    else if(CommandToParse[1] == 'L')
-    {
-        DebugLog("Elevator Down\n");
-        // Get current setpoint and subtract one
-        DesiredSetpoint = Robot::elevator->GetLimitSwitchTracker() - 1;
-    }
-    else
-    {
-        DebugLog(std::string("Elevator Setpoint: ") + CommandToParse.substr(1, CommandToParse.size() - 1));
-        // Since neither up nor down then setpoint
-        DesiredSetpoint = std::stoi(CommandToParse.substr(1, CommandToParse.size() - 1));
-    }
+		if(CommandToParse[1] == 'R')
+		{
+			DebugLog("Elevator Up");
+			// Get current setpoint and add one
+			DesiredSetpoint = Robot::elevator->GetLimitSwitchTracker() + 1;
+		}
+		else if(CommandToParse[1] == 'L')
+		{
+			DebugLog("Elevator Down");
+			// Get current setpoint and subtract one
+			DesiredSetpoint = Robot::elevator->GetLimitSwitchTracker() - 1;
+		}
+		else
+		{
+			DebugLog(std::string("Elevator Setpoint: ") + CommandToParse.substr(1, CommandToParse.size() - 1));
+			// Since neither up nor down then setpoint
+			DesiredSetpoint = std::stoi(CommandToParse.substr(1, CommandToParse.size() - 1));
+		}
 
-    if(Robot::EnableElevator)
-    {
     	AutonomousElevatorToSetpointCommand GoElevator { DesiredSetpoint };
     }
 }
@@ -278,7 +300,8 @@ void AutonomousScenarios::ParseElevatorBasedCommands(const std::string& CommandT
 // This includes all grabber commands which can be eat or spit
 void AutonomousScenarios::ParseGrabberBasedCommands(const std::string& CommandToParse)
 {
-   if(Robot::EnableGrabber)
+	DebugLog("ParseGrabberBasedCommands");
+   if(EnableGrabber)
    {
 		if(CommandToParse[1] == 'E')
 		{
@@ -295,7 +318,7 @@ void AutonomousScenarios::ParseGrabberBasedCommands(const std::string& CommandTo
 
 void AutonomousScenarios::DebugLog(const std::string& msg)
 {
-	if(Robot::EnableAutonomousDebugLogging)
+	if(EnableAutonomousDebugLogging)
 	{
 		lumberJack->dLog(msg);
 	}
