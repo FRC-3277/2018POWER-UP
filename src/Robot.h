@@ -43,7 +43,7 @@ public:
 	static std::unique_ptr<OI> oi;
 
 	// Disable subsystems for debugging and testing
-	static constexpr bool EnableDriveTrain = false;
+	static constexpr bool EnableDriveTrain = true;
 	static constexpr bool EnableElevator = false;
 	static constexpr bool EnableGrabber = false;
 	static constexpr bool EnableLifter = false;

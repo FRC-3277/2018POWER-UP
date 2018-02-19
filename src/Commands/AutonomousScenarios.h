@@ -2,7 +2,8 @@
 #define AutonomousScenarios_H
 
 #include "LumberJack.h"
-#include "../Robot.h"
+#include "Robot.h"
+#include "../RobotMap.h"
 #include <Commands/Command.h>
 
 #include "AutonomousDriveCommand.h"

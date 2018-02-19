@@ -230,15 +230,18 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
         }
     }
 
-	if(useDistanceMode)
-	{
-		// When using distance mode the time period value will override distance traveled as a means of timeout
-		//AutonomousDriveCommand(lateral, forwardBackward, rotation, AutonomousDriveWaitPeriod, Distance);
-	}
-	else
-	{
-		AutonomousDriveCommand(lateral, forwardBackward, rotation, AutonomousDriveWaitPeriod);
-	}
+    if(Robot::EnableDriveTrain)
+    {
+		if(useDistanceMode)
+		{
+			// When using distance mode the time period value will override distance traveled as a means of timeout
+			//AutonomousDriveCommand(lateral, forwardBackward, rotation, AutonomousDriveWaitPeriod, Distance);
+		}
+		else
+		{
+			AutonomousDriveCommand(lateral, forwardBackward, rotation, AutonomousDriveWaitPeriod);
+		}
+    }
 }
 
 // This includes all elevator commands which can be up, down, or to a specified floor setpoint
@@ -266,22 +269,28 @@ void AutonomousScenarios::ParseElevatorBasedCommands(const std::string& CommandT
         DesiredSetpoint = std::stoi(CommandToParse.substr(1, CommandToParse.size() - 1));
     }
 
-    AutonomousElevatorToSetpointCommand GoElevator { DesiredSetpoint };
+    if(Robot::EnableElevator)
+    {
+    	AutonomousElevatorToSetpointCommand GoElevator { DesiredSetpoint };
+    }
 }
 
 // This includes all grabber commands which can be eat or spit
 void AutonomousScenarios::ParseGrabberBasedCommands(const std::string& CommandToParse)
 {
-    if(CommandToParse[1] == 'E')
-    {
-        DebugLog("Grabber Eat\n");
-        AutonomousEatCubeCommand();
-    }
-    else if(CommandToParse[1] == 'S')
-    {
-        DebugLog("Grabber Spit\n");
-        AutonomousSpitCubeCommand();
-    }
+   if(Robot::EnableGrabber)
+   {
+		if(CommandToParse[1] == 'E')
+		{
+			DebugLog("Grabber Eat\n");
+			AutonomousEatCubeCommand();
+		}
+		else if(CommandToParse[1] == 'S')
+		{
+			DebugLog("Grabber Spit\n");
+			AutonomousSpitCubeCommand();
+		}
+   }
 }
 
 void AutonomousScenarios::DebugLog(const std::string& msg)
