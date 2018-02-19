@@ -34,6 +34,8 @@ private:
 	static constexpr int LOW_LIMIT_SWITCH_NUMBER = 2;
 
 	bool IsElevatorOnTheMove = false;
+	// If it is going down then false
+	bool IsElevatorGoingUp = true;
 
 	// Track which limit switch has been recently visited.  Start with 1 from bottom until top limit switch
 	int LimitSwitchTracker;
@@ -45,7 +47,8 @@ private:
 
 	static constexpr int SoftSpeedChangeArraySize = 75;
 
-	double SoftSpeedChangeArray[SoftSpeedChangeArraySize];
+	double SoftStartChangeArray[SoftSpeedChangeArraySize];
+	double SoftStopChangeArray[SoftSpeedChangeArraySize];
 	static constexpr double ElevatorHoldSpeed = 0.15;
 
 	static constexpr double RaiseSpeedMultiplier = 3.5;
