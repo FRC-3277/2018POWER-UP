@@ -39,9 +39,12 @@ void AutonomousScenarios::Execute()
 	// TODO: Use the flag to enable/disable time/distance modes.
 	switch(LocationOfRobot[0])
 	{
+
+		// case 'R' and case 'r' to make Driver Station accept Lowercase or Uppercase characters
 		case 'R':
+		case 'r':
 		{
-			if (GameData.compare("RR") == 0 || GameData.compare("RL") == 0)
+			if (GameData.compare(0, 2, "RR") == 0 || GameData.compare(0, 2, "RL") == 0)
 			{
 				// Distance modes area in feet
 				// Time modes are in milliseconds
@@ -51,14 +54,14 @@ void AutonomousScenarios::Execute()
 				// Distance: D0.5|d11;T-0.3|d-90;D0.5|d4.5;ER;GS;S;
 				listOfCommands = Split("D0.5|t500;T-0.3|t0.5;D0.5|t200;ER;GS;S;", ';');
 			}
-			else if(GameData.compare("LR") == 0)
+			else if(GameData.compare(0, 2, "LR") == 0)
 			{
 				//LR
 				// R2 for Scale
 				// Distance: D0.50|d24;E4;GS;D-0.50|d7;T-0.3|d-90.0;D0.50|d1.5;S;
 				listOfCommands = Split("D0.50|t1100;E4;GS;D-0.50|t700;T-0.3|t500;D0.50|t100.5;S;", ';');
 			}
-			else if(GameData.compare("LL") == 0)
+			else if(GameData.compare(0, 2, "LL") == 0)
 			{
 				//LL
 				// R3 for Switch
@@ -73,22 +76,23 @@ void AutonomousScenarios::Execute()
 			break;
 		}
 		case 'L':
+		case 'l':
 		{
-			if (GameData.compare("LL") == 0 || GameData.compare("LR") == 0)
+			if (GameData.compare(0, 2, "LL") == 0 || GameData.compare(0, 2,"LR") == 0)
 			{
 				//LL or LR
 				// L1 for Switch
 				// Distance: D0.5|d11;ER;GS;T0.3|d90;D0.5|d3.5;S;
 				listOfCommands = Split("D0.5|t400;ER;GS;T0.3|t500;D0.5|t250;S;", ';');
 			}
-			else if(GameData.compare("RL") == 0)
+			else if(GameData.compare(0, 2, "RL") == 0)
 			{
 				//RL
 				// L2 for Scale
 				// Distance: D0.5|d24;ER;GS;D-0.5|d-8;T0.3|d90;D0.5|d1;S;
 				listOfCommands = Split("D0.5|t900;ER;GS;D-0.5|t600;T0.3|t500;D0.5|t0.3;S;", ';');
 			}
-			else if(GameData.compare("RR") == 0)
+			else if(GameData.compare(0, 2, "RR") == 0)
 			{
 				//RR
 				// L3 for Switch
@@ -102,15 +106,16 @@ void AutonomousScenarios::Execute()
 			break;
 		}
 		case 'M':
+		case 'm':
 		{
-			if(GameData.compare("RL") == 0 || GameData.compare("RR") == 0)
+			if(GameData.compare(0, 2, "RL") == 0 || GameData.compare(0, 2, "RR") == 0)
 			{
 				// RL Or RR
 				// M1 for Switch
 				// Distance: D0.5|d11;ER;GS;S;
 				listOfCommands = Split("D0.5|t800;ER;GS;S;", ';');
 			}
-			else if(GameData.compare("LR") == 0 || GameData.compare("LL") == 0)
+			else if(GameData.compare(0, 2, "LR") == 0 || GameData.compare(0, 2, "LL") == 0)
 			{
 			//LR Or LL
 			// M2 for Scale
