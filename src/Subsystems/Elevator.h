@@ -67,6 +67,7 @@ public:
 	bool GoToSetPoint(int DesiredSetpoint);
 	void StopElevator();
 	void UpdateLimitSwitchTracker();
+	int GetLimitSwitchTracker();
 	void HoldElevator();
 };
 
