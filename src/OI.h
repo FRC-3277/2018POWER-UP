@@ -54,7 +54,7 @@
 #define JOYSTICK_BUTTON_ELEVEN 11
 #define JOYSTICK_BUTTON_TWELVE 12
 
-//Air Force Once
+//Air Force One
 #define AIRFORCEONE_BUTTON_ONE 1
 #define AIRFORCEONE_BUTTON_TWO 2
 #define AIRFORCEONE_BUTTON_THREE 3
@@ -133,6 +133,7 @@ private:
 	//DashBoard
 	void GetExponentFromDashBoard();
 	double Exponent;
+	int MaxExponentValue;
 
 public:
 	OI();
@@ -141,6 +142,6 @@ public:
 	double GetJoystickX();
 	double GetJoystickY();
 	double GetJoystickTwist();
-	double GetExponent();
+	double GetExponentMaxValue();
 	int GetDesiredElevatorSetpoint();
 };

@@ -180,6 +180,9 @@ OI::OI()
 	lumberJack->dLog("FinesseButton");
 	FinesseButton->ToggleWhenPressed(new ToggleFinesseMode());
 
+	//Controller Output
+	SmartDashboard::PutString("DB/String 5", to_string(ExponentMaxValue));
+
 }
 
 std::shared_ptr<Joystick> OI::getXBoxController()
@@ -381,10 +384,11 @@ int OI::GetDesiredElevatorSetpoint()
 
 void OI::GetExponentFromDashBoard()
 {
-	Exponent = std::stod(SmartDashboard::GetString("DB/String 5", to_string(Exponent)));
+	 //TODO: test
+	ExponentMaxValue = std::stod(SmartDashboard::GetString("DB/String 5", to_string(ExponentMaxValue)));
 }
 
 double OI::GetExponent()
 {
-	return Exponent;
+	return ExponentMaxValue;
 }
