@@ -445,6 +445,7 @@ double OI::CalculateExponent(double ControllerInput)
 												0.0,
 												MaxExponentValue,
 												1);
+	SmartDashboard::PutString("DB/String 5", to_string(ExponentValue));
 
 	return pow(ControllerInput, ExponentValue);
 }

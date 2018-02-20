@@ -113,7 +113,7 @@ private:
 	static constexpr int XBoxTwistAxisNumber = XBOX_RIGHT_STICK_X_AXIS;
 
 	// Use the Joystick when true, Use the xBox controller when false
-	bool useJoystick = false;
+	bool useJoystick = true;
 	bool enableD_PadDebugging;
 
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
@@ -137,9 +137,9 @@ private:
 
 	double GetExponent();
 	double CalculateExponent(double ControllerInput);
-	double Exponent;
-	// Defaulting to 1
-	int MaxExponentValue = 1;
+	double Exponent = 1;
+	// Defaulting to 2
+	int MaxExponentValue = 2;
 
 	//DashBoard
 	void GetExponentFromDashBoard();

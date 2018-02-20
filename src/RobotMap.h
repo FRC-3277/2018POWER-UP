@@ -51,6 +51,6 @@ static constexpr bool EnableGrabber = false;
 static constexpr bool EnableLifter = false;
 
 // Enable subsystem or command area focused debug logging.  Requires debug logging severity enabled as well.
-static constexpr bool EnableAutonomousDebugLogging = true;
-static constexpr bool EnableDriveTrainDebugLogging = false;
-static constexpr bool ElevatorDebugLoggingEnabled = true;
+static constexpr bool EnableAutonomousDebugLogging = false;
+static constexpr bool EnableDriveTrainDebugLogging = true;
+static constexpr bool ElevatorDebugLoggingEnabled = false;

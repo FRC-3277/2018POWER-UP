@@ -122,6 +122,7 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	driveTrainDebugInfo += std::string("ForwardBackward: ") + std::to_string(forwardBackward);
 	driveTrainDebugInfo += std::string("Rotation: ") + std::to_string(rotation);
 
+	//DebugLog(driveTrainDebugInfo);
 
 	// Last modification before interacting with the drivetrain
 	if(InvertDriverControls)
@@ -130,7 +131,7 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 		forwardBackward = -forwardBackward;
 	}
 
-	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
+	//robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
 }
 
 void DriveTrain::ToggleFinesseMode()
