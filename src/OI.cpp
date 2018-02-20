@@ -349,7 +349,7 @@ void OI::CircleDeadZone()
 {
 	if(useJoystick == false)
 	{
-		if(pow((controllerDriver->GetRawAxis(XBoxLateral) - 0.0), 2) + pow((controllerDriver->GetRawAxis(XBoxForwardReverse) - 0.0), 2) < pow(XboxRestingDeadzone, 2))
+		if(pow((controllerDriver->GetRawAxis(XBoxLateralAxisNumber) - 0.0), 2) + pow((controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber) - 0.0), 2) < pow(XboxRestingDeadzone, 2))
 		{
 			OverrideYDeadzone = true;
 			OverrideXDeadzone = true;
