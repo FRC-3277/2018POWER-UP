@@ -11,6 +11,7 @@ std::shared_ptr<Elevator> Robot::elevator;
 std::shared_ptr<Grabber> Robot::grabber;
 std::shared_ptr<Lifter> Robot::lifter;
 std::shared_ptr<GameStates> Robot::gamestates;
+std::shared_ptr<Camera> Robot::camera;
 std::unique_ptr<OI> Robot::oi;
 
 void Robot::RobotInit()
@@ -95,6 +96,16 @@ void Robot::RobotInit()
 	catch(const std::exception& e)
 	{
 		lumberJack->eLog(std::string("gamestates.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
+		lumberJack->dLog("Camera Started");
+		camera.reset(new Camera());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->eLog(std::string("camera.reset() failed; ") + std::string(e.what()));
 	}
 
 	// This MUST be here. If the OI creates Commands (which it very likely

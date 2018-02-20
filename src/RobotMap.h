@@ -44,6 +44,9 @@ static constexpr int BLOCK_TILT_DOWN_STOP_LIMIT_SWITCH_ID = 3;
 // Lifter
 static constexpr int LIFTER_MOTOR_CAN_ID = 22;
 
+// Camera
+static constexpr int CAMERA_CONTROL_SERVO_ID = 2;
+
 // Disable subsystems for debugging and testing
 static constexpr bool EnableDriveTrain = true;
 static constexpr bool EnableElevator = false;

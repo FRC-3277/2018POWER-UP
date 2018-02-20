@@ -13,7 +13,17 @@ void InvertDriverControlsCommand::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void InvertDriverControlsCommand::Execute() {
 	lumberJack->iLog("InvertDriverControlsCommand toggled");
-	Robot::driveTrain->ToggleInvertDriverControls();
+
+	if(Robot::driveTrain->ToggleInvertDriverControls())
+	{
+		lumberJack->iLog("Camera Reverse");
+		Robot::camera->CameraReverse();
+	}
+	else
+	{
+		lumberJack->iLog("Camera Forward");
+		Robot::camera->CameraForward();
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()

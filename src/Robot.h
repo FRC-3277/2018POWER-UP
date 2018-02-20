@@ -26,6 +26,7 @@
 #include "Subsystems/Grabber.h"
 #include "Subsystems/Lifter.h"
 #include "Subsystems/GameStates.h"
+#include "Subsystems/Camera.h"
 
 // Commands
 //#include "Commands/Autonomous.h"
@@ -40,6 +41,7 @@ public:
 	static std::shared_ptr<Grabber> grabber;
 	static std::shared_ptr<Lifter> lifter;
 	static std::shared_ptr<GameStates> gamestates;
+	static std::shared_ptr<Camera> camera;
 	static std::unique_ptr<OI> oi;
 
 private:

@@ -165,10 +165,11 @@ double DriveTrain::ActualAverage(double *Array, int ArraySize)
     return sum/denominator;
 }
 
-void DriveTrain::ToggleInvertDriverControls()
+bool DriveTrain::ToggleInvertDriverControls()
 {
 	InvertDriverControls = !InvertDriverControls;
 	lumberJack->iLog(std::string("ToggleInvertDriverControls: ") + std::to_string(InvertDriverControls));
+	return InvertDriverControls;
 }
 
 void DriveTrain::DebugLog(const std::string& msg)
