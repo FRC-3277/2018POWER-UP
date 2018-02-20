@@ -63,6 +63,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	rearRightTalon->Set(ControlMode::PercentOutput, 0);
 
 	//Invert Rear Motors
+	//Enable for PROD Bot
 	rearLeftTalon->SetInverted(true);
 	rearRightTalon->SetInverted(true);
 
@@ -121,6 +122,7 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	driveTrainDebugInfo += std::string("Lateral: ") + std::to_string(lateral);
 	driveTrainDebugInfo += std::string("ForwardBackward: ") + std::to_string(forwardBackward);
 	driveTrainDebugInfo += std::string("Rotation: ") + std::to_string(rotation);
+	DebugLog(driveTrainDebugInfo);
 
 
 	// Last modification before interacting with the drivetrain
@@ -176,6 +178,6 @@ void DriveTrain::DebugLog(const std::string& msg)
 {
 	if(EnableDriveTrainDebugLogging)
 	{
-		lumberJack->dLog(msg, 10);
+		lumberJack->dLog(msg, 20);
 	}
 }
