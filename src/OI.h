@@ -91,6 +91,7 @@ private:
 	static constexpr int JoystickFinesseButton = JOYSTICK_BUTTON_SEVEN;
 	// Drivetrain
 	static constexpr int InvertDriverControlsButtonNumber = JOYSTICK_BUTTON_TWELVE;
+	static constexpr int ExponentSetterAxisNumber = AIRFORCEONE_Y_AXIS;
 
 	// Elevator
 	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_TWO;
@@ -131,10 +132,15 @@ private:
 	// Xbox Deadzone
 	const double XboxDeadzone = 0.02;
 
+	double GetExponent();
+	double CalculateExponent(double ControllerInput);
+	double Exponent;
+	// Defaulting to 1
+	int MaxExponentValue = 1;
+
 	//DashBoard
 	void GetExponentFromDashBoard();
-	double Exponent;
-	int MaxExponentValue;
+
 
 public:
 	OI();
@@ -144,7 +150,11 @@ public:
 	double GetJoystickY();
 	double GetJoystickTwist();
 	double GetAirForceOneXAxis();
-	double ScaleAirForceOneAxis(double ValueToRescale);
+	double ScaleAirForceOneAxis(double ValueToRescale,
+								double OldMax = 0.99,
+								double OldMin = 0.0,
+								double NewMax = 0.99,
+								double NewMin = 0.500001);
 	double GetExponentMaxValue();
 	int GetDesiredElevatorSetpoint();
 };

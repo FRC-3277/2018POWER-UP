@@ -5,7 +5,6 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 #include <string>
-
 #include <math.h>
 
 #include "OI.h"
@@ -169,7 +168,7 @@ OI::OI()
 		}
 	}
 	//Controller Output
-	SmartDashboard::PutString("DB/String 5", to_string(ExponentMaxValue));
+	SmartDashboard::PutString("DB/String 5", to_string(MaxExponentValue));
 
 }
 
@@ -247,7 +246,7 @@ double OI::GetJoystickX()
 
 	x += 0.0;
 
-	return Clamp(x);
+	return CalculateExponent(Clamp(x));
 }
 
 double OI::GetJoystickY()
@@ -317,7 +316,7 @@ double OI::GetJoystickY()
 
 	y += 0.0;
 
-	return Clamp(y);
+	return CalculateExponent(Clamp(y));
 }
 
 double OI::GetJoystickTwist()
@@ -354,7 +353,7 @@ double OI::GetJoystickTwist()
 
 	rotation += 0.0;
 
-	return Clamp(rotation);
+	return CalculateExponent(Clamp(rotation));
 }
 
 double OI::Clamp(double joystickAxis)
@@ -392,22 +391,28 @@ double OI::GetAirForceOneXAxis() {
 	return Clamp(AirForceOneController->GetRawAxis(GrabberSpitCubeLeverAxisNumber));
 }
 
-double OI::ScaleAirForceOneAxis(double ValueToRescale) {
+double OI::ScaleAirForceOneAxis(double ValueToRescale,
+								double OldMax,
+								double OldMin,
+								double NewMax,
+								double NewMin)
+{
 	double Output = 0.0;
+	// Keep precision
+	NewMax = NewMax * 1.0;
+	NewMin = NewMin * 1.0;
 
 	if(ValueToRescale > 0.0)
 	{
-		double NewMax = 0.99;
-		double NewMin = 0.500001;
-		Output = (((NewMax - NewMin) * (ValueToRescale - 0.0)) / (0.99 - 0.0)) + NewMin;
+		Output = (((NewMax - NewMin) * (ValueToRescale - OldMin)) / (OldMax - OldMin)) + NewMin;
 	}
 	else if(ValueToRescale == 0.0)
 	{
-		Output = 0.5;
+		Output = NewMax/2;
 	}
 	else
 	{
-		Output = fabs((ValueToRescale + 0.99) / 2);
+		Output = fabs((ValueToRescale + NewMax) / 2);
 	}
 
 	return Output;
@@ -415,11 +420,22 @@ double OI::ScaleAirForceOneAxis(double ValueToRescale) {
 
 void OI::GetExponentFromDashBoard()
 {
-	 //TODO: test
-	ExponentMaxValue = std::stod(SmartDashboard::GetString("DB/String 5", to_string(ExponentMaxValue)));
+	 //TODO: Need to test that this defaults
+	MaxExponentValue = std::stod(SmartDashboard::GetString("DB/String 5", to_string(MaxExponentValue)));
 }
 
 double OI::GetExponent()
 {
-	return ExponentMaxValue;
+	return MaxExponentValue;
+}
+
+double OI::CalculateExponent(double ControllerInput)
+{
+	double ExponentValue = ScaleAirForceOneAxis(-AirForceOneController->GetRawAxis(ExponentSetterAxisNumber),
+												0.99,
+												0.0,
+												MaxExponentValue,
+												1);
+
+	return pow(ControllerInput, ExponentValue);
 }
