@@ -17,6 +17,8 @@
 #include <SmartDashboard/SendableChooser.h>
 #include <TimedRobot.h>
 
+#include "Commands/AutonomousScenarios.h"
+
 #include "OI.h"
 // Subsystems
 #include "Subsystems/DriveTrain.h"
@@ -32,18 +34,13 @@
 class Robot : public frc::TimedRobot
 {
 public:
+	std::unique_ptr<Command> autonomousScenarios;
 	static std::shared_ptr<DriveTrain> driveTrain;
 	static std::shared_ptr<Elevator> elevator;
 	static std::shared_ptr<Grabber> grabber;
 	static std::shared_ptr<Lifter> lifter;
 	static std::shared_ptr<GameStates> gamestates;
 	static std::unique_ptr<OI> oi;
-
-	// Disable subsystems for debugging and testing
-	static constexpr bool EnableDriveTrain = true;
-	static constexpr bool EnableElevator = true;
-	static constexpr bool EnableGrabber = true;
-	static constexpr bool EnableLifter = true;
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;

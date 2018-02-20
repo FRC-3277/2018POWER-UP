@@ -176,34 +176,31 @@ void Elevator::UpdateLimitSwitchTracker()
 	}
 }
 
+// Meant not to be used directly, but called by commands
 bool Elevator::GoToSetPoint(int DesiredSetpoint)
 {
 	DebugLog("GoToSetPoint", 200);
 
 	IsElevatorOnTheMove = true;
 
-	// Go up by default
-	double direction = ElevatorTravelSpeed;
 	bool isAtDesiredSetpoint = false;
 
 	UpdateLimitSwitchTracker();
 
 	// Go up or go down?
-	if(LimitSwitchTracker < DesiredSetpoint)
+	if(DesiredSetpoint > LimitSwitchTracker)
 	{
-		direction = -direction;
+		RaiseElevator();
+	}
+	else if(DesiredSetpoint < LimitSwitchTracker)
+	{
+		LowerElevator();
 	}
 	else if(LimitSwitchTracker == DesiredSetpoint)
 	{
-		direction = StopElevatorSpeed;
 		isAtDesiredSetpoint = true;
 		lumberJack->iLog(std::string(__FILE__) + std::string("; Elevator at desired setpoint: ") + std::to_string(DesiredSetpoint));
 	}
-
-	LeftElevatorTalon->Set(direction);
-	DebugLog(std::string("GoToSetPoint: ") + std::string(std::to_string(direction)), 2000);
-	RightElevatorTalon->Set(direction);
-	DebugLog(std::string("GoToSetPoint: ") + std::string(std::to_string(direction)), 2000);
 
 	return isAtDesiredSetpoint;
 }
@@ -286,6 +283,12 @@ void Elevator::HoldElevator()
 		RightElevatorTalon->Set(-ElevatorHoldSpeed);
 		DebugLog(std::string("HoldElevator: ") + std::string(std::to_string(-ElevatorHoldSpeed)), 2000);
 	}
+}
+
+
+int Elevator::GetLimitSwitchTracker()
+{
+	return LimitSwitchTracker;
 }
 
 void Elevator::DebugLog(const string& msg)

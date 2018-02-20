@@ -16,6 +16,8 @@
 class AutonomousDriveCommand : public frc::Command {
 
 private:
+	std::shared_ptr<LumberJack> lumberJack;
+
 	double lateral;
 	double forwardBackward;
 	double rotation;
@@ -25,7 +27,6 @@ private:
 
 	std::chrono::system_clock::time_point AutonomousDriveBegin;
 	std::chrono::system_clock::time_point AutonomousDriveCurrent;
-
 
 public:
 	AutonomousDriveCommand(double lateral, double forwardBackward, double rotation, double AutonomousDriveWaitPeriod);

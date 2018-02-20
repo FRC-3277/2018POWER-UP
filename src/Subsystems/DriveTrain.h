@@ -60,4 +60,5 @@ private:
 
 	double ApproxRollingAverage(double CurrentAverage, double CurrentValue);
 	double ActualAverage(double *Array, int ArraySize);
+	void DebugLog(const std::string& msg);
 };
