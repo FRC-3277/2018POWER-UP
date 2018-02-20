@@ -114,20 +114,7 @@ OI::OI()
 		}
 	}
 
-	// Selecting Joystick overrides xBox in case both are found enabled
-	useJoystick = SmartDashboard::GetBoolean("Drive With Joystick? 0", false);
-	if(useJoystick == false)
-	{
-		// Force useJoystick true if use xBox not set to true
-		if(SmartDashboard::GetBoolean("Drive With XBox Controller? 1", false) == false)
-		{
-			useJoystick = true;
-		}
-	}
-
 	enableD_PadDebugging = false;
-
-	useJoystick = true;
 
 	// DRIVETRAIN
 	if(EnableDriveTrain)
@@ -236,7 +223,8 @@ double OI::GetJoystickX()
 			}
 			else
 			{
-				x = controllerDriver->GetRawAxis(XBoxLateral);
+				// Inversed when driving normally
+				x = -controllerDriver->GetRawAxis(XBoxLateral);
 			}
 		}
 	}
@@ -263,6 +251,8 @@ double OI::GetJoystickY()
 		{
 			OverrideXDeadzone = false;
 		}
+
+		CircleDeadZone();
 
 		if(OverrideYDeadzone)
 		{
@@ -291,7 +281,7 @@ double OI::GetJoystickY()
 			// Xboxdeadzone for Y axis
 			if(controllerDriver->GetRawAxis(XBoxLateral) <= XboxDeadzone
 				 && controllerDriver->GetRawAxis(XBoxLateral) >= -XboxDeadzone
-				 && fabs(controllerDriver->GetRawAxis(XBoxLateral)) > fabs(controllerDriver->GetRawAxis(XBoxForwardReverse)))
+				 && fabs(controllerDriver->GetRawAxis(XBoxForwardReverse)) > fabs(controllerDriver->GetRawAxis(XBoxLateral)))
 			{
 					OverrideYDeadzone = true;
 			}
@@ -299,6 +289,8 @@ double OI::GetJoystickY()
 			{
 					OverrideYDeadzone = false;
 			}
+
+			CircleDeadZone();
 
 			if(OverrideXDeadzone)
 			{
@@ -344,13 +336,31 @@ double OI::GetJoystickTwist()
 		}
 		else
 		{
-			rotation = controllerDriver->GetRawAxis(XBoxTwist);
+			rotation = controllerDriver->GetRawAxis(XBoxTwist) * -1.0;;
+			lumberJack->iLog("Twist: " + to_string(rotation));
 		}
 	}
 
 	rotation += 0.0;
 
 	return Clamp(rotation);
+}
+
+void OI::CircleDeadZone()
+{
+	if(useJoystick == false)
+	{
+		if(pow((controllerDriver->GetRawAxis(XBoxLateral) - 0.0), 2) + pow((controllerDriver->GetRawAxis(XBoxForwardReverse) - 0.0), 2) < pow(XboxRestingDeadzone, 2))
+		{
+			OverrideYDeadzone = true;
+			OverrideXDeadzone = true;
+		}
+		else
+		{
+			OverrideYDeadzone = false;
+			OverrideXDeadzone = false;
+		}
+	}
 }
 
 double OI::Clamp(double joystickAxis)

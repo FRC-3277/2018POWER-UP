@@ -113,7 +113,7 @@ private:
 	static constexpr int XBoxTwist = XBOX_RIGHT_STICK_X_AXIS;
 
 	// Use the Joystick when true, Use the xBox controller when false
-	bool useJoystick;
+	bool useJoystick = false;
 	bool enableD_PadDebugging;
 
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
@@ -131,7 +131,10 @@ private:
 	bool OverrideZDeadzone = false;
 
 	// Xbox Deadzone
-	const double XboxDeadzone = 0.02;
+	static constexpr double XboxDeadzone = 0.13;
+	static constexpr double XboxRestingDeadzone = 0.18;
+
+	void CircleDeadZone();
 
 public:
 	OI();
