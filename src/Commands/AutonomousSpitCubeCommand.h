@@ -7,22 +7,17 @@
 
 #pragma once
 
+#include <Commands/Command.h>
+#include "Robot.h"
 #include "LumberJack.h"
 
-#include "WPILib.h"
-#include <Commands/Subsystem.h>
-#include "ctre/Phoenix.h"
-
-class Lifter : public frc::Subsystem {
-private:
-	std::shared_ptr<LumberJack> lumberJack;
-
-	// Lifter Motor
-	std::shared_ptr<WPI_TalonSRX> LifterMotor;
-
+class AutonomousSpitCubeCommand : public frc::Command {
 public:
-	Lifter();
-	void InitDefaultCommand() override;
-	void StartLifter();
+	AutonomousSpitCubeCommand();
+	void Initialize() override;
+	void Execute() override;
+	bool IsFinished() override;
+	void End() override;
+	void Interrupted() override;
 };
 

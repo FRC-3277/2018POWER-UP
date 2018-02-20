@@ -8,14 +8,14 @@
 #include <iostream>
 #include <string>
 
-#include <Subsystems/DriveTrain.h>
+#include "Subsystems/DriveTrain.h"
 #include <Drive/MecanumDrive.h>
 #include "../RobotMap.h"
 
 #include "../Commands/DriveWithJoystick.h"
 
-DriveTrain::DriveTrain()
-    : frc::Subsystem("DriveTrain") {
+DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
+{
 	lumberJack.reset(new LumberJack());
 
 	// Talons
@@ -61,6 +61,10 @@ DriveTrain::DriveTrain()
 	frontRightTalon->Set(ControlMode::PercentOutput, 0);
 	rearLeftTalon->Set(ControlMode::PercentOutput, 0);
 	rearRightTalon->Set(ControlMode::PercentOutput, 0);
+
+	//Invert Rear Motors
+	rearLeftTalon->SetInverted(true);
+	rearRightTalon->SetInverted(true);
 
 	try
 	{
@@ -118,6 +122,56 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	driveTrainDebugInfo += std::string("ForwardBackward: ") + std::to_string(forwardBackward);
 	driveTrainDebugInfo += std::string("Rotation: ") + std::to_string(rotation);
 	lumberJack->dLog(driveTrainDebugInfo);
+
+	// Smooth out speed if going fast
+	// Approx Average
+	/*
+	AverageLateral = ApproxRollingAverage(AverageLateral, lateral);
+	AverageForwardBackward = ApproxRollingAverage(AverageForwardBackward, forwardBackward);
+	AverageRotation = ApproxRollingAverage(AverageRotation, rotation);
+
+	if(lateral >= ValueToTriggerAverageOverride ||
+		forwardBackward >= ValueToTriggerAverageOverride ||
+		rotation >= ValueToTriggerAverageOverride)
+	{
+		lateral = AverageLateral;
+		forwardBackward = AverageForwardBackward;
+		rotation = AverageRotation;
+	}
+
+
+	// Actual Average
+	AverageLateralArray[AverageArrayIterator] = lateral;
+	AverageForwardBackwardArray[AverageArrayIterator] = forwardBackward;
+	AverageRotationArray[AverageArrayIterator] = rotation;
+	if(fabs(lateral) >= ValueToTriggerAverageOverride ||
+		fabs(forwardBackward) >= ValueToTriggerAverageOverride ||
+		fabs(rotation) >= ValueToTriggerAverageOverride)
+	{
+		lumberJack->iLog(std::string("lateral: ") + std::to_string(lateral) +
+				std::string("forwardBackward: ") + std::to_string(forwardBackward) +
+				std::string("rotation: ") + std::to_string(rotation) +
+				std::string("ValueToTriggerAverageOverride: ") + std::to_string(ValueToTriggerAverageOverride));
+		lateral = ActualAverage(AverageLateralArray, NumberOfDataPointsForAverage);
+		forwardBackward = ActualAverage(AverageForwardBackwardArray, NumberOfDataPointsForAverage);
+		rotation = ActualAverage(AverageRotationArray, NumberOfDataPointsForAverage);
+	}
+
+	// Prevent out of bounds
+	if(AverageArrayIterator++ > 100)
+	{
+		AverageArrayIterator = 0;
+	}
+	*/
+
+
+	// Last modification before interacting with the drivetrain
+	if(InvertDriverControls)
+	{
+		lateral = -lateral;
+		forwardBackward = -forwardBackward;
+	}
+
 	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
 }
 
@@ -129,4 +183,31 @@ void DriveTrain::ToggleFinesseMode()
 	TimerFinesseBegin = std::chrono::system_clock::now();
 }
 
+double DriveTrain::ApproxRollingAverage(double CurrentAverage, double CurrentValue)
+{
+    double NumberOfDataPoints = 100.0;
 
+    CurrentAverage -= CurrentAverage / NumberOfDataPoints;
+    CurrentAverage += CurrentValue / NumberOfDataPoints;
+
+    return CurrentAverage;
+}
+
+double DriveTrain::ActualAverage(double *Array, int ArraySize)
+{
+    double sum = 0.0;
+    // Maintain the decimal value
+    double denominator = ArraySize * 1.0;
+
+    for(int i = 0; i < ArraySize; i++)
+    {
+        sum += Array[i];
+    }
+    return sum/denominator;
+}
+
+void DriveTrain::ToggleInvertDriverControls()
+{
+	InvertDriverControls = !InvertDriverControls;
+	lumberJack->iLog(std::string("ToggleInvertDriverControls: ") + std::to_string(InvertDriverControls));
+}

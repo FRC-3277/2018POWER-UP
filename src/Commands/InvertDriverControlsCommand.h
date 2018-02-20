@@ -1,17 +1,17 @@
-#ifndef EatCubeCommand_H
-#define EatCubeCommand_H
+#ifndef InvertDriverControlsCommand_H
+#define InvertDriverControlsCommand_H
 
 #include "LumberJack.h"
 
 #include "Robot.h"
 #include "Commands/Command.h"
 
-class EatCubeCommand : public frc::Command {
+class InvertDriverControlsCommand : public frc::Command {
 private:
 	std::shared_ptr<LumberJack> lumberJack;
 
 public:
-	EatCubeCommand();
+	InvertDriverControlsCommand();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -19,4 +19,4 @@ public:
 	void Interrupted();
 };
 
-#endif  // EatCubeCommand_H
+#endif  // InvertDriverControlsCommand_H

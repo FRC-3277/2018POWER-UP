@@ -23,6 +23,7 @@
 #include "Subsystems/Elevator.h"
 #include "Subsystems/Grabber.h"
 #include "Subsystems/Lifter.h"
+#include "Subsystems/GameStates.h"
 
 // Commands
 //#include "Commands/Autonomous.h"
@@ -31,11 +32,18 @@
 class Robot : public frc::TimedRobot
 {
 public:
-	static std::unique_ptr<OI> oi;
 	static std::shared_ptr<DriveTrain> driveTrain;
 	static std::shared_ptr<Elevator> elevator;
 	static std::shared_ptr<Grabber> grabber;
 	static std::shared_ptr<Lifter> lifter;
+	static std::shared_ptr<GameStates> gamestates;
+	static std::unique_ptr<OI> oi;
+
+	// Disable subsystems for debugging and testing
+	static constexpr bool EnableDriveTrain = true;
+	static constexpr bool EnableElevator = true;
+	static constexpr bool EnableGrabber = true;
+	static constexpr bool EnableLifter = true;
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;

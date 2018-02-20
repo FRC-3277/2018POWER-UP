@@ -1,28 +1,27 @@
 #include "Grabber.h"
 #include "../RobotMap.h"
-#include <Subsystems/Grabber.h>
+#include "Subsystems/Grabber.h"
 
-Grabber::Grabber()
-	: frc::Subsystem("Grabber") {
+Grabber::Grabber() : frc::Subsystem("Grabber") {
 	lumberJack.reset(new LumberJack());
 
-	//Talons.
+	//Talons
 	try
 	{
-		BlockFeedMotor.reset(new WPI_TalonSRX(BLOCK_FEED_MOTOR_CAN_ID));
+		GrabberLeftMotor.reset(new WPI_TalonSRX(GRABBER_LEFT_MOTOR_CAN_ID));
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->eLog(std::string("BlockFeedMotor.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("GrabberLeftMotor.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
 	{
-		TiltMotor.reset(new WPI_TalonSRX(TILT_MOTOR_CAN_ID));
+		GrabberRightMotor.reset(new WPI_TalonSRX(GRABBER_RIGHT_MOTOR_CAN_ID));
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->eLog(std::string("TiltMotor.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("GrabberRightMotor.reset() failed; ") + std::string(e.what()));
 	}
 
 
@@ -63,13 +62,9 @@ Grabber::Grabber()
 		lumberJack->eLog(std::string("TiltDownStopLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
-
 	// Set every Talon to reset the motor safety timeout.
-	BlockFeedMotor->Set(ControlMode::PercentOutput, 0);
-	TiltMotor->Set(ControlMode::PercentOutput, 0);
-
-
-
+	GrabberLeftMotor->Set(ControlMode::PercentOutput, 0);
+	GrabberRightMotor->Set(ControlMode::PercentOutput, 0);
 }
 
 
@@ -78,55 +73,45 @@ void Grabber::InitDefaultCommand() {
 
 void Grabber::SpitCube() {
 
-	if(EjectionStopLimitSwitch->Get())
+	//if(EjectionStopLimitSwitch->Get()) //Anticipation of some sort of limit switch... not installed
+	if(false)
 	{
-		BlockFeedMotor->Set(0.0);
+		GrabberSpitStop();
 		EndSpitCommand = true;
 	}
 	else
 	{
-		BlockFeedMotor->Set(0.5);
+		GrabberLeftMotor->Set(-GrabberMotorSpeed);
+		GrabberRightMotor->Set(GrabberMotorSpeed);
 	}
 }
 
 void Grabber::EatCube() {
-	if(InjectionStopLimitSwitch->Get())
+	//if(InjectionStopLimitSwitch->Get()) //Anticipation of some sort of limit switch... not installed
+	if(false)
 	{
-		BlockFeedMotor->Set(0.0);
+		GrabberEatStop();
 		EndEatCommand = true;
 	}
 	else
 	{
-		BlockFeedMotor->Set(0.5);
+		GrabberLeftMotor->Set(DefaultGrabberMotorSpeed);
+		GrabberRightMotor->Set(-DefaultGrabberMotorSpeed);
 	}
 }
 
-void Grabber::AugmentorTiltUp() {
-	if(TiltUpStopLimitSwitch->Get())
-	{
-		TiltMotor->Set(0.0);
-		EndAugmentorTiltUpCommand = true;
-	}
-	else
-	{
-		TiltMotor->Set(0.5);
-	}
+void Grabber::GrabberEatStop() {
+	GrabberLeftMotor->Set(0.0);
+	GrabberRightMotor->Set(0.0);
+	EndEatCommand = false;
 }
 
-void Grabber::AugmentorTiltDown() {
-	if(TiltUpStopLimitSwitch->Get())
-	{
-		TiltMotor->Set(0.0);
-		EndAugmentorTiltDownCommand = true;
-	}
-	else
-	{
-		TiltMotor->Set(0.5);
-	}
+void Grabber::GrabberSpitStop() {
+	GrabberLeftMotor->Set(0.0);
+	GrabberRightMotor->Set(0.0);
+	EndSpitCommand = false;
 }
 
-
-
-
-
-
+void Grabber::SetGrabberSpitSpeed(double GrabberMotorSpeed) {
+	this->GrabberMotorSpeed = GrabberMotorSpeed;
+}

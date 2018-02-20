@@ -23,6 +23,7 @@ public:
 	void InitDefaultCommand() override;
 	void SetDrive(double lateral, double forwardBackward, double rotation);
 	void ToggleFinesseMode();
+	void ToggleInvertDriverControls();
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;
@@ -35,12 +36,28 @@ private:
 	std::shared_ptr<MecanumDrive> robotDrive;
 
 	bool IsFinesseModeEnabled = false;
+	bool InvertDriverControls = false;
+
 	double MaxFinesseReduction = 0.5;
 	double CurrentFinesseReduction = 0.0;
 	double MinFinesseReduction = 0.01;
 
 	std::chrono::system_clock::time_point TimerFinesseBegin;
 	std::chrono::system_clock::time_point TimerFinesseCurrent;
-	const int	FinesseReductionWaitPeriod = 500;
-	const double FinesseIncrementor = 0.05;
+	static constexpr int	FinesseReductionWaitPeriod = 500;
+	static constexpr double FinesseIncrementor = 0.05;
+
+	double AverageLateral = 0.0;
+	double AverageForwardBackward = 0.0;
+	double AverageRotation = 0.0;
+	static constexpr int NumberOfDataPointsForAverage = 100;
+	int AverageArrayIterator = 0;
+	double AverageLateralArray[NumberOfDataPointsForAverage] = { 0 };
+	double AverageForwardBackwardArray[NumberOfDataPointsForAverage] = { 0 };
+	double AverageRotationArray[10] = { 0 };
+	// A a sudden higher than this for lateral, forward, backward, or rotation will enable average values overriding
+	static constexpr double ValueToTriggerAverageOverride = 0.5;
+
+	double ApproxRollingAverage(double CurrentAverage, double CurrentValue);
+	double ActualAverage(double *Array, int ArraySize);
 };

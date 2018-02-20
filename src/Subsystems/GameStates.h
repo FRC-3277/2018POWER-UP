@@ -7,22 +7,28 @@
 
 #pragma once
 
+#include <Commands/Subsystem.h>
+#include <string>
 #include "LumberJack.h"
 
-#include "WPILib.h"
-#include <Commands/Subsystem.h>
-#include "ctre/Phoenix.h"
-
-class Lifter : public frc::Subsystem {
+// http://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
+class GameStates : public frc::Subsystem
+{
 private:
 	std::shared_ptr<LumberJack> lumberJack;
-
-	// Lifter Motor
-	std::shared_ptr<WPI_TalonSRX> LifterMotor;
+	std::string GameData;
+	std::string GameDataTemp;
+	void GetGameDataFromField();
+	bool GameDataFullyPopulated = false;
+	bool GameDataChanged = false;
 
 public:
-	Lifter();
+	GameStates();
+	std::string GetGameData();
 	void InitDefaultCommand() override;
-	void StartLifter();
+	// Game data is assumed to be ready when number of characters
+	// available is greater or equal to 3
+	// In summary, the number of the count shall be 3 https://www.youtube.com/watch?v=xOrgLj9lOwk
+	bool IsGameDataReady();
 };
 

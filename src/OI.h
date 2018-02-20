@@ -34,7 +34,6 @@
 #define ALTERNATE_CONTROLLER_ID 1
 
 /* Logitech EXTREME3DPRO Joystick Definitions */
-//TODO: Find IDs for POV
 #define JOYSTICK_X_AXIS 0
 #define JOYSTICK_Y_AXIS 1
 #define JOYSTICK_Z_AXIS 2
@@ -68,20 +67,6 @@
 #define AIRFORCEONE_Y_AXIS 1
 #define AIRFORCEONE_Z_AXIS 2
 
-// Elevator
-#define ElevatorUpButtonNumber JOYSTICK_BUTTON_TWO
-#define ElevatorDownButtonNumber JOYSTICK_BUTTON_THREE
-#define DesiredElevatorSetpointAxis 4
-#define DesiredElevatorSetpointButtonNumber 5
-
-// Grabber
-#define ChangeMeInjectionButton 5
-#define ChangeMeEjectionButton 6
-#define ChangeMeAugmentorTiltUpButton 7
-#define ChangeMeAugmentorTiltDownButton 8
-
-#define ChangeMeLifterButton 9
-
 class OI {
 	// TODO: Add Winch In Button - Add limit switch interlock for min
 	// TODO: Add Winch Out Button - Add limit switch interlock for max
@@ -92,24 +77,39 @@ private:
 
 	std::shared_ptr<Joystick> controllerDriver;
 	std::shared_ptr<Joystick> AirForceOneController;
+
+	std::shared_ptr<JoystickButton> InvertDriverControlsButton;
+	std::shared_ptr<JoystickButton> FinesseButton;
 	std::shared_ptr<JoystickButton> InjectionButton;
 	std::shared_ptr<JoystickButton> EjectionButton;
-	std::shared_ptr<JoystickButton> AugmentorTiltUpButton;
-	std::shared_ptr<JoystickButton> AugmentorTiltDownButton;
-	std::shared_ptr<JoystickButton> FinesseButton;
 	std::shared_ptr<JoystickButton> LifterButton;
 	std::shared_ptr<JoystickButton> ElevatorUpButton;
 	std::shared_ptr<JoystickButton> ElevatorDownButton;
 	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
 
 	// Joystick button role selection
-	int JoystickFinesseButton = JOYSTICK_BUTTON_SEVEN;
+	static constexpr int JoystickFinesseButton = JOYSTICK_BUTTON_SEVEN;
+	// Drivetrain
+	static constexpr int InvertDriverControlsButtonNumber = JOYSTICK_BUTTON_TWELVE;
+
+	// Elevator
+	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_TWO;
+	static constexpr int ElevatorDownButtonNumber = JOYSTICK_BUTTON_THREE;
+	static constexpr int DesiredElevatorSetpointAxisNumber = AIRFORCEONE_Z_AXIS;
+	static constexpr int DesiredElevatorSetpointButtonNumber = JOYSTICK_BUTTON_FOUR;
+
+	// Grabber
+	static constexpr int GrabberInjectionButtonNumber = AIRFORCEONE_BUTTON_FIVE;
+	static constexpr int GrabberEjectionButtonNumber = AIRFORCEONE_BUTTON_SIX;
+	static constexpr int LifterPrepareToEjectCoreButtonNumber = JOYSTICK_BUTTON_TEN;
+	// Not actually mapped to Controller, but in use
+	static constexpr int GrabberSpitCubeLeverAxisNumber = AIRFORCEONE_X_AXIS;
 
 	// xBox button role selection
-	int XBoxFinnesseButton = XBOX_RIGHT_SHOLDER_BUTTON;
-	int XBoxLateral  = XBOX_LEFT_STICK_X_AXIS;
-	int XBoxForwardReverse = XBOX_LEFT_STICK_Y_AXIS;
-	int XBoxTwist = XBOX_RIGHT_STICK_X_AXIS;
+	static constexpr int XBoxFinnesseButtonNumber = XBOX_RIGHT_SHOLDER_BUTTON;
+	static constexpr int XBoxLateralAxisNumber  = XBOX_LEFT_STICK_X_AXIS;
+	static constexpr int XBoxForwardReverseAxisNumber = XBOX_LEFT_STICK_Y_AXIS;
+	static constexpr int XBoxTwistAxisNumber = XBOX_RIGHT_STICK_X_AXIS;
 
 	// Use the Joystick when true, Use the xBox controller when false
 	bool useJoystick;
@@ -119,16 +119,17 @@ private:
 	double Clamp(double joystickAxis);
 
 	// Joystick Deadzone
-	const double JoystickDeadzone = 0.02;
+	static constexpr double JoystickDeadzone = 0.02;
+	static constexpr double JoystickTwistDeadzone = 0.16;
+	static constexpr double XboxTwistDeadzone = 0.135;
 
+	// Deadzone bool values
 	bool OverrideXDeadzone = false;
 	bool OverrideYDeadzone = false;
+	bool OverrideZDeadzone = false;
 
-	// Adding Xbox Deadzone
+	// Xbox Deadzone
 	const double XboxDeadzone = 0.02;
-
-	bool OverrideXboxXDeadzone = false;
-	bool OverrideXboxYDeadzone = false;
 
 	//DashBoard
 	void GetExponentFromDashBoard();
@@ -138,10 +139,12 @@ private:
 public:
 	OI();
 
-	std::shared_ptr<Joystick> getXBoxController();
+	std::shared_ptr<Joystick> GetDriverController();
 	double GetJoystickX();
 	double GetJoystickY();
 	double GetJoystickTwist();
+	double GetAirForceOneXAxis();
+	double ScaleAirForceOneAxis(double ValueToRescale);
 	double GetExponentMaxValue();
 	int GetDesiredElevatorSetpoint();
 };
