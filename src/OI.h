@@ -96,12 +96,13 @@ private:
 	// Elevator
 	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_TWO;
 	static constexpr int ElevatorDownButtonNumber = JOYSTICK_BUTTON_THREE;
+	static constexpr int ToggleElevatorControlMode = AIRFORCEONE_BUTTON_FIVE;
 	static constexpr int DesiredElevatorSetpointAxisNumber = AIRFORCEONE_Z_AXIS;
-	static constexpr int DesiredElevatorSetpointButtonNumber = JOYSTICK_BUTTON_FOUR;
+	//static constexpr int DesiredElevatorSetpointButtonNumber = JOYSTICK_BUTTON_FOUR;
 
 	// Grabber
-	static constexpr int GrabberInjectionButtonNumber = AIRFORCEONE_BUTTON_FIVE;
-	static constexpr int GrabberEjectionButtonNumber = AIRFORCEONE_BUTTON_SIX;
+	static constexpr int GrabberInjectionButtonNumber = AIRFORCEONE_BUTTON_ONE;
+	static constexpr int GrabberEjectionButtonNumber = AIRFORCEONE_BUTTON_TWO;
 	// Not actually mapped to Controller, but in use
 	static constexpr int GrabberSpitCubeLeverAxisNumber = AIRFORCEONE_X_AXIS;
 

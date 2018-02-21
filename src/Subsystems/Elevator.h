@@ -29,12 +29,15 @@ private:
 	static constexpr int MED_LIMIT_SWITCH_NUMBER = 3;
 	static constexpr int LOW_LIMIT_SWITCH_NUMBER = 2;
 
+	bool IsElevatorManuallyControlled = true;
+
 	bool IsElevatorOnTheMove = false;
 	// If it is going down then false
 	bool IsElevatorGoingUp = true;
 
 	// Track which limit switch has been recently visited.  Start with 1 from bottom until top limit switch
-	int LimitSwitchTracker;
+	int LimitSwitchTracker = 0;
+	int RequestedLimitSwitchLocation = 0;
 
 	static constexpr double ElevatorTravelSpeed = 0.25;
 	const double StopElevatorSpeed = 0.0;
@@ -67,6 +70,8 @@ public:
 	void UpdateLimitSwitchTracker();
 	int GetLimitSwitchTracker();
 	void HoldElevator();
+	void ToggleInputControlMode();
+	bool GetInputControlMode();
 };
 
 #endif  // Elevator_H

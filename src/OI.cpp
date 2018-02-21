@@ -92,7 +92,7 @@ OI::OI()
 
 		try
 		{
-			GoToDesiredElevatorSetpointButton.reset(new JoystickButton(AirForceOneController.get(), DesiredElevatorSetpointButtonNumber));
+			GoToDesiredElevatorSetpointButton.reset(new JoystickButton(AirForceOneController.get(), ToggleElevatorControlMode));
 			GoToDesiredElevatorSetpointButton->WhenPressed(new GoToDesiredSetpointCommand());
 		}
 		catch(const std::exception& e)
@@ -392,16 +392,12 @@ int OI::GetDesiredElevatorSetpoint()
 	int DesiredSetpoint = 1;
 	int NumberOfElevatorLimitSwitches = 5;
 	double SetPointDelimiterValue = 0.99/NumberOfElevatorLimitSwitches;
-	double CurrentActualElevatorSetpointControllerValue = AirForceOneController->GetRawAxis(DesiredElevatorSetpointAxisNumber);
+	double CurrentActualElevatorSetpointControllerValue = ScaleAirForceOneAxis(-AirForceOneController->GetRawAxis(DesiredElevatorSetpointAxisNumber));
 
 	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
 
-	if(DesiredSetpoint == 0)
-	{
-		DesiredSetpoint = 1;
-	}
-
-	return DesiredSetpoint;
+	lumberJack->iLog("DesiredSetpoint: " + std::to_string(DesiredSetpoint));
+	return 0;
 }
 
 double OI::GetAirForceOneXAxis() {

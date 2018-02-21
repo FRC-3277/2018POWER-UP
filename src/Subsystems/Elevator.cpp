@@ -183,6 +183,8 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 
 	bool isAtDesiredSetpoint = false;
 
+	RequestedLimitSwitchLocation = DesiredSetpoint;
+
 	UpdateLimitSwitchTracker();
 
 	// Go up or go down?
@@ -198,6 +200,7 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 	{
 		isAtDesiredSetpoint = true;
 		lumberJack->iLog(std::string(__FILE__) + std::string("; Elevator at desired setpoint: ") + std::to_string(DesiredSetpoint));
+		HoldElevator();
 	}
 
 	return isAtDesiredSetpoint;
@@ -234,11 +237,13 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 
 	DebugLog("UpdateSoftSpeedChangeArray", 2000);
 
-	if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp)
+	if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp ||
+			(IsElevatorManuallyControlled == false && abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
 	{
 		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeedChange;
 	}
-	else if(LimitSwitchTracker == LOW_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp == false && SoftSpeedChange() > 0)
+	else if(LimitSwitchTracker == LOW_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp == false && SoftSpeedChange() > 0 ||
+			(IsElevatorManuallyControlled == false && abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
 	{
 		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempSpeedChange;
 	}
@@ -320,6 +325,17 @@ void Elevator::HoldElevator()
 int Elevator::GetLimitSwitchTracker()
 {
 	return LimitSwitchTracker;
+}
+
+void Elevator::ToggleInputControlMode()
+{
+	IsElevatorManuallyControlled = !IsElevatorManuallyControlled;
+	lumberJack->iLog("Elevator Manual Mode: " + std::to_string(IsElevatorManuallyControlled));
+}
+
+bool Elevator::GetInputControlMode()
+{
+	return IsElevatorManuallyControlled;
 }
 
 void Elevator::DebugLog(const string& msg)
