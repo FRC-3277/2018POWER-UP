@@ -43,7 +43,8 @@ private:
 	static constexpr double ElevatorTravelSpeed = 0.25;
 	const double StopElevatorSpeed = 0.0;
 
-	int SoftSpeedChangeArrayIterator = 0;
+	int SoftSpeedUpChangeArrayIterator = 0;
+	int SoftSpeedDownChangeArrayIterator = 0;
 
 	static constexpr int SoftSpeedUpChangeArraySize = 100;
 	static constexpr int SoftSpeedDownChangeArraySize = 75;

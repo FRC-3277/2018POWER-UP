@@ -220,31 +220,60 @@ void Elevator::StopElevator()
 
 void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 {
+	double TempMultiplier = 0.0;
+
+	if(IsElevatorGoingUp)
+	{
+		TempMultiplier = ElevatorTravelSpeed * Multiplier/15;
+	}
+	else
+	{
+		TempMultiplier = -ElevatorTravelSpeed * 4;
+	}
+
 	DebugLog("UpdateSoftSpeedChangeArray", 2000);
 
 	if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp)
 	{
-		SoftStartChangeArray[SoftSpeedChangeArrayIterator] = ElevatorTravelSpeed * Multiplier/15;
+		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempMultiplier;
 	}
 	else if(LimitSwitchTracker == LOW_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp == false && SoftSpeedChange() > 0)
 	{
-		SoftStopChangeArray[SoftSpeedChangeArrayIterator] = -ElevatorTravelSpeed * 4;
+		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempMultiplier;
 	}
 	else
 	{
-		SoftStartChangeArray[SoftSpeedChangeArrayIterator] = ElevatorTravelSpeed * Multiplier;
-		SoftStopChangeArray[SoftSpeedChangeArrayIterator] = ElevatorTravelSpeed * Multiplier;
+		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = ElevatorTravelSpeed * Multiplier;
+		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = ElevatorTravelSpeed * Multiplier;
 	}
 
-	DebugLog(std::string("RaiseSpeedMultiplier: ") + std::to_string(RaiseSpeedMultiplier), 2000);
-	DebugLog(std::string("Multiplier: ") + std::to_string(Multiplier), 2000);
-	DebugLog(std::string("ElevatorTravelSpeed: ") + std::to_string(ElevatorTravelSpeed), 2000);
-	DebugLog(std::string("Start Array value: ") + std::to_string(SoftStartChangeArray[SoftSpeedChangeArrayIterator]), 2000);
-	DebugLog(std::string("Stop Array value: ") + std::to_string(SoftStopChangeArray[SoftSpeedChangeArrayIterator]), 2000);
-	DebugLog(std::string("Iterator: ") + std::to_string(SoftSpeedChangeArrayIterator), 2000);
-	if(++SoftSpeedChangeArrayIterator > SoftSpeedUpChangeArraySize)
+	if(IsElevatorGoingUp)
 	{
-		SoftSpeedChangeArrayIterator = 0;
+		DebugLog(std::string("RaiseSpeedMultiplier: ") + std::to_string(RaiseSpeedMultiplier), 2000);
+		DebugLog(std::string("Multiplier: ") + std::to_string(Multiplier), 2000);
+		DebugLog(std::string("ElevatorTravelSpeed: ") + std::to_string(ElevatorTravelSpeed), 2000);
+		DebugLog(std::string("Start Array value: ") + std::to_string(SoftStartChangeArray[SoftSpeedUpChangeArrayIterator]), 2000);
+		DebugLog(std::string("Stop Array value: ") + std::to_string(SoftStopChangeArray[SoftSpeedUpChangeArrayIterator]), 2000);
+		DebugLog(std::string("Iterator: ") + std::to_string(SoftSpeedUpChangeArrayIterator), 2000);
+	}
+	else
+	{
+		DebugLog(std::string("LowerSpeedMultiplier: ") + std::to_string(LowerSpeedMultiplier), 2000);
+		DebugLog(std::string("Multiplier: ") + std::to_string(Multiplier), 2000);
+		DebugLog(std::string("ElevatorTravelSpeed: ") + std::to_string(ElevatorTravelSpeed), 2000);
+		DebugLog(std::string("Start Array value: ") + std::to_string(SoftStartChangeArray[SoftSpeedUpChangeArrayIterator]), 2000);
+		DebugLog(std::string("Stop Array value: ") + std::to_string(SoftStopChangeArray[SoftSpeedUpChangeArrayIterator]), 2000);
+		DebugLog(std::string("Iterator: ") + std::to_string(SoftSpeedUpChangeArrayIterator), 2000);
+	}
+
+	if(++SoftSpeedUpChangeArrayIterator > SoftSpeedUpChangeArraySize)
+	{
+		SoftSpeedUpChangeArrayIterator = 0;
+	}
+
+	if(++SoftSpeedDownChangeArrayIterator > SoftSpeedDownChangeArraySize)
+	{
+		SoftSpeedDownChangeArrayIterator = 0;
 	}
 }
 
