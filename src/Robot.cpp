@@ -11,6 +11,7 @@ std::shared_ptr<Elevator> Robot::elevator;
 std::shared_ptr<Grabber> Robot::grabber;
 std::shared_ptr<Lifter> Robot::lifter;
 std::shared_ptr<GameStates> Robot::gamestates;
+std::shared_ptr<TimeKeeper> Robot::timekeeper;
 std::unique_ptr<OI> Robot::oi;
 
 void Robot::RobotInit()
@@ -131,9 +132,6 @@ void Robot::DisabledPeriodic()
  */
 void Robot::AutonomousInit()
 {
-	TimerBegin = std::chrono::system_clock::now();
-	TimerCurrent = std::chrono::system_clock::now();
-
 	std::string autoSelected = frc::SmartDashboard::GetString(
 			"Auto Selector", "Default");
 	if (autoSelected == "My Auto") {
@@ -151,8 +149,6 @@ void Robot::AutonomousInit()
 
 void Robot::AutonomousPeriodic()
 {
-	TimerCurrent = std::chrono::system_clock::now();
-
 	gamestates->GetGameData();
 	if(EnableElevator)
 	{
@@ -176,10 +172,9 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 {
-	TimerCurrent = std::chrono::system_clock::now();
-	std::chrono::duration<double> elapsed_seconds = TimerCurrent - TimerBegin;
 
-	if(elapsed_seconds.count() >= ElapsedSecondsBeforeEnableLifter)
+
+	if(timekeeper->GetElapsedTime() >= ElapsedSecondsBeforeEnableLifter)
 	{
 		lifter->EnableLifterSubsystem();
 	}
