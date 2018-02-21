@@ -9,6 +9,7 @@ class AutonomousElevatorToSetpointCommand : public frc::Command
 {
 private:
 	int DesiredSetpoint;
+
 public:
 	// Provide the setpoint where the elevator is desired to go to.  0 is bottom floor.
 	explicit AutonomousElevatorToSetpointCommand(int DesiredSetpoint);

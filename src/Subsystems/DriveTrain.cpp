@@ -63,6 +63,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain")
 	rearRightTalon->Set(ControlMode::PercentOutput, 0);
 
 	//Invert Rear Motors
+	//Enable for PROD Bot
 	rearLeftTalon->SetInverted(true);
 	rearRightTalon->SetInverted(true);
 
@@ -121,48 +122,7 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	driveTrainDebugInfo += std::string("Lateral: ") + std::to_string(lateral);
 	driveTrainDebugInfo += std::string("ForwardBackward: ") + std::to_string(forwardBackward);
 	driveTrainDebugInfo += std::string("Rotation: ") + std::to_string(rotation);
-	lumberJack->dLog(driveTrainDebugInfo);
-
-	// Smooth out speed if going fast
-	// Approx Average
-	/*
-	AverageLateral = ApproxRollingAverage(AverageLateral, lateral);
-	AverageForwardBackward = ApproxRollingAverage(AverageForwardBackward, forwardBackward);
-	AverageRotation = ApproxRollingAverage(AverageRotation, rotation);
-
-	if(lateral >= ValueToTriggerAverageOverride ||
-		forwardBackward >= ValueToTriggerAverageOverride ||
-		rotation >= ValueToTriggerAverageOverride)
-	{
-		lateral = AverageLateral;
-		forwardBackward = AverageForwardBackward;
-		rotation = AverageRotation;
-	}
-
-
-	// Actual Average
-	AverageLateralArray[AverageArrayIterator] = lateral;
-	AverageForwardBackwardArray[AverageArrayIterator] = forwardBackward;
-	AverageRotationArray[AverageArrayIterator] = rotation;
-	if(fabs(lateral) >= ValueToTriggerAverageOverride ||
-		fabs(forwardBackward) >= ValueToTriggerAverageOverride ||
-		fabs(rotation) >= ValueToTriggerAverageOverride)
-	{
-		lumberJack->iLog(std::string("lateral: ") + std::to_string(lateral) +
-				std::string("forwardBackward: ") + std::to_string(forwardBackward) +
-				std::string("rotation: ") + std::to_string(rotation) +
-				std::string("ValueToTriggerAverageOverride: ") + std::to_string(ValueToTriggerAverageOverride));
-		lateral = ActualAverage(AverageLateralArray, NumberOfDataPointsForAverage);
-		forwardBackward = ActualAverage(AverageForwardBackwardArray, NumberOfDataPointsForAverage);
-		rotation = ActualAverage(AverageRotationArray, NumberOfDataPointsForAverage);
-	}
-
-	// Prevent out of bounds
-	if(AverageArrayIterator++ > 100)
-	{
-		AverageArrayIterator = 0;
-	}
-	*/
+	DebugLog(driveTrainDebugInfo);
 
 
 	// Last modification before interacting with the drivetrain
@@ -203,11 +163,21 @@ double DriveTrain::ActualAverage(double *Array, int ArraySize)
     {
         sum += Array[i];
     }
+
     return sum/denominator;
 }
 
-void DriveTrain::ToggleInvertDriverControls()
+bool DriveTrain::ToggleInvertDriverControls()
 {
 	InvertDriverControls = !InvertDriverControls;
 	lumberJack->iLog(std::string("ToggleInvertDriverControls: ") + std::to_string(InvertDriverControls));
+	return InvertDriverControls;
+}
+
+void DriveTrain::DebugLog(const std::string& msg)
+{
+	if(EnableDriveTrainDebugLogging)
+	{
+		lumberJack->dLog(msg, 20);
+	}
 }

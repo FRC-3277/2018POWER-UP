@@ -5,7 +5,6 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include <Commands/PrepareLifterCoreForEjectCommand.h>
 #include <math.h>
 
 #include "OI.h"
@@ -18,6 +17,7 @@
 #include "Commands/GoToDesiredSetpointCommand.h"
 #include "Commands/ToggleFinesseModeCommand.h"
 #include "Commands/LifterRunWinchCommand.h"
+#include "Commands/PrepareLifterCoreForEjectCommand.h"
 
 OI::OI()
 {
@@ -44,11 +44,11 @@ OI::OI()
 	// Buttons and commands
 	lumberJack->dLog("Assigning buttons and commands");
 	//	GRABBER
-	if(Robot::EnableGrabber)
+	if(EnableGrabber)
 	{
 		try
 		{
-			InjectionButton.reset(new JoystickButton(AirForceOneController.get(), ChangeMeInjectionButton));
+			InjectionButton.reset(new JoystickButton(AirForceOneController.get(), GrabberInjectionButtonNumber));
 			InjectionButton->WhileHeld(new EatCubeCommand());
 		}
 		catch(const std::exception& e)
@@ -58,7 +58,7 @@ OI::OI()
 
 		try
 		{
-			EjectionButton.reset(new JoystickButton(AirForceOneController.get(), ChangeMeEjectionButton));
+			EjectionButton.reset(new JoystickButton(AirForceOneController.get(), GrabberEjectionButtonNumber));
 			EjectionButton->WhileHeld(new SpitCubeCommand());
 		}
 		catch(const std::exception& e)
@@ -68,7 +68,7 @@ OI::OI()
 	}
 
 	//	ELEVATOR
-	if(Robot::EnableElevator)
+	if(EnableElevator)
 	{
 		try
 		{
@@ -102,7 +102,7 @@ OI::OI()
 	}
 
 	// LIFTER
-	if(Robot::EnableLifter)
+	if(EnableLifter)
 	{
 		try
 		{
@@ -125,23 +125,10 @@ OI::OI()
 		}
 	}
 
-	// Selecting Joystick overrides xBox in case both are found enabled
-	useJoystick = SmartDashboard::GetBoolean("Drive With Joystick? 0", false);
-	if(useJoystick == false)
-	{
-		// Force useJoystick true if use xBox not set to true
-		if(SmartDashboard::GetBoolean("Drive With XBox Controller? 1", false) == false)
-		{
-			useJoystick = true;
-		}
-	}
-
 	enableD_PadDebugging = false;
 
-	useJoystick = true;
-
 	// DRIVETRAIN
-	if(Robot::EnableDriveTrain)
+	if(EnableDriveTrain)
 	{
 		if(useJoystick)
 		{
@@ -169,7 +156,7 @@ OI::OI()
 		{
 			try
 			{
-				FinesseButton.reset(new JoystickButton(controllerDriver.get(), XBoxFinnesseButton));
+				FinesseButton.reset(new JoystickButton(controllerDriver.get(), XBoxFinnesseButtonNumber));
 				FinesseButton->ToggleWhenPressed(new ToggleFinesseModeCommand());
 			}
 			catch(const std::exception& e)
@@ -230,9 +217,9 @@ double OI::GetJoystickX()
 		else
 		{
 			// Xboxdeadzone for X axis
-			if(controllerDriver->GetRawAxis(XBoxForwardReverse) <= XboxDeadzone
-				 && controllerDriver->GetRawAxis(XBoxForwardReverse) >= -XboxDeadzone
-				 && fabs(controllerDriver->GetRawAxis(XBoxForwardReverse)) > fabs(controllerDriver->GetRawAxis(XBoxLateral)))
+			if(controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber) <= XboxDeadzone
+				 && controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber) >= -XboxDeadzone
+				 && fabs(controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber)) > fabs(controllerDriver->GetRawAxis(XBoxLateralAxisNumber)))
 			{
 					OverrideYDeadzone = true;
 			}
@@ -247,7 +234,8 @@ double OI::GetJoystickX()
 			}
 			else
 			{
-				x = controllerDriver->GetRawAxis(XBoxLateral);
+				// Inversed when driving normally
+				x = -controllerDriver->GetRawAxis(XBoxLateralAxisNumber);
 			}
 		}
 	}
@@ -275,6 +263,8 @@ double OI::GetJoystickY()
 			OverrideXDeadzone = false;
 		}
 
+		CircleDeadZone();
+
 		if(OverrideYDeadzone)
 		{
 			y = 0.0;
@@ -300,9 +290,9 @@ double OI::GetJoystickY()
 		else
 		{
 			// Xboxdeadzone for Y axis
-			if(controllerDriver->GetRawAxis(XBoxLateral) <= XboxDeadzone
-				 && controllerDriver->GetRawAxis(XBoxLateral) >= -XboxDeadzone
-				 && fabs(controllerDriver->GetRawAxis(XBoxLateral)) > fabs(controllerDriver->GetRawAxis(XBoxForwardReverse)))
+			if(controllerDriver->GetRawAxis(XBoxLateralAxisNumber) <= XboxDeadzone
+				 && controllerDriver->GetRawAxis(XBoxLateralAxisNumber) >= -XboxDeadzone
+				 && fabs(controllerDriver->GetRawAxis(XBoxLateralAxisNumber)) > fabs(controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber)))
 			{
 					OverrideYDeadzone = true;
 			}
@@ -311,13 +301,15 @@ double OI::GetJoystickY()
 					OverrideYDeadzone = false;
 			}
 
+			CircleDeadZone();
+
 			if(OverrideXDeadzone)
 			{
 				y = 0.0;
 			}
 			else
 			{
-				y = controllerDriver->GetRawAxis(XBoxForwardReverse);
+				y = controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber);
 			}
 		}
 	}
@@ -343,25 +335,42 @@ double OI::GetJoystickTwist()
 		else
 		{
 			OverrideZDeadzone = false;
-			rotation = controllerDriver->GetTwist() * -1.0;
+			rotation = controllerDriver->GetTwist() * -0.5;
 		}
 
 	}
 	else
 	{
-		if(fabs(controllerDriver->GetRawAxis(XBoxTwist)) <= XboxTwistDeadzone)
+		if(fabs(controllerDriver->GetRawAxis(XBoxTwistAxisNumber)) <= XboxTwistDeadzone)
 		{
 			rotation += 0.0;
 		}
 		else
 		{
-			rotation = controllerDriver->GetRawAxis(XBoxTwist);
+			rotation = controllerDriver->GetRawAxis(XBoxTwistAxisNumber) * -1.0;
 		}
 	}
 
 	rotation += 0.0;
 
 	return Clamp(rotation);
+}
+
+void OI::CircleDeadZone()
+{
+	if(useJoystick == false)
+	{
+		if(pow((controllerDriver->GetRawAxis(XBoxLateralAxisNumber) - 0.0), 2) + pow((controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber) - 0.0), 2) < pow(XboxRestingDeadzone, 2))
+		{
+			OverrideYDeadzone = true;
+			OverrideXDeadzone = true;
+		}
+		else
+		{
+			OverrideYDeadzone = false;
+			OverrideXDeadzone = false;
+		}
+	}
 }
 
 double OI::Clamp(double joystickAxis)
@@ -383,7 +392,7 @@ int OI::GetDesiredElevatorSetpoint()
 	int DesiredSetpoint = 1;
 	int NumberOfElevatorLimitSwitches = 5;
 	double SetPointDelimiterValue = 0.99/NumberOfElevatorLimitSwitches;
-	double CurrentActualElevatorSetpointControllerValue = AirForceOneController->GetRawAxis(DesiredElevatorSetpointAxis);
+	double CurrentActualElevatorSetpointControllerValue = AirForceOneController->GetRawAxis(DesiredElevatorSetpointAxisNumber);
 
 	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
 
@@ -396,7 +405,7 @@ int OI::GetDesiredElevatorSetpoint()
 }
 
 double OI::GetAirForceOneXAxis() {
-	return Clamp(AirForceOneController->GetRawAxis(GrabberSpitCubeLeverButtonNumber));
+	return Clamp(AirForceOneController->GetRawAxis(GrabberSpitCubeLeverAxisNumber));
 }
 
 double OI::ScaleAirForceOneAxis(double ValueToRescale) {

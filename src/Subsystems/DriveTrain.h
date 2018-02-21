@@ -17,13 +17,14 @@
 #include <ctime>
 
 
-class DriveTrain : public frc::Subsystem {
+class DriveTrain : public frc::Subsystem
+{
 public:
 	DriveTrain();
 	void InitDefaultCommand() override;
 	void SetDrive(double lateral, double forwardBackward, double rotation);
 	void ToggleFinesseMode();
-	void ToggleInvertDriverControls();
+	bool ToggleInvertDriverControls();
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;
@@ -60,4 +61,5 @@ private:
 
 	double ApproxRollingAverage(double CurrentAverage, double CurrentValue);
 	double ActualAverage(double *Array, int ArraySize);
+	void DebugLog(const std::string& msg);
 };

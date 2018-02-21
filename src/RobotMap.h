@@ -43,3 +43,17 @@ static constexpr int BLOCK_TILT_DOWN_STOP_LIMIT_SWITCH_ID = 3;
 static constexpr int LIFTER_MOTOR_CAN_ID = 22;
 static constexpr int LIFTER_LEFT_EJECT_CORE_SERVO_ID = 0;
 static constexpr int LIFTER_RIGHT_EJECT_CORE_SERVO_ID = 1;
+
+// Camera
+static constexpr int CAMERA_CONTROL_SERVO_ID = 2;
+
+// Disable subsystems for debugging and testing
+static constexpr bool EnableDriveTrain = true;
+static constexpr bool EnableElevator = true;
+static constexpr bool EnableGrabber = true;
+static constexpr bool EnableLifter = true;
+
+// Enable subsystem or command area focused debug logging.  Requires debug logging severity enabled as well.
+static constexpr bool EnableAutonomousDebugLogging = false;
+static constexpr bool EnableDriveTrainDebugLogging = false;
+static constexpr bool ElevatorDebugLoggingEnabled = false;
