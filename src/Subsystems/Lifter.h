@@ -27,7 +27,7 @@ private:
 	static constexpr int LeftEjectCoreServoAngleDefault = 180;
 	static constexpr int RightEjectCoreServoAngleDefault = 0;
 
-	static constexpr double WinchDefaultSpeed = 0.5;
+	static constexpr double WinchDefaultSpeed = -0.25;
 
 	bool IsCorePreparedToBeEjected = false;
 	bool EnableLifterSubsystemLast30Seconds = false;
