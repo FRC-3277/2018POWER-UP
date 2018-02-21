@@ -6,8 +6,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	lumberJack.reset(new LumberJack());
 
 	// Defaulting
-	std::fill_n(SoftStartChangeArray, SoftSpeedChangeArraySize, ElevatorTravelSpeed);
-	std::fill_n(SoftStopChangeArray, SoftSpeedChangeArraySize, ElevatorTravelSpeed);
+	std::fill_n(SoftStartChangeArray, SoftSpeedUpChangeArraySize, ElevatorTravelSpeed);
+	std::fill_n(SoftStopChangeArray, SoftSpeedDownChangeArraySize, ElevatorTravelSpeed);
 
 	lumberJack->dLog("Assigning talons");
 	try
@@ -209,8 +209,8 @@ void Elevator::StopElevator()
 {
 	DebugLog("StopElevator", 200);
 
-	std::fill_n(SoftStartChangeArray, SoftSpeedChangeArraySize, ElevatorTravelSpeed);
-	std::fill_n(SoftStopChangeArray, SoftSpeedChangeArraySize, ElevatorTravelSpeed);
+	std::fill_n(SoftStartChangeArray, SoftSpeedUpChangeArraySize, ElevatorTravelSpeed);
+	std::fill_n(SoftStopChangeArray, SoftSpeedDownChangeArraySize, ElevatorTravelSpeed);
 	LeftElevatorTalon->Set(StopElevatorSpeed);
 	DebugLog(std::string("StopElevator: ") + std::string(std::to_string(StopElevatorSpeed)), 2000);
 	RightElevatorTalon->Set(StopElevatorSpeed);
@@ -228,8 +228,7 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 	}
 	else if(LimitSwitchTracker == LOW_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp == false && SoftSpeedChange() > 0)
 	{
-		DebugLog("SoftStopChangeArray", 20);
-		SoftStopChangeArray[SoftSpeedChangeArrayIterator] = -ElevatorTravelSpeed * 2;
+		SoftStopChangeArray[SoftSpeedChangeArrayIterator] = -ElevatorTravelSpeed * 4;
 	}
 	else
 	{
@@ -243,7 +242,7 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 	DebugLog(std::string("Start Array value: ") + std::to_string(SoftStartChangeArray[SoftSpeedChangeArrayIterator]), 2000);
 	DebugLog(std::string("Stop Array value: ") + std::to_string(SoftStopChangeArray[SoftSpeedChangeArrayIterator]), 2000);
 	DebugLog(std::string("Iterator: ") + std::to_string(SoftSpeedChangeArrayIterator), 2000);
-	if(++SoftSpeedChangeArrayIterator > SoftSpeedChangeArraySize)
+	if(++SoftSpeedChangeArrayIterator > SoftSpeedUpChangeArraySize)
 	{
 		SoftSpeedChangeArrayIterator = 0;
 	}
@@ -251,19 +250,24 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 
 double Elevator::SoftSpeedChange()
 {
-	DebugLog("SoftSpeedChange", 2000);
+	DebugLog("SoftSpeedUpChange", 2000);
 	double sum = 0.0;
-	double denominator = SoftSpeedChangeArraySize * 1.0;
+	double denominator = 1.0;
 
-	for(int i = 0; i < SoftSpeedChangeArraySize; i++)
+	if(IsElevatorGoingUp) 
 	{
-		if(IsElevatorGoingUp) 
+		for(int i = 0; i < SoftSpeedUpChangeArraySize; i++)
 		{
 			sum += SoftStartChangeArray[i];
+			denominator = SoftSpeedUpChangeArraySize * 1.0;
 		}
-		else 
+	}
+	else 
+	{
+		for(int i = 0; i < SoftSpeedDownChangeArraySize; i++)
 		{
 			sum += SoftStopChangeArray[i];
+			denominator = SoftSpeedDownChangeArraySize * 1.0;
 		}
 	}
 
