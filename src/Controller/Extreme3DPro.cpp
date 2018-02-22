@@ -1,6 +1,6 @@
 #include "Controller/Extreme3DPro.h"
 
-namespace Controller {
+namespace UserDefinedController {
 
 	Extreme3D_Pro::Extreme3D_Pro()
 	{

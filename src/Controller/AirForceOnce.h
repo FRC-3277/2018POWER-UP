@@ -15,7 +15,7 @@
 #define AIRFORCEONE_Y_AXIS 1
 #define AIRFORCEONE_Z_AXIS 2
 
-namespace Controller {
+namespace UserDefinedController {
 
 class Air_Force_Once {
 public:

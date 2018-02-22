@@ -1,6 +1,6 @@
 #include "Controller/XBox.h"
 
-namespace Controller {
+namespace UserDefinedController {
 
 XBox::XBox() {
 	// TODO Auto-generated constructor stub

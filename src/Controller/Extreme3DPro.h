@@ -7,7 +7,7 @@
 
 #include <Buttons/JoystickButton.h>
 
-namespace Controller {
+namespace UserDefinedController {
 
 class Extreme3D_Pro
 {

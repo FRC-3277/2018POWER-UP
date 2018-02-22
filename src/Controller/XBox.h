@@ -20,7 +20,7 @@
 #define XBOX_RIGHT_STICK_X_AXIS 4
 #define XBOX_RIGHT_STICK_Y_AXIS 5
 
-namespace Controller {
+namespace UserDefinedController {
 
 class XBox {
 public:
