@@ -16,11 +16,6 @@
 #define DRIVER_CONTROLLER_ID 0
 #define ALTERNATE_CONTROLLER_ID 1
 
-
-
-
-
-
 class OI {
 	// TODO: Add Winch In Button - Add limit switch interlock for min
 	// TODO: Add Winch Out Button - Add limit switch interlock for max
