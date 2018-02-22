@@ -12,7 +12,10 @@ void LowerElevatorCommand::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void LowerElevatorCommand::Execute()
 {
-	Robot::elevator->LowerElevator();
+	if(Robot::elevator->GetInputControlMode())
+	{
+		Robot::elevator->LowerElevator();
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()

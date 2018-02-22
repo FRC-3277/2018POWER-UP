@@ -6,13 +6,13 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	lumberJack.reset(new LumberJack());
 
 	// Defaulting
-	std::fill_n(SoftSpeedChangeArray, SoftSpeedChangeArraySize, ElevatorTravelSpeed);
+	std::fill_n(SoftStartChangeArray, SoftSpeedUpChangeArraySize, ElevatorTravelSpeed);
+	std::fill_n(SoftStopChangeArray, SoftSpeedDownChangeArraySize, ElevatorTravelSpeed);
 
-	lumberJack->dLog("Assigning talons");
+	lumberJack->dLog("Assigning Talons");
 	try
 	{
 		LeftElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID));
-		//LeftElevatorTalon = new WPI_TalonSRX(ELEVATOR_MOTOR_LEFT_CAN_ID);
 	}
 	catch(const std::exception& e)
 	{
@@ -22,7 +22,6 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	try
 	{
 		RightElevatorTalon.reset(new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID));
-		//RightElevatorTalon = new WPI_TalonSRX(ELEVATOR_MOTOR_RIGHT_CAN_ID);
 	}
 	catch(const std::exception& e)
 	{
@@ -38,7 +37,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	// Servo goes to home position when this line of code is hit.  This drops
 	// the end effector when Teleop or Autonomous mode is hit.
-	EndEffectorDropServo.reset(new Servo(DROP_END_EFFECTOR_SERVO));
+	EndEffectorDropServo.reset(new Servo(DROP_END_EFFECTOR_SERVO_ID));
 
 	// Confident it is stopped at the beginning.
 	LimitSwitchTracker = 1;
@@ -61,7 +60,6 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	{
 		lumberJack->eLog(std::string("MinHeightLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
-
 
 	try
 	{
@@ -98,8 +96,12 @@ void Elevator::InitDefaultCommand()
 
 void Elevator::RaiseElevator()
 {
+	IsElevatorGoingUp = true;
+	DebugLog("RaiseElevator", 2000);
+
+	IsElevatorOnTheMove = true;
 	UpdateSoftSpeedChangeArray(RaiseSpeedMultiplier);
-	double speed = SoftStart();
+	double speed = SoftSpeedChange();
 
 	//if(MaxHeightLimitSwitch->Get())
 	if(false)
@@ -109,16 +111,22 @@ void Elevator::RaiseElevator()
 	}
 
 	LeftElevatorTalon->Set(speed);
+	lumberJack->dLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)));
 	RightElevatorTalon->Set(-speed);
-	lumberJack->iLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)));
+	lumberJack->dLog(std::string("RaiseElevator: ") + std::string(std::to_string(-speed)));
 	//TODO: Re-enable once this is actually installed
 	UpdateLimitSwitchTracker();
 }
 
 void Elevator::LowerElevator()
 {
+	IsElevatorGoingUp = false;
+
+	DebugLog("LowerElevator", 2000);
+
+	IsElevatorOnTheMove = true;
 	UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
-	double speed = ElevatorTravelSpeed;
+	double speed = SoftSpeedChange();
 
 	//if(MinHeightLimitSwitch->Get())
 	if(false)
@@ -128,8 +136,9 @@ void Elevator::LowerElevator()
 	}
 
 	LeftElevatorTalon->Set(-speed);
+	lumberJack->dLog(std::string("LowerElevator: ") + std::string(std::to_string(-speed)));
 	RightElevatorTalon->Set(speed);
-	lumberJack->iLog(std::string("LowerElevator: ") + std::string(std::to_string(speed)));
+	lumberJack->dLog(std::string("LowerElevator: ") + std::string(std::to_string(speed)));
 	//TODO: Re-enable once this is actually installed
 	UpdateLimitSwitchTracker();
 }
@@ -138,19 +147,19 @@ void Elevator::UpdateLimitSwitchTracker()
 {
 	bool limitSwitchValueChanged = false;
 
-	if(!HighLimitSwitch->Get() && !limitSwitchValueChanged)
+	if(!HighLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != HIGH_LIMIT_SWITCH_NUMBER)
 	{
-		LimitSwitchTracker = 4;
+		LimitSwitchTracker = HIGH_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
 	}
-	else if(!MedLimitSwitch->Get() && !limitSwitchValueChanged)
+	else if(!MedLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != MED_LIMIT_SWITCH_NUMBER)
 	{
-		LimitSwitchTracker = 3;
+		LimitSwitchTracker = MED_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
 	}
-	else if(!LowLimitSwitch->Get() && !limitSwitchValueChanged)
+	else if(!LowLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != LOW_LIMIT_SWITCH_NUMBER)
 	{
-		LimitSwitchTracker = 2;
+		LimitSwitchTracker = LOW_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
 	}
 	else
@@ -165,70 +174,182 @@ void Elevator::UpdateLimitSwitchTracker()
 	}
 }
 
+// Meant not to be used directly, but called by commands
 bool Elevator::GoToSetPoint(int DesiredSetpoint)
 {
-	// Go up by default
-	double direction = ElevatorTravelSpeed;
+	DebugLog("GoToSetPoint", 200);
+
+	IsElevatorOnTheMove = true;
+
 	bool isAtDesiredSetpoint = false;
+
+	RequestedLimitSwitchLocation = DesiredSetpoint;
 
 	UpdateLimitSwitchTracker();
 
 	// Go up or go down?
-	if(LimitSwitchTracker < DesiredSetpoint)
+	if(DesiredSetpoint > LimitSwitchTracker)
 	{
-		direction = -direction;
+		RaiseElevator();
+	}
+	else if(DesiredSetpoint < LimitSwitchTracker)
+	{
+		LowerElevator();
 	}
 	else if(LimitSwitchTracker == DesiredSetpoint)
 	{
-		direction = StopElevatorSpeed;
 		isAtDesiredSetpoint = true;
 		lumberJack->iLog(std::string(__FILE__) + std::string("; Elevator at desired setpoint: ") + std::to_string(DesiredSetpoint));
+		HoldElevator();
 	}
-
-	LeftElevatorTalon->Set(direction);
-	RightElevatorTalon->Set(direction);
 
 	return isAtDesiredSetpoint;
 }
 
 void Elevator::StopElevator()
 {
-	std::fill_n(SoftSpeedChangeArray, SoftSpeedChangeArraySize, ElevatorTravelSpeed);
+	DebugLog("StopElevator", 200);
+
+	std::fill_n(SoftStartChangeArray, SoftSpeedUpChangeArraySize, ElevatorTravelSpeed);
+	std::fill_n(SoftStopChangeArray, SoftSpeedDownChangeArraySize, ElevatorTravelSpeed);
 	LeftElevatorTalon->Set(StopElevatorSpeed);
+	DebugLog(std::string("StopElevator: ") + std::string(std::to_string(StopElevatorSpeed)), 2000);
 	RightElevatorTalon->Set(StopElevatorSpeed);
+	DebugLog(std::string("StopElevator: ") + std::string(std::to_string(StopElevatorSpeed)), 2000);
+	IsElevatorOnTheMove = false;
 }
 
 void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 {
-	SoftSpeedChangeArray[SoftSpeedChangeArrayIterator] = ElevatorTravelSpeed * Multiplier;
+	double TempSpeed = 0.0;
+	double TempSpeedChange = 0.0;
 
-	lumberJack->iLog(std::string("RaiseSpeedMultiplier: ") + std::to_string(RaiseSpeedMultiplier));
-	lumberJack->iLog(std::string("Multiplier: ") + std::to_string(Multiplier));
-	lumberJack->iLog(std::string("ElevatorTravelSpeed: ") + std::to_string(ElevatorTravelSpeed));
-	lumberJack->iLog(std::string("Array value: ") + std::to_string(SoftSpeedChangeArray[SoftSpeedChangeArrayIterator]));
-	lumberJack->iLog(std::string("Iterator: ") + std::to_string(SoftSpeedChangeArrayIterator));
-	if(++SoftSpeedChangeArrayIterator > SoftSpeedChangeArraySize)
+	if(IsElevatorGoingUp)
 	{
-		SoftSpeedChangeArrayIterator = 0;
+		TempSpeedChange = ElevatorTravelSpeed * Multiplier/15;
+		TempSpeed = ElevatorTravelSpeed * Multiplier;
+	}
+	else
+	{
+		TempSpeedChange = -ElevatorTravelSpeed * 6;
+		TempSpeed = ElevatorTravelSpeed * Multiplier;
+	}
+
+	DebugLog("UpdateSoftSpeedChangeArray", 2000);
+
+	if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp ||
+			(IsElevatorManuallyControlled == false && abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
+	{
+		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeedChange;
+	}
+	else if(LimitSwitchTracker == LOW_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp == false && SoftSpeedChange() > 0 ||
+			(IsElevatorManuallyControlled == false && abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
+	{
+		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempSpeedChange;
+	}
+	else
+	{
+		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeed;
+		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempSpeed;
+	}
+
+	if(IsElevatorGoingUp)
+	{
+		DebugLog(std::string("RaiseSpeedMultiplier: ") + std::to_string(RaiseSpeedMultiplier), 2000);
+		DebugLog(std::string("Multiplier: ") + std::to_string(Multiplier), 2000);
+		DebugLog(std::string("ElevatorTravelSpeed: ") + std::to_string(ElevatorTravelSpeed), 2000);
+		DebugLog(std::string("Start Array value: ") + std::to_string(SoftStartChangeArray[SoftSpeedUpChangeArrayIterator]), 2000);
+		DebugLog(std::string("Iterator: ") + std::to_string(SoftSpeedUpChangeArrayIterator), 2000);
+	}
+	else
+	{
+		DebugLog(std::string("LowerSpeedMultiplier: ") + std::to_string(LowerSpeedMultiplier), 2000);
+		DebugLog(std::string("Multiplier: ") + std::to_string(Multiplier), 2000);
+		DebugLog(std::string("ElevatorTravelSpeed: ") + std::to_string(ElevatorTravelSpeed), 2000);
+		DebugLog(std::string("Stop Array value: ") + std::to_string(SoftStopChangeArray[SoftSpeedDownChangeArrayIterator]), 2000);
+		DebugLog(std::string("Iterator: ") + std::to_string(SoftSpeedDownChangeArrayIterator), 2000);
+	}
+
+	if(++SoftSpeedUpChangeArrayIterator > SoftSpeedUpChangeArraySize)
+	{
+		SoftSpeedUpChangeArrayIterator = 0;
+	}
+
+	if(++SoftSpeedDownChangeArrayIterator > SoftSpeedDownChangeArraySize)
+	{
+		SoftSpeedDownChangeArrayIterator = 0;
 	}
 }
 
-double Elevator::SoftStart()
+double Elevator::SoftSpeedChange()
 {
+	DebugLog("SoftSpeedUpChange", 2000);
 	double sum = 0.0;
-	double denominator = SoftSpeedChangeArraySize * 1.0;
+	double denominator = 1.0;
 
-	for(int i = 0; i < SoftSpeedChangeArraySize; i++)
+	if(IsElevatorGoingUp) 
 	{
-		sum += SoftSpeedChangeArray[i];
+		for(int i = 0; i < SoftSpeedUpChangeArraySize; i++)
+		{
+			sum += SoftStartChangeArray[i];
+			denominator = SoftSpeedUpChangeArraySize * 1.0;
+		}
+	}
+	else 
+	{
+		for(int i = 0; i < SoftSpeedDownChangeArraySize; i++)
+		{
+			sum += SoftStopChangeArray[i];
+			denominator = SoftSpeedDownChangeArraySize * 1.0;
+		}
 	}
 
-	lumberJack->iLog(std::to_string(sum/denominator));
+	DebugLog(std::string("SoftSpeedChange: ") + std::string(std::to_string(sum/denominator)), 2000);
 
 	return sum/denominator;
 }
 
-double Elevator::SoftStop()
+// Bellhop, hold please!
+void Elevator::HoldElevator()
 {
+	if(IsElevatorOnTheMove == false)
+	{
+		DebugLog("HoldElevator", 200);
+		LeftElevatorTalon->Set(ElevatorHoldSpeed);
+		DebugLog(std::string("HoldElevator: ") + std::string(std::to_string(ElevatorHoldSpeed)), 2000);
+		RightElevatorTalon->Set(-ElevatorHoldSpeed);
+		DebugLog(std::string("HoldElevator: ") + std::string(std::to_string(-ElevatorHoldSpeed)), 2000);
+	}
+}
 
+int Elevator::GetLimitSwitchTracker()
+{
+	return LimitSwitchTracker;
+}
+
+void Elevator::ToggleInputControlMode()
+{
+	IsElevatorManuallyControlled = !IsElevatorManuallyControlled;
+	lumberJack->iLog("Elevator Manual Mode: " + std::to_string(IsElevatorManuallyControlled));
+}
+
+bool Elevator::GetInputControlMode()
+{
+	return IsElevatorManuallyControlled;
+}
+
+void Elevator::DebugLog(const string& msg)
+{
+	if(ElevatorDebugLoggingEnabled)
+	{
+		lumberJack->dLog(msg);
+	}
+}
+
+void Elevator::DebugLog(const string& msg, int loggingEveryNth)
+{
+	if(ElevatorDebugLoggingEnabled)
+	{
+		lumberJack->dLog(msg, loggingEveryNth);
+	}
 }

@@ -12,9 +12,9 @@
 #include <Commands/Command.h>
 #include "Robot.h"
 
-class StartLifterCommand : public frc::Command {
+class LifterRunWinchCommand : public frc::Command {
 public:
-	StartLifterCommand();
+	LifterRunWinchCommand();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;

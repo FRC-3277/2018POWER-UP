@@ -31,7 +31,8 @@ private:
 	std::shared_ptr<JoystickButton> FinesseButton;
 	std::shared_ptr<JoystickButton> InjectionButton;
 	std::shared_ptr<JoystickButton> EjectionButton;
-	std::shared_ptr<JoystickButton> LifterButton;
+	std::shared_ptr<JoystickButton> LifterEjectCoreButton;
+	std::shared_ptr<JoystickButton> LifterRunWinchButton;
 	std::shared_ptr<JoystickButton> ElevatorUpButton;
 	std::shared_ptr<JoystickButton> ElevatorDownButton;
 	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
@@ -44,15 +45,19 @@ private:
 	// Elevator
 	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_TWO;
 	static constexpr int ElevatorDownButtonNumber = JOYSTICK_BUTTON_THREE;
+	static constexpr int ToggleElevatorControlMode = AIRFORCEONE_BUTTON_FIVE;
 	static constexpr int DesiredElevatorSetpointAxisNumber = AIRFORCEONE_Z_AXIS;
-	static constexpr int DesiredElevatorSetpointButtonNumber = JOYSTICK_BUTTON_FOUR;
+	//static constexpr int DesiredElevatorSetpointButtonNumber = JOYSTICK_BUTTON_FOUR;
 
 	// Grabber
-	static constexpr int GrabberInjectionButtonNumber = AIRFORCEONE_BUTTON_FIVE;
-	static constexpr int GrabberEjectionButtonNumber = AIRFORCEONE_BUTTON_SIX;
-	static constexpr int LifterPrepareToEjectCoreButtonNumber = JOYSTICK_BUTTON_TEN;
+	static constexpr int GrabberInjectionButtonNumber = AIRFORCEONE_BUTTON_ONE;
+	static constexpr int GrabberEjectionButtonNumber = AIRFORCEONE_BUTTON_TWO;
 	// Not actually mapped to Controller, but in use
 	static constexpr int GrabberSpitCubeLeverAxisNumber = AIRFORCEONE_X_AXIS;
+
+	// Lifter
+	static constexpr int LifterPrepareCoreEjectionButtonNumber = JOYSTICK_BUTTON_TEN;
+	static constexpr int LifterRunWinchButtonNumber = JOYSTICK_BUTTON_ELEVEN;
 
 	// xBox button role selection
 	static constexpr int XBoxFinnesseButtonNumber = XBOX_RIGHT_SHOLDER_BUTTON;
@@ -61,7 +66,7 @@ private:
 	static constexpr int XBoxTwistAxisNumber = XBOX_RIGHT_STICK_X_AXIS;
 
 	// Use the Joystick when true, Use the xBox controller when false
-	bool useJoystick;
+	bool useJoystick = true;
 	bool enableD_PadDebugging;
 
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
@@ -69,7 +74,7 @@ private:
 
 	// Joystick Deadzone
 	static constexpr double JoystickDeadzone = 0.02;
-	static constexpr double JoystickTwistDeadzone = 0.135;
+	static constexpr double JoystickTwistDeadzone = 0.16;
 	static constexpr double XboxTwistDeadzone = 0.135;
 
 	// Deadzone bool values
@@ -78,7 +83,10 @@ private:
 	bool OverrideZDeadzone = false;
 
 	// Xbox Deadzone
-	const double XboxDeadzone = 0.02;
+	static constexpr double XboxDeadzone = 0.13;
+	static constexpr double XboxRestingDeadzone = 0.18;
+
+	void CircleDeadZone();
 
 public:
 	OI();

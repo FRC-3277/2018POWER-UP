@@ -26,14 +26,12 @@ static constexpr int REAR_RIGHT_MOTOR_CAN_ID = 5;
 static constexpr int ELEVATOR_MOTOR_LEFT_CAN_ID = 10;
 static constexpr int ELEVATOR_MOTOR_RIGHT_CAN_ID = 11;
 // TODO: Get from motor controller
-static constexpr int DROP_END_EFFECTOR_SERVO = 5;
+static constexpr int DROP_END_EFFECTOR_SERVO_ID = 5;
 static constexpr int HIGH_LIMIT_SWITCH_ID = 9;
 static constexpr int MED_LIMIT_SWITCH_ID = 8;
 static constexpr int LOW_LIMIT_SWITCH_ID = 7;
 
-
 // Grabber
-// TODO: Create additional Motor in Grabber Subsystem
 static constexpr int GRABBER_LEFT_MOTOR_CAN_ID = 20;
 static constexpr int GRABBER_RIGHT_MOTOR_CAN_ID = 21;
 static constexpr int BLOCK_INJECTION_STOP_LIMIT_SWITCH_ID = 0;
@@ -43,3 +41,19 @@ static constexpr int BLOCK_TILT_DOWN_STOP_LIMIT_SWITCH_ID = 3;
 
 // Lifter
 static constexpr int LIFTER_MOTOR_CAN_ID = 22;
+static constexpr int LIFTER_LEFT_EJECT_CORE_SERVO_ID = 0;
+static constexpr int LIFTER_RIGHT_EJECT_CORE_SERVO_ID = 1;
+
+// Camera
+static constexpr int CAMERA_CONTROL_SERVO_ID = 2;
+
+// Disable subsystems for debugging and testing
+static constexpr bool EnableDriveTrain = true;
+static constexpr bool EnableElevator = true;
+static constexpr bool EnableGrabber = true;
+static constexpr bool EnableLifter = true;
+
+// Enable subsystem or command area focused debug logging.  Requires debug logging severity enabled as well.
+static constexpr bool EnableAutonomousDebugLogging = false;
+static constexpr bool EnableDriveTrainDebugLogging = false;
+static constexpr bool ElevatorDebugLoggingEnabled = false;

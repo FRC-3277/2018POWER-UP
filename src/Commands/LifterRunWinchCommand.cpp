@@ -5,27 +5,34 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "MyAutoCommand.h"
+#include "LifterRunWinchCommand.h"
 
-MyAutoCommand::MyAutoCommand() {
-	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(&Robot::chassis);
+LifterRunWinchCommand::LifterRunWinchCommand() {
+	Requires(Robot::lifter.get());
 }
 
 // Called just before this Command runs the first time
-void MyAutoCommand::Initialize() {}
+void LifterRunWinchCommand::Initialize() {
+
+}
 
 // Called repeatedly when this Command is scheduled to run
-void MyAutoCommand::Execute() {}
+void LifterRunWinchCommand::Execute() {
+	Robot::lifter->RunTheWinch();
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool MyAutoCommand::IsFinished() {
+bool LifterRunWinchCommand::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void MyAutoCommand::End() {}
+void LifterRunWinchCommand::End() {
+	Robot::lifter->StopTheWinch();
+}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void MyAutoCommand::Interrupted() {}
+void LifterRunWinchCommand::Interrupted() {
+	Robot::lifter->StopTheWinch();
+}

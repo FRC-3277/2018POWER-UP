@@ -10,13 +10,15 @@
 #include "LumberJack.h"
 
 #include <Commands/Command.h>
+#include "Robot.h"
 
-class MyAutoCommand : public frc::Command {
+class PrepareLifterCoreForEjectCommand : public frc::Command {
 public:
-	MyAutoCommand();
+	PrepareLifterCoreForEjectCommand();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
 };
+

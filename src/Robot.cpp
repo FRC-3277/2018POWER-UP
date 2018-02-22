@@ -11,10 +11,14 @@ std::shared_ptr<Elevator> Robot::elevator;
 std::shared_ptr<Grabber> Robot::grabber;
 std::shared_ptr<Lifter> Robot::lifter;
 std::shared_ptr<GameStates> Robot::gamestates;
+std::shared_ptr<TimeKeeper> Robot::timekeeper;
+std::shared_ptr<Camera> Robot::camera;
 std::unique_ptr<OI> Robot::oi;
 
 void Robot::RobotInit()
 {
+	lumberJack.reset(new LumberJack());
+
 	//m_chooser.AddDefault("Default Auto", &m_defaultAuto);
 	//m_chooser.AddObject("My Auto", &m_myAuto);
 
@@ -22,7 +26,19 @@ void Robot::RobotInit()
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 	SmartDashboard::PutBoolean("Drive With Joystick? 0", true);
 	SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
+	// Defaulting Robot Location in Driver Station
+	SmartDashboard::PutString("DB/String 0", "R");
 
+	try
+	{
+		lumberJack->dLog("AutonomousScenarios Started");
+		autonomousScenarios.reset(new AutonomousScenarios());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->eLog(std::string("autonomousScenarios.reset() failed; ") + std::string(e.what()));
+	}
+	
 	try
 	{
 		if(EnableDriveTrain)
@@ -85,6 +101,16 @@ void Robot::RobotInit()
 		lumberJack->eLog(std::string("gamestates.reset() failed; ") + std::string(e.what()));
 	}
 
+	try
+	{
+		lumberJack->dLog("Camera Started");
+		camera.reset(new Camera());
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->eLog(std::string("camera.reset() failed; ") + std::string(e.what()));
+	}
+
 	// This MUST be here. If the OI creates Commands (which it very likely
 	// will), constructing it during the construction of CommandBase (from
 	// which commands extend), subsystems are not guaranteed to be
@@ -99,6 +125,8 @@ void Robot::RobotInit()
 	{
 		lumberJack->eLog(std::string("oi.reset() failed; ") + std::string(e.what()));
 	}
+
+	gamestates->GetGameData();
 }
 
 /**
@@ -131,18 +159,13 @@ void Robot::DisabledPeriodic()
  */
 void Robot::AutonomousInit()
 {
-	std::string autoSelected = frc::SmartDashboard::GetString(
-			"Auto Selector", "Default");
-	if (autoSelected == "My Auto") {
-		//m_autonomousCommand = &m_myAuto;
-	} else {
-		//m_autonomousCommand = &m_defaultAuto;
-	}
+	lumberJack->iLog("Begin Autonomous");
 
-	m_autonomousCommand = m_chooser.GetSelected();
+	gamestates->GetGameData();
 
-	if (m_autonomousCommand != nullptr) {
-		m_autonomousCommand->Start();
+	if (autonomousScenarios.get() != nullptr)
+	{
+		autonomousScenarios->Start();
 	}
 }
 
@@ -158,21 +181,30 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit()
 {
+	lumberJack->iLog("Begin Teleop");
+
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to
 	// continue until interrupted by another command, remove
 	// this line or comment it out.
-	if (m_autonomousCommand != nullptr)
+	if (autonomousScenarios.get() != nullptr)
 	{
-		m_autonomousCommand->Cancel();
-		m_autonomousCommand = nullptr;
+		autonomousScenarios->Cancel();
+		autonomousScenarios = nullptr;
 	}
 }
 
 void Robot::TeleopPeriodic()
 {
+	//TODO:: Fix this!
+	if(timekeeper->GetElapsedTime() >= ElapsedSecondsBeforeEnableLifter || true)
+	{
+		lifter->EnableLifterSubsystem();
+	}
+
 	if(EnableElevator)
 	{
+		elevator->HoldElevator();
 		elevator->UpdateLimitSwitchTracker();
 	}
 	frc::Scheduler::GetInstance()->Run();

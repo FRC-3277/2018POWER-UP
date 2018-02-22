@@ -5,34 +5,34 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "StartLifterCommand.h"
+#include <Commands/PrepareLifterCoreForEjectCommand.h>
 
-StartLifterCommand::StartLifterCommand() {
+PrepareLifterCoreForEjectCommand::PrepareLifterCoreForEjectCommand() {
 	Requires(Robot::lifter.get());
 }
 
 // Called just before this Command runs the first time
-void StartLifterCommand::Initialize() {
+void PrepareLifterCoreForEjectCommand::Initialize() {
 
 }
 
 // Called repeatedly when this Command is scheduled to run
-void StartLifterCommand::Execute() {
-	Robot::lifter->StartLifter();
+void PrepareLifterCoreForEjectCommand::Execute() {
+	Robot::lifter->PrepareLifterCoreForEject();
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool StartLifterCommand::IsFinished() {
+bool PrepareLifterCoreForEjectCommand::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void StartLifterCommand::End() {
+void PrepareLifterCoreForEjectCommand::End() {
 
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void StartLifterCommand::Interrupted() {
+void PrepareLifterCoreForEjectCommand::Interrupted() {
 
 }
