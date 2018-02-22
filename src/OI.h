@@ -10,7 +10,7 @@
 
 #include "WPILib.h"
 #include <Buttons/JoystickButton.h>
-
+#include "Controller/Extreme3DPro.h"
 
 
 #define DRIVER_CONTROLLER_ID 0
@@ -26,6 +26,8 @@ private:
 
 	std::shared_ptr<Joystick> controllerDriver;
 	std::shared_ptr<Joystick> AirForceOneController;
+
+	std::shared_ptr<UserDefinedController::Extreme3D_Pro> extreme3dProController;
 
 	std::shared_ptr<JoystickButton> InvertDriverControlsButton;
 	std::shared_ptr<JoystickButton> FinesseButton;

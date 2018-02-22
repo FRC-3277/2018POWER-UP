@@ -12,9 +12,12 @@ namespace UserDefinedController {
 
 	}
 
-	void Extreme3D_Pro::AssignButton()
+	void Extreme3D_Pro::AssignButton(const std::string& givenButtonName)
 	{
 
+		mapOfWords.insert(std::make_pair("earth", 1));
+		mapOfWords.insert(std::make_pair("moon", 2));
+		userDefinedControllerButtonMapping.insert(std::make_pair())
 	}
 	void Extreme3D_Pro::AssignAxis()
 	{
