@@ -19,8 +19,40 @@
 #include "Commands/LifterRunWinchCommand.h"
 #include "Commands/PrepareLifterCoreForEjectCommand.h"
 
+namespace UDC = UserDefinedController;
+
 OI::OI()
 {
+	extreme3dProController.reset(new UserDefinedController::Extreme3D_Pro());
+
+	// extreme3dProController only configuration
+	extreme3dProController->AssignButton(std::string("JoystickFinesseButton"), FinesseButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_SEVEN);
+	extreme3dProController->AssignButton(std::string("InvertDriverControlsButton"), InvertDriverControlsButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TWELVE);
+
+	extreme3dProController->AssignButton(std::string("ElevatorUpButton"), ElevatorUpButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TWO);
+	extreme3dProController->AssignButton(std::string("ElevatorDownButton"), ElevatorDownButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_THREE);
+	// ToggleElevatorControlMode and DesiredElevatorSetpointAxisNumber unavailable in single controller mode
+	//static constexpr int ToggleElevatorControlMode = AIRFORCEONE_BUTTON_FIVE;
+	//static constexpr int DesiredElevatorSetpointAxisNumber = AIRFORCEONE_Z_AXIS;
+
+	// Grabber
+	extreme3dProController->AssignButton(std::string("GrabberInjectionButton"), InjectionButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_FOUR);
+	extreme3dProController->AssignButton(std::string("GrabberEjectionButton"), EjectionButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_FIVE);
+
+	// Not actually mapped to Controller, but in use
+	extreme3dProController->AssignAxis(std::string("GrabberSpeedControlAxis"), UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_SLIDER);
+
+	// Lifter
+	extreme3dProController->AssignButton(std::string("LifterPrepareCoreEjectionButton"), LifterEjectCoreButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TEN);
+	extreme3dProController->AssignButton(std::string("LifterRunWinchButton"), LifterRunWinchButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_ELEVEN);
+
+	// xBox button role selection
+	//static constexpr int XBoxFinnesseButtonNumber = XBOX_RIGHT_SHOLDER_BUTTON;
+	//static constexpr int XBoxLateralAxisNumber  = XBOX_LEFT_STICK_X_AXIS;
+	//static constexpr int XBoxForwardReverseAxisNumber = XBOX_LEFT_STICK_Y_AXIS;
+	//static constexpr int XBoxTwistAxisNumber = XBOX_RIGHT_STICK_X_AXIS;
+
+
 	// Controllers
 	lumberJack->dLog("Assigning controllers");
 	try
@@ -48,7 +80,8 @@ OI::OI()
 	{
 		try
 		{
-			InjectionButton.reset(new JoystickButton(AirForceOneController.get(), GrabberInjectionButtonNumber));
+			extreme3dProController->GetButton("GrabberInjectionButton").joystickButton.reset(
+					new JoystickButton(AirForceOneController.get(), extreme3dProController->GetButton("GrabberInjectionButton").LOGITECH_EXTREME3DPRO_BUTTON));
 			InjectionButton->WhileHeld(new EatCubeCommand());
 		}
 		catch(const std::exception& e)
