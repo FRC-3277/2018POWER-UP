@@ -10,11 +10,7 @@
 
 #include "WPILib.h"
 #include <Buttons/JoystickButton.h>
-#include "Controller/Extreme3DPro.h"
-
-
-#define DRIVER_CONTROLLER_ID 0
-#define ALTERNATE_CONTROLLER_ID 1
+#include "Controller/AssignedController.h"
 
 class OI {
 	// TODO: Add Winch In Button - Add limit switch interlock for min
@@ -23,11 +19,10 @@ class OI {
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;
-
-	std::shared_ptr<Joystick> controllerDriver;
-	std::shared_ptr<Joystick> AirForceOneController;
-
-	std::shared_ptr<UserDefinedController::Extreme3D_Pro> extreme3dProController;
+	std::shared_ptr<UserDefinedController::AssignedController> assignedController;
+	std::shared_ptr<Joystick> firstPlayerController;
+	std::shared_ptr<Joystick> secondPlayerController;
+	std::shared_ptr<Joystick> thirdPlayerController;
 
 	std::shared_ptr<JoystickButton> InvertDriverControlsButton;
 	std::shared_ptr<JoystickButton> FinesseButton;
@@ -39,9 +34,43 @@ private:
 	std::shared_ptr<JoystickButton> ElevatorDownButton;
 	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
 
+	// Buttons are mapped via a unique string
+	std::string LateralAxisId = std::string("LateralAxisId");
+	std::string ForwardReverseAxisId = std::string("ForwardReverseAxisId");
+	std::string TwistAxisId = std::string("TwistAxisId");
+	std::string ElevatorDownButtonId = std::string("ElevatorDownButtonId");
+	std::string ElevatorUpButtonId = std::string("ElevatorUpButtonId");
+	std::string GrabberEjectionButtonId = std::string("GrabberEjectionButtonId");
+	std::string GrabberInjectionButtonId = std::string("GrabberInjectionButtonId");
+	std::string GrabberSpeedControlAxisId = std::string("GrabberSpeedControlAxisId");
+	std::string InvertDriverControlsButtonId = std::string("InvertDriverControlsButtonId");
+	std::string JoystickFinesseButtonId = std::string("JoystickFinesseButtonId");
+	std::string LifterPrepareCoreEjectionButtonId = std::string("LifterPrepareCoreEjectionButtonId");
+	std::string LifterRunWinchButtonId = std::string("LifterRunWinchButtonId");
+
+	/*
+	 * To ensure consistency the controllers must be mapped to a slot in the driver station.
+	 * If there was a way to inspect the controller type by USB device info this could be dynamic.
+	 * //TODO: Possible feature request for wpilib?
+	 */
+	static constexpr int EXTREME3D_PRO_CONTROLLER_ID = 0;
+	static constexpr int AIRFORCEONE_CONTROLLER_ID = 1;
+	static constexpr int XBOX_CONTROLLER_ID = 2;
+
+	/*
+	 * Assigned controller configuration
+	 * 0 - Just the Extreme3D_Pro joystick
+	 * 1 - Just the XBox controller
+	 * 2 - Extreme3D_Pro as firstPlayerController with main role of driver with AirforceOne as secondPlayerController playing support role //TODO: add additional info here
+	 * 3 - Extreme3D_Pro as firstPlayerController with main role of driver with AirforceOne as secondPlayerController and XBox as thirdPlayerController playing support role //TODO: add additional info here
+	 */
+	static constexpr int PlayerControllerConfigurationMode = 0;
+
 	// Use the Joystick when true, Use the xBox controller when false
 	bool useJoystick = true;
 	bool enableD_PadDebugging;
+
+	void MapButtonToCommand(const std::string& givenButtonName);
 
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
 	double Clamp(double joystickAxis);
@@ -65,7 +94,6 @@ private:
 public:
 	OI();
 
-	std::shared_ptr<Joystick> GetDriverController();
 	double GetJoystickX();
 	double GetJoystickY();
 	double GetJoystickTwist();

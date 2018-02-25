@@ -23,80 +23,126 @@ namespace UDC = UserDefinedController;
 
 OI::OI()
 {
-	extreme3dProController.reset(new UserDefinedController::Extreme3D_Pro());
-
-	// extreme3dProController only configuration
-	extreme3dProController->AssignButton(std::string("JoystickFinesseButton"), FinesseButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_SEVEN);
-	extreme3dProController->AssignButton(std::string("InvertDriverControlsButton"), InvertDriverControlsButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TWELVE);
-
-	extreme3dProController->AssignButton(std::string("ElevatorUpButton"), ElevatorUpButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TWO);
-	extreme3dProController->AssignButton(std::string("ElevatorDownButton"), ElevatorDownButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_THREE);
-	// ToggleElevatorControlMode and DesiredElevatorSetpointAxisNumber unavailable in single controller mode
-	//static constexpr int ToggleElevatorControlMode = AIRFORCEONE_BUTTON_FIVE;
-	//static constexpr int DesiredElevatorSetpointAxisNumber = AIRFORCEONE_Z_AXIS;
-
-	// Grabber
-	extreme3dProController->AssignButton(std::string("GrabberInjectionButton"), InjectionButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_FOUR);
-	extreme3dProController->AssignButton(std::string("GrabberEjectionButton"), EjectionButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_FIVE);
-
-	// Not actually mapped to Controller, but in use
-	extreme3dProController->AssignAxis(std::string("GrabberSpeedControlAxis"), UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_SLIDER);
-
-	// Lifter
-	extreme3dProController->AssignButton(std::string("LifterPrepareCoreEjectionButton"), LifterEjectCoreButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TEN);
-	extreme3dProController->AssignButton(std::string("LifterRunWinchButton"), LifterRunWinchButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_ELEVEN);
-
-	// xBox button role selection
-	//static constexpr int XBoxFinnesseButtonNumber = XBOX_RIGHT_SHOLDER_BUTTON;
-	//static constexpr int XBoxLateralAxisNumber  = XBOX_LEFT_STICK_X_AXIS;
-	//static constexpr int XBoxForwardReverseAxisNumber = XBOX_LEFT_STICK_Y_AXIS;
-	//static constexpr int XBoxTwistAxisNumber = XBOX_RIGHT_STICK_X_AXIS;
-
-
-	// Controllers
-	lumberJack->dLog("Assigning controllers");
 	try
 	{
-		controllerDriver.reset(new Joystick(DRIVER_CONTROLLER_ID));
+		// Controllers
+		lumberJack->dLog("Assigning controllers");
+		assignedController.reset(new UserDefinedController::AssignedController());
+
+		switch(PlayerControllerConfigurationMode)
+		{
+			case 0:
+			{
+				firstPlayerController.reset(new Joystick(EXTREME3D_PRO_CONTROLLER_ID));
+				break;
+			}
+			case 1:
+			{
+				firstPlayerController.reset(new Joystick(XBOX_CONTROLLER_ID));
+				break;
+			}
+			case 2:
+			{
+				firstPlayerController.reset(new Joystick(EXTREME3D_PRO_CONTROLLER_ID));
+				secondPlayerController.reset(new Joystick(AIRFORCEONE_CONTROLLER_ID));
+				break;
+			}
+			case 3:
+			{
+				firstPlayerController.reset(new Joystick(EXTREME3D_PRO_CONTROLLER_ID));
+				secondPlayerController.reset(new Joystick(AIRFORCEONE_CONTROLLER_ID));
+				thirdPlayerController.reset(new Joystick(XBOX_CONTROLLER_ID));
+				break;
+			}
+		}
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->eLog(std::string("controllerDriver.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("Controller reset operation failed; ") + std::string(e.what()));
 	}
 
 	try
 	{
-		AirForceOneController.reset(new Joystick(ALTERNATE_CONTROLLER_ID));
+		// Mapping buttons to controllers
+		lumberJack->dLog("Mapping buttons to controllers");
+		switch(PlayerControllerConfigurationMode)
+		{
+			case 0:
+			{
+				assignedController->Extreme3D_Pro::AssignAxis(LateralAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_X_AXIS);
+				assignedController->Extreme3D_Pro::AssignAxis(ForwardReverseAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_Y_AXIS);
+				assignedController->Extreme3D_Pro::AssignAxis(TwistAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_Z_AXIS);
+
+				// Due to only one axis ToggleElevatorControlMode and DesiredElevatorSetpointAxisNumber unavailable in single controller mode
+				assignedController->Extreme3D_Pro::AssignButton(JoystickFinesseButtonId, firstPlayerController, FinesseButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_SEVEN);
+				assignedController->Extreme3D_Pro::AssignButton(InvertDriverControlsButtonId, firstPlayerController, InvertDriverControlsButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TWELVE);
+
+				assignedController->Extreme3D_Pro::AssignButton(ElevatorUpButtonId, firstPlayerController, ElevatorUpButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TWO);
+				assignedController->Extreme3D_Pro::AssignButton(ElevatorDownButtonId, firstPlayerController, ElevatorDownButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_THREE);
+
+				// Grabber
+				assignedController->Extreme3D_Pro::AssignButton(GrabberInjectionButtonId, firstPlayerController, InjectionButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_FOUR);
+				assignedController->Extreme3D_Pro::AssignButton(GrabberEjectionButtonId, firstPlayerController, EjectionButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_FIVE);
+				assignedController->Extreme3D_Pro::AssignAxis(GrabberSpeedControlAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_SLIDER);
+
+				// Lifter
+				assignedController->Extreme3D_Pro::AssignButton(LifterPrepareCoreEjectionButtonId, firstPlayerController, LifterEjectCoreButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TEN);
+				assignedController->Extreme3D_Pro::AssignButton(LifterRunWinchButtonId, firstPlayerController, LifterRunWinchButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_ELEVEN);
+				break;
+			}
+			case 1:
+			{
+				assignedController->XBox::AssignAxis(LateralAxisId, firstPlayerController, UDC::XBox::XBOX_AXIS::XBOX_LEFT_STICK_X_AXIS);
+				assignedController->XBox::AssignAxis(ForwardReverseAxisId, firstPlayerController, UDC::XBox::XBOX_AXIS::XBOX_LEFT_STICK_Y_AXIS);
+				assignedController->XBox::AssignAxis(TwistAxisId, firstPlayerController, UDC::XBox::XBOX_AXIS::XBOX_RIGHT_STICK_X_AXIS);
+
+				assignedController->XBox::AssignButton(JoystickFinesseButtonId, firstPlayerController, FinesseButton, UDC::XBox::XBOX_BUTTON::XBOX_LEFT_SHOLDER_BUTTON);
+				break;
+			}
+			case 2:
+			{
+				assignedController->Extreme3D_Pro::AssignAxis(LateralAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_X_AXIS);
+				assignedController->Extreme3D_Pro::AssignAxis(ForwardReverseAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_Y_AXIS);
+				assignedController->Extreme3D_Pro::AssignAxis(TwistAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_Z_AXIS);
+
+				//assignedController->AirForceOne::AssignButton(ToggleElevatorControlMode?, firstPlayerController, FinesseButton, UDC::AirForceOne::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_FIVE);
+				//assignedController->AirForceOne::AssignAxis(DesiredElevatorSetpointAxisNumber?, firstPlayerController, UDC::AirForceOne::AIRFORCEONE_AXIS::AIRFORCEONE_Z_AXIS);
+				break;
+			}
+			case 3:
+			{
+				break;
+			}
+		}
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->eLog(std::string("AirForceOneController.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("Mapping buttons to controllers operation failed; ") + std::string(e.what()));
 	}
 
-	// Buttons and commands
+	// Mapping Buttons To Commands
 	lumberJack->dLog("Assigning buttons and commands");
 	//	GRABBER
 	if(EnableGrabber)
 	{
 		try
 		{
-			extreme3dProController->GetButton("GrabberInjectionButton").joystickButton.reset(
-					new JoystickButton(AirForceOneController.get(), extreme3dProController->GetButton("GrabberInjectionButton").LOGITECH_EXTREME3DPRO_BUTTON));
+			MapButtonToCommand(GrabberInjectionButtonId);
 			InjectionButton->WhileHeld(new EatCubeCommand());
 		}
 		catch(const std::exception& e)
 		{
-			lumberJack->eLog(std::string("InjectionButton.reset() failed; ") + std::string(e.what()));
+			lumberJack->eLog(std::string("InjectionButton.reset() failed; EatCubeCommand() will not be available; ") + std::string(e.what()));
 		}
 
 		try
 		{
-			EjectionButton.reset(new JoystickButton(AirForceOneController.get(), GrabberEjectionButtonNumber));
+			MapButtonToCommand(GrabberEjectionButtonId);
 			EjectionButton->WhileHeld(new SpitCubeCommand());
 		}
 		catch(const std::exception& e)
 		{
-			lumberJack->eLog(std::string("EjectionButton.reset() failed; ") + std::string(e.what()));
+			lumberJack->eLog(std::string("EjectionButton.reset() failed; SpitCubeCommand() will not be available; ") + std::string(e.what()));
 		}
 	}
 
@@ -105,32 +151,34 @@ OI::OI()
 	{
 		try
 		{
-			ElevatorUpButton.reset(new JoystickButton(controllerDriver.get(), ElevatorUpButtonNumber));
+			MapButtonToCommand(ElevatorUpButtonId);
 			ElevatorUpButton->WhileHeld(new RaiseElevatorCommand());
 		}
 		catch(const std::exception& e)
 		{
-			lumberJack->eLog(std::string("ElevatorUpButton.reset() failed; ") + std::string(e.what()));
+			lumberJack->eLog(std::string("ElevatorUpButton.reset() failed; RaiseElevatorCommand() will not be available; ") + std::string(e.what()));
 		}
 
 		try
 		{
-			ElevatorDownButton.reset(new JoystickButton(controllerDriver.get(), ElevatorDownButtonNumber));
+			MapButtonToCommand(ElevatorDownButtonId);
 			ElevatorDownButton->WhileHeld(new LowerElevatorCommand());
 		}
 		catch(const std::exception& e)
 		{
-			lumberJack->eLog(std::string("ElevatorDownButton.reset() failed; ") + std::string(e.what()));
+			lumberJack->eLog(std::string("ElevatorDownButton.reset() failed; LowerElevatorCommand() will not be available; ") + std::string(e.what()));
 		}
 
 		try
 		{
-			GoToDesiredElevatorSetpointButton.reset(new JoystickButton(AirForceOneController.get(), ToggleElevatorControlMode));
-			GoToDesiredElevatorSetpointButton->WhenPressed(new GoToDesiredSetpointCommand());
+			// TODO: Fix with master which changed to a toggle button
+			//MapButtonToCommand(GoToDesiredElevatorSetpointId);
+			//GoToDesiredElevatorSetpointButton->WhenPressed(new GoToDesiredSetpointCommand());
+			throw ERR::CustomError(std::string(__FILE__) + "; Fix Me");
 		}
 		catch(const std::exception& e)
 		{
-			lumberJack->eLog(std::string("GoToDesiredElevatorSetpointButton.reset() failed; ") + std::string(e.what()));
+			lumberJack->eLog(std::string("GoToDesiredElevatorSetpointButton.reset() failed; GoToDesiredSetpointCommand() will not be available manually; ") + std::string(e.what()));
 		}
 	}
 
@@ -139,22 +187,22 @@ OI::OI()
 	{
 		try
 		{
-			LifterEjectCoreButton.reset(new JoystickButton(controllerDriver.get(), LifterPrepareCoreEjectionButtonNumber));
+			MapButtonToCommand(LifterPrepareCoreEjectionButtonId);
 			LifterEjectCoreButton->WhenPressed(new PrepareLifterCoreForEjectCommand());
 		}
 		catch(const std::exception& e)
 		{
-			lumberJack->eLog(std::string("LifterEjectCoreButton.reset() failed; ") + std::string(e.what()));
+			lumberJack->eLog(std::string("LifterEjectCoreButton.reset() failed; PrepareLifterCoreForEjectCommand() will not be available; ") + std::string(e.what()));
 		}
 
 		try
 		{
-			LifterRunWinchButton.reset(new JoystickButton(controllerDriver.get(), LifterRunWinchButtonNumber));
+			MapButtonToCommand(LifterRunWinchButtonId);
 			LifterRunWinchButton->WhileHeld(new LifterRunWinchCommand());
 		}
 		catch(const std::exception& e)
 		{
-			lumberJack->eLog(std::string("LifterRunWinchButtonNumber.reset() failed; ") + std::string(e.what()));
+			lumberJack->eLog(std::string("LifterRunWinchButtonNumber.reset() failed; LifterRunWinchCommand() will not be available; ") + std::string(e.what()));
 		}
 	}
 
@@ -163,46 +211,31 @@ OI::OI()
 	// DRIVETRAIN
 	if(EnableDriveTrain)
 	{
-		if(useJoystick)
+		try
 		{
-			try
-			{
-				FinesseButton.reset(new JoystickButton(controllerDriver.get(), JoystickFinesseButton));
-				FinesseButton->ToggleWhenPressed(new ToggleFinesseModeCommand());
-			}
-			catch(const std::exception& e)
-			{
-				lumberJack->eLog(std::string("FinesseButton.reset() failed; ") + std::string(e.what()));
-			}
-
-			try
-			{
-				InvertDriverControlsButton.reset(new JoystickButton(controllerDriver.get(), InvertDriverControlsButtonNumber));
-				InvertDriverControlsButton->WhenPressed(new InvertDriverControlsCommand());
-			}
-			catch(const std::exception& e)
-			{
-				lumberJack->eLog(std::string("InvertDriverControlsButton.reset() failed; ") + std::string(e.what()));
-			}
+			MapButtonToCommand(JoystickFinesseButtonId);
+			FinesseButton->ToggleWhenPressed(new ToggleFinesseModeCommand());
 		}
-		else
+		catch(const std::exception& e)
 		{
-			try
-			{
-				FinesseButton.reset(new JoystickButton(controllerDriver.get(), XBoxFinnesseButtonNumber));
-				FinesseButton->ToggleWhenPressed(new ToggleFinesseModeCommand());
-			}
-			catch(const std::exception& e)
-			{
-				lumberJack->eLog(std::string("FinesseButton.reset() failed; ") + std::string(e.what()));
-			}
+			lumberJack->eLog(std::string("FinesseButton.reset() failed;  will not be available; ") + std::string(e.what()));
+		}
+
+		try
+		{
+			MapButtonToCommand(InvertDriverControlsButtonId);
+			InvertDriverControlsButton->WhenPressed(new InvertDriverControlsCommand());
+		}
+		catch(const std::exception& e)
+		{
+			lumberJack->eLog(std::string("InvertDriverControlsButton.reset() failed;  will not be available; ") + std::string(e.what()));
 		}
 	}
 }
 
-std::shared_ptr<Joystick> OI::GetDriverController()
+void OI::MapButtonToCommand(const std::string& givenButtonName)
 {
-	return controllerDriver;
+	assignedController->GetAssignedButton(givenButtonName).reset(new JoystickButton(assignedController->GetAssignedController(givenButtonName).get(), assignedController->GetAssignedButtonNumber(givenButtonName)));
 }
 
 double OI::GetJoystickX()
@@ -212,9 +245,9 @@ double OI::GetJoystickX()
 	if(useJoystick)
 	{
 		// Deadzone for X axis
-		if(controllerDriver->GetY() <= JoystickDeadzone
-			 && controllerDriver->GetY() >= -JoystickDeadzone
-			 && fabs(controllerDriver->GetY()) > fabs(controllerDriver->GetX()))
+		if(assignedController->GetAssignedController(ForwardReverseAxisId)->GetY() <= JoystickDeadzone
+			 && assignedController->GetAssignedController(ForwardReverseAxisId)->GetY() >= -JoystickDeadzone
+			 && fabs(assignedController->GetAssignedController(ForwardReverseAxisId)->GetY()) > fabs(assignedController->GetAssignedController(LateralAxisId)->GetX()))
 		{
 				OverrideYDeadzone = true;
 		}
@@ -230,7 +263,7 @@ double OI::GetJoystickX()
 		else
 		{
 			// Inversed when driving normally
-			x = -controllerDriver->GetX();
+			x = -assignedController->GetAssignedController(LateralAxisId)->GetX();
 		}
 
 	}
@@ -238,11 +271,11 @@ double OI::GetJoystickX()
 	{
 		if(enableD_PadDebugging)
 		{
-			if(controllerDriver->GetPOV() <= 90 + 15 && controllerDriver->GetPOV() >= 90 - 15)
+			if(firstPlayerController->GetPOV() <= 90 + 15 && firstPlayerController->GetPOV() >= 90 - 15)
 			{
 				x = 0.5;
 			}
-			else if(controllerDriver->GetPOV() <= 270 + 15 && controllerDriver->GetPOV() >= 270 - 15)
+			else if(firstPlayerController->GetPOV() <= 270 + 15 && firstPlayerController->GetPOV() >= 270 - 15)
 			{
 				x = -0.5;
 			}
@@ -250,9 +283,9 @@ double OI::GetJoystickX()
 		else
 		{
 			// Xboxdeadzone for X axis
-			if(controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber) <= XboxDeadzone
-				 && controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber) >= -XboxDeadzone
-				 && fabs(controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber)) > fabs(controllerDriver->GetRawAxis(XBoxLateralAxisNumber)))
+			if(assignedController->GetAssignedController(ForwardReverseAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(ForwardReverseAxisId)) <= XboxDeadzone
+				 && assignedController->GetAssignedController(ForwardReverseAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(ForwardReverseAxisId)) >= -XboxDeadzone
+				 && fabs(assignedController->GetAssignedController(ForwardReverseAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(ForwardReverseAxisId))) > fabs(assignedController->GetAssignedController(LateralAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(LateralAxisId))))
 			{
 					OverrideYDeadzone = true;
 			}
@@ -268,7 +301,7 @@ double OI::GetJoystickX()
 			else
 			{
 				// Inversed when driving normally
-				x = -controllerDriver->GetRawAxis(XBoxLateralAxisNumber);
+				x = -assignedController->GetAssignedController(LateralAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(LateralAxisId));
 			}
 		}
 	}
@@ -285,9 +318,9 @@ double OI::GetJoystickY()
 	if(useJoystick)
 	{
 		// Joystick deadzone for Y axis
-		if(controllerDriver->GetX() <= JoystickDeadzone
-			&& controllerDriver->GetX() >= -JoystickDeadzone
-			&& fabs(controllerDriver->GetX()) > fabs(controllerDriver->GetY()))
+		if(assignedController->GetAssignedController(LateralAxisId)->GetX() <= JoystickDeadzone
+			&& assignedController->GetAssignedController(LateralAxisId)->GetX() >= -JoystickDeadzone
+			&& fabs(assignedController->GetAssignedController(LateralAxisId)->GetX()) > fabs(assignedController->GetAssignedController(ForwardReverseAxisId)->GetY()))
 		{
 			OverrideXDeadzone = true;
 		}
@@ -304,18 +337,18 @@ double OI::GetJoystickY()
 		}
 		else
 		{
-			y = controllerDriver->GetY();
+			y = assignedController->GetAssignedController(ForwardReverseAxisId)->GetY();
 		}
 	}
 	else
 	{
 		if(enableD_PadDebugging)
 		{
-			if(controllerDriver->GetPOV() <= 0 + 15 && controllerDriver->GetPOV() >= 360 - 15)
+			if(firstPlayerController->GetPOV() <= 0 + 15 && firstPlayerController->GetPOV() >= 360 - 15)
 			{
 				y = -0.5;
 			}
-			else if(controllerDriver->GetPOV() <= 180 + 15 && controllerDriver->GetPOV() >= 180 - 15)
+			else if(firstPlayerController->GetPOV() <= 180 + 15 && firstPlayerController->GetPOV() >= 180 - 15)
 			{
 				y = 0.5;
 			}
@@ -323,9 +356,9 @@ double OI::GetJoystickY()
 		else
 		{
 			// Xboxdeadzone for Y axis
-			if(controllerDriver->GetRawAxis(XBoxLateralAxisNumber) <= XboxDeadzone
-				 && controllerDriver->GetRawAxis(XBoxLateralAxisNumber) >= -XboxDeadzone
-				 && fabs(controllerDriver->GetRawAxis(XBoxLateralAxisNumber)) > fabs(controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber)))
+			if(assignedController->GetAssignedController(LateralAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(LateralAxisId)) <= XboxDeadzone
+				 && assignedController->GetAssignedController(LateralAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(LateralAxisId)) >= -XboxDeadzone
+				 && fabs(assignedController->GetAssignedController(LateralAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(LateralAxisId))) > fabs(assignedController->GetAssignedController(ForwardReverseAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(ForwardReverseAxisId))))
 			{
 					OverrideYDeadzone = true;
 			}
@@ -342,7 +375,7 @@ double OI::GetJoystickY()
 			}
 			else
 			{
-				y = controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber);
+				y = assignedController->GetAssignedController(ForwardReverseAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(ForwardReverseAxisId));
 			}
 		}
 	}
@@ -360,7 +393,7 @@ double OI::GetJoystickTwist()
 	{
 		// The direction turned is CW for negative and CCW for positive.
 		//Adding deadzone for Z axis
-		if(fabs(controllerDriver->GetTwist()) <= JoystickTwistDeadzone)
+		if(fabs(assignedController->GetAssignedController(TwistAxisId)->GetTwist()) <= JoystickTwistDeadzone)
 		{
 			OverrideZDeadzone = true;
 			rotation += 0.0;
@@ -368,19 +401,19 @@ double OI::GetJoystickTwist()
 		else
 		{
 			OverrideZDeadzone = false;
-			rotation = controllerDriver->GetTwist() * -0.5;
+			rotation = assignedController->GetAssignedController(TwistAxisId)->GetTwist() * -0.5;
 		}
 
 	}
 	else
 	{
-		if(fabs(controllerDriver->GetRawAxis(XBoxTwistAxisNumber)) <= XboxTwistDeadzone)
+		if(fabs(assignedController->GetAssignedController(TwistAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(TwistAxisId))) <= XboxTwistDeadzone)
 		{
 			rotation += 0.0;
 		}
 		else
 		{
-			rotation = controllerDriver->GetRawAxis(XBoxTwistAxisNumber) * -1.0;
+			rotation = assignedController->GetAssignedController(TwistAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(TwistAxisId)) * -1.0;
 		}
 	}
 
@@ -393,7 +426,8 @@ void OI::CircleDeadZone()
 {
 	if(useJoystick == false)
 	{
-		if(pow((controllerDriver->GetRawAxis(XBoxLateralAxisNumber) - 0.0), 2) + pow((controllerDriver->GetRawAxis(XBoxForwardReverseAxisNumber) - 0.0), 2) < pow(XboxRestingDeadzone, 2))
+		if(pow((assignedController->GetAssignedController(LateralAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(LateralAxisId)) - 0.0), 2) +
+				pow((assignedController->GetAssignedController(ForwardReverseAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(ForwardReverseAxisId)) - 0.0), 2) < pow(XboxRestingDeadzone, 2))
 		{
 			OverrideYDeadzone = true;
 			OverrideXDeadzone = true;
@@ -425,8 +459,8 @@ int OI::GetDesiredElevatorSetpoint()
 	int DesiredSetpoint = 1;
 	int NumberOfElevatorLimitSwitches = 5;
 	double SetPointDelimiterValue = 0.99/NumberOfElevatorLimitSwitches;
-	double CurrentActualElevatorSetpointControllerValue = ScaleAirForceOneAxis(-AirForceOneController->GetRawAxis(DesiredElevatorSetpointAxisNumber));
-
+	double CurrentActualElevatorSetpointControllerValue = 0;//TODO: Fix this! ScaleAirForceOneAxis(-secondaryController->GetRawAxis(assignedController->GetAssignedAxisNumber(DesiredElevatorSetpointAxisNumber)));
+	lumberJack->eLog("Fix Me! DesiredElevatorSetpointAxisNumber not assigned.");
 	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
 
 	lumberJack->iLog("DesiredSetpoint: " + std::to_string(DesiredSetpoint));
@@ -434,7 +468,7 @@ int OI::GetDesiredElevatorSetpoint()
 }
 
 double OI::GetAirForceOneXAxis() {
-	return Clamp(AirForceOneController->GetRawAxis(GrabberSpitCubeLeverAxisNumber));
+	return Clamp(assignedController->GetAssignedController(GrabberEjectionButtonId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GrabberEjectionButtonId)));
 }
 
 double OI::ScaleAirForceOneAxis(double ValueToRescale) {
