@@ -24,29 +24,34 @@ private:
 	std::shared_ptr<Joystick> secondPlayerController;
 	std::shared_ptr<Joystick> thirdPlayerController;
 
-	std::shared_ptr<JoystickButton> InvertDriverControlsButton;
+	std::shared_ptr<JoystickButton> EjectionButton;
+	std::shared_ptr<JoystickButton> ElevatorDownButton;
+	std::shared_ptr<JoystickButton> ElevatorUpButton;
 	std::shared_ptr<JoystickButton> FinesseButton;
 	std::shared_ptr<JoystickButton> InjectionButton;
-	std::shared_ptr<JoystickButton> EjectionButton;
+	std::shared_ptr<JoystickButton> InvertDriverControlsButton;
 	std::shared_ptr<JoystickButton> LifterEjectCoreButton;
 	std::shared_ptr<JoystickButton> LifterRunWinchButton;
-	std::shared_ptr<JoystickButton> ElevatorUpButton;
-	std::shared_ptr<JoystickButton> ElevatorDownButton;
-	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
+	std::shared_ptr<JoystickButton> ToggleElevatorControlModeButton;
 
-	// Buttons are mapped via a unique string
+	// Buttons and axis are mapped via a unique string
+	// Axis
 	std::string LateralAxisId = std::string("LateralAxisId");
-	std::string ForwardReverseAxisId = std::string("ForwardReverseAxisId");
 	std::string TwistAxisId = std::string("TwistAxisId");
+	std::string ForwardReverseAxisId = std::string("ForwardReverseAxisId");
+	std::string GoToDesiredElevatorSetpointAxisId = std::string("GoToDesiredElevatorSetpointAxisId");
+	std::string GrabberSpeedControlAxisId = std::string("GrabberSpeedControlAxisId");
+
+	// Buttons
 	std::string ElevatorDownButtonId = std::string("ElevatorDownButtonId");
 	std::string ElevatorUpButtonId = std::string("ElevatorUpButtonId");
 	std::string GrabberEjectionButtonId = std::string("GrabberEjectionButtonId");
 	std::string GrabberInjectionButtonId = std::string("GrabberInjectionButtonId");
-	std::string GrabberSpeedControlAxisId = std::string("GrabberSpeedControlAxisId");
 	std::string InvertDriverControlsButtonId = std::string("InvertDriverControlsButtonId");
 	std::string JoystickFinesseButtonId = std::string("JoystickFinesseButtonId");
 	std::string LifterPrepareCoreEjectionButtonId = std::string("LifterPrepareCoreEjectionButtonId");
 	std::string LifterRunWinchButtonId = std::string("LifterRunWinchButtonId");
+	std::string ToggleElevatorControlModeId = std::string("ToggleElevatorControlModeId");
 
 	/*
 	 * To ensure consistency the controllers must be mapped to a slot in the driver station.
@@ -70,7 +75,7 @@ private:
 	bool useJoystick = true;
 	bool enableD_PadDebugging;
 
-	void MapButtonToCommand(const std::string& givenButtonName);
+	void MapButtonToController(const std::string& givenButtonName);
 
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
 	double Clamp(double joystickAxis);
