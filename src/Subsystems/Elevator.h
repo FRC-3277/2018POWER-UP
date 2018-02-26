@@ -17,10 +17,6 @@ private:
 
 	std::shared_ptr<Servo> EndEffectorDropServo;
 
-	// TODO: Disable Max and Min
-	std::shared_ptr<DigitalInput> MaxHeightLimitSwitch;
-	std::shared_ptr<DigitalInput> MinHeightLimitSwitch;
-
 	std::shared_ptr<DigitalInput> HighLimitSwitch;
 	std::shared_ptr<DigitalInput> MedLimitSwitch;
 	std::shared_ptr<DigitalInput> LowLimitSwitch;

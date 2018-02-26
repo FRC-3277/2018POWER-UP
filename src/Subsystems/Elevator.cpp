@@ -45,24 +45,6 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	lumberJack->dLog("Assigning limit switches");
 	try
 	{
-		//MaxHeightLimitSwitch.reset(new DigitalInput(MAX_HEIGHT_LIMIT_SWITCH_ID));
-	}
-	catch(const std::exception& e)
-	{
-		lumberJack->eLog(std::string("MaxHeightLimitSwitch.reset() failed; ") + std::string(e.what()));
-	}
-
-	try
-	{
-		//MinHeightLimitSwitch.reset(new DigitalInput(MIN_HEIGHT_LIMIT_SWITCH_ID));
-	}
-	catch(const std::exception& e)
-	{
-		lumberJack->eLog(std::string("MinHeightLimitSwitch.reset() failed; ") + std::string(e.what()));
-	}
-
-	try
-	{
 		HighLimitSwitch.reset(new DigitalInput(HIGH_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
