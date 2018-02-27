@@ -16,9 +16,15 @@ namespace UserDefinedController {
 									std::shared_ptr<frc::JoystickButton> controllerButton,
 									LOGITECH_EXTREME3DPRO_BUTTON buttonToButtonNumber)
 	{
+		std::shared_ptr<JoystickButton> button;
+
+		// Doing this step here assigns a memory address to the button.  Without it storing a null pointer is fairly useless
+		button.reset(new JoystickButton(controller.get(), static_cast<int>(buttonToButtonNumber)));
+
 		ControllerButtonMapping buttonMapping;
 		buttonMapping.controller = controller;
-		buttonMapping.controllerButton = controllerButton;
+		//TODO: cleanup unecessary param
+		buttonMapping.controllerButton = button;
 		buttonMapping.buttonNumber = buttonToButtonNumber;
 
 		// TODO: prevent duplicate assignment to same button and/or same button mapping
