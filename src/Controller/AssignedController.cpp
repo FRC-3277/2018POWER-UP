@@ -18,11 +18,8 @@ namespace UserDefinedController {
 
 		try
 		{
-			if(joystick == nullptr)
-			{
-				joystick = AirForceOne::GetController(givenButtonOrAxisName);
-				numberOfMappingsFound += 1;
-			}
+			joystick = AirForceOne::GetController(givenButtonOrAxisName);
+			numberOfMappingsFound += 1;
 		}
 		catch(ERR::CustomError& e)
 		{
@@ -82,11 +79,8 @@ namespace UserDefinedController {
 
 		try
 		{
-			if(joystickButton == nullptr)
-			{
-				joystickButton = AirForceOne::GetButton(givenButtonName);
-				numberOfMappingsFound += 1;
-			}
+			joystickButton = AirForceOne::GetButton(givenButtonName);
+			numberOfMappingsFound += 1;
 		}
 		catch(ERR::CustomError& e)
 		{
