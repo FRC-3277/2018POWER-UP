@@ -197,7 +197,7 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
 	//TODO:: Fix this!
-	if(timekeeper->GetElapsedTime() >= ElapsedSecondsBeforeEnableLifter || true)
+	if(timekeeper->GetElapsedTime() >= ElapsedSecondsBeforeEnableLifter || EnableLifter)
 	{
 		lifter->EnableLifterSubsystem();
 	}
