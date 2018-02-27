@@ -103,8 +103,11 @@ void Robot::RobotInit()
 
 	try
 	{
-		lumberJack->dLog("Camera Started");
-		camera.reset(new Camera());
+		if(EnableCamera)
+		{
+			lumberJack->dLog("Camera Started");
+			camera.reset(new Camera());
+		}
 	}
 	catch(const std::exception& e)
 	{
