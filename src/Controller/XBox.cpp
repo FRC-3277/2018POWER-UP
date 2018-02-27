@@ -48,8 +48,8 @@ namespace UserDefinedController
 		}
 		else
 		{
-			lumberJack->eLog("Requested button map not found: " + givenButtonName);
-			throw ERR::CustomError(std::string(__FILE__) + "; Requested button map not found; " + givenButtonName);
+			lumberJack->eLog(std::string(__FILE__) + "; Requested button map XBox not found: " + givenButtonName);
+			throw ERR::CustomError(std::string(__FILE__) + "; Requested button map XBox not found; " + givenButtonName);
 		}
 
 		return controllerButtonMapping;
