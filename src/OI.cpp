@@ -72,6 +72,7 @@ OI::OI()
 				assignedController->Extreme3D_Pro::AssignAxis(LateralAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_X_AXIS);
 				assignedController->Extreme3D_Pro::AssignAxis(ForwardReverseAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_Y_AXIS);
 				assignedController->Extreme3D_Pro::AssignAxis(TwistAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_Z_AXIS);
+				assignedController->Extreme3D_Pro::AssignAxis(GrabberSpeedControlAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_SLIDER);
 
 				// Due to only one axis ToggleElevatorControlModeId and GoToDesiredElevatorSetpointAxisId unavailable in single controller mode
 				assignedController->Extreme3D_Pro::AssignButton(JoystickFinesseButtonId, firstPlayerController, FinesseButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_SEVEN);
