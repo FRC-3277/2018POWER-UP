@@ -22,6 +22,14 @@ Lifter::Lifter() : frc::Subsystem("Lifter") {
 		lumberJack->eLog(std::string("LifterMotor.reset() failed; ") + std::string(e.what()));
 	}
 
+	// TODO: If this works then must move to method, create button, and map PWM to robotmap.
+	LifterLeftEjectCoreServo.reset(new Servo(LIFTER_LEFT_EJECT_CORE_SERVO_ID));
+	LifterRightEjectCoreServo.reset(new Servo(LIFTER_RIGHT_EJECT_CORE_SERVO_ID));
+
+	// Force the servos to set angle to their necessary home when this subsystem initializes
+	LifterLeftEjectCoreServo->SetAngle(LeftEjectCoreServoAngleDefault);
+	LifterRightEjectCoreServo->SetAngle(RightEjectCoreServoAngleDefault);
+
 
 	// Set every Talon to reset the motor safety timeout.
 	LifterMotor->Set(ControlMode::PercentOutput, 0);
@@ -31,6 +39,37 @@ void Lifter::InitDefaultCommand() {
 
 }
 
-void Lifter::StartLifter() {
-	LifterMotor->Set(1.0);
+// This method is timer protected so that it is only available during the last 30 seconds of the match
+// Matches are 2 minutes and 15 seconds long.
+void Lifter::PrepareLifterCoreForEject()
+{
+	if(EnableLifterSubsystemLast30Seconds)
+	{
+		// TODO: push the elevator down to ground zero prior to running this
+		LifterLeftEjectCoreServo->SetAngle(LeftEjectCoreServoAngleDefault - 180);
+		LifterRightEjectCoreServo->SetAngle(RightEjectCoreServoAngleDefault + 180);
+		IsCorePreparedToBeEjected = true;
+	}
+	else
+	{
+		lumberJack->wLog("PrepareLifterCoreForEject is not authorized to launch!");
+	}
+}
+
+void Lifter::RunTheWinch()
+{
+	if(IsCorePreparedToBeEjected)
+	{
+		LifterMotor->Set(WinchDefaultSpeed);
+	}
+}
+
+void Lifter::StopTheWinch()
+{
+	LifterMotor->Set(0.0);
+}
+
+void Lifter::EnableLifterSubsystem()
+{
+	EnableLifterSubsystemLast30Seconds = true;
 }

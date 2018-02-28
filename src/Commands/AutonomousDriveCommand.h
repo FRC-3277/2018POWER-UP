@@ -7,16 +7,33 @@
 
 #pragma once
 
-#include "LumberJack.h"
-
 #include <Commands/Command.h>
+#include "Robot.h"
+#include "LumberJack.h"
+#include <chrono>
+#include <ctime>
 
-class MyAutoCommand : public frc::Command {
+class AutonomousDriveCommand : public frc::Command {
+
+private:
+	std::shared_ptr<LumberJack> lumberJack;
+
+	double lateral;
+	double forwardBackward;
+	double rotation;
+	double AutonomousDriveWaitPeriod;
+
+	bool EndAutonomousDriveCommand = false;
+
+	std::chrono::system_clock::time_point AutonomousDriveBegin;
+	std::chrono::system_clock::time_point AutonomousDriveCurrent;
+
 public:
-	MyAutoCommand();
+	AutonomousDriveCommand(double lateral, double forwardBackward, double rotation, double AutonomousDriveWaitPeriod);
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
 };
+

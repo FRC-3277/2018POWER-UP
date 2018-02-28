@@ -20,9 +20,24 @@ private:
 	// Lifter Motor
 	std::shared_ptr<WPI_TalonSRX> LifterMotor;
 
+	std::shared_ptr<Servo> LifterLeftEjectCoreServo;
+	std::shared_ptr<Servo> LifterRightEjectCoreServo;
+
+	// When the time comes to launch the lifter it will be the 180 degree opposite of the value of the default
+	static constexpr int LeftEjectCoreServoAngleDefault = 180;
+	static constexpr int RightEjectCoreServoAngleDefault = 0;
+
+	static constexpr double WinchDefaultSpeed = -0.25;
+
+	bool IsCorePreparedToBeEjected = false;
+	bool EnableLifterSubsystemLast30Seconds = false;
+
 public:
 	Lifter();
 	void InitDefaultCommand() override;
-	void StartLifter();
+	void PrepareLifterCoreForEject();
+	void RunTheWinch();
+	void StopTheWinch();
+	void EnableLifterSubsystem();
 };
 

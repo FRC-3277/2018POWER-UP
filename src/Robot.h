@@ -7,6 +7,9 @@
 
 #pragma once
 
+#include <chrono>
+#include <iostream>
+
 #include "LumberJack.h"
 
 #include <Commands/Command.h>
@@ -17,12 +20,17 @@
 #include <SmartDashboard/SendableChooser.h>
 #include <TimedRobot.h>
 
+#include "Commands/AutonomousScenarios.h"
+
 #include "OI.h"
 // Subsystems
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Elevator.h"
 #include "Subsystems/Grabber.h"
 #include "Subsystems/Lifter.h"
+#include "Subsystems/GameStates.h"
+#include "Subsystems/TimeKeeper.h"
+#include "Subsystems/Camera.h"
 
 // Commands
 //#include "Commands/Autonomous.h"
@@ -31,11 +39,15 @@
 class Robot : public frc::TimedRobot
 {
 public:
-	static std::unique_ptr<OI> oi;
+	std::unique_ptr<Command> autonomousScenarios;
 	static std::shared_ptr<DriveTrain> driveTrain;
 	static std::shared_ptr<Elevator> elevator;
 	static std::shared_ptr<Grabber> grabber;
 	static std::shared_ptr<Lifter> lifter;
+	static std::shared_ptr<GameStates> gamestates;
+	static std::shared_ptr<TimeKeeper> timekeeper;
+	static std::shared_ptr<Camera> camera;
+	static std::unique_ptr<OI> oi;
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;
@@ -51,6 +63,8 @@ private:
 	void TestPeriodic() override;
 	void DisabledInit() override;
 	void DisabledPeriodic() override;
+
+	static constexpr int ElapsedSecondsBeforeEnableLifter = 135 - 30;
 
 	// Have it null by default so that if testing teleop it
 	// doesn't have undefined behavior and potentially crash.

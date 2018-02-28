@@ -5,27 +5,34 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "MyAutoCommand.h"
+#include "Commands/AutonomousEatCubeCommand.h"
 
-MyAutoCommand::MyAutoCommand() {
-	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(&Robot::chassis);
+AutonomousEatCubeCommand::AutonomousEatCubeCommand() {
+	Requires(Robot::grabber.get());
 }
 
 // Called just before this Command runs the first time
-void MyAutoCommand::Initialize() {}
+void AutonomousEatCubeCommand::Initialize() {
+
+}
 
 // Called repeatedly when this Command is scheduled to run
-void MyAutoCommand::Execute() {}
+void AutonomousEatCubeCommand::Execute() {
+	Robot::grabber->EatCube();
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool MyAutoCommand::IsFinished() {
-	return false;
+bool AutonomousEatCubeCommand::IsFinished() {
+	return Robot::grabber->EndEatCommand;
 }
 
 // Called once after isFinished returns true
-void MyAutoCommand::End() {}
+void AutonomousEatCubeCommand::End() {
+
+}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void MyAutoCommand::Interrupted() {}
+void AutonomousEatCubeCommand::Interrupted() {
+
+}

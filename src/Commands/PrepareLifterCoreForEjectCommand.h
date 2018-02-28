@@ -12,9 +12,9 @@
 #include <Commands/Command.h>
 #include "Robot.h"
 
-class StartLifterCommand : public frc::Command {
+class PrepareLifterCoreForEjectCommand : public frc::Command {
 public:
-	StartLifterCommand();
+	PrepareLifterCoreForEjectCommand();
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
