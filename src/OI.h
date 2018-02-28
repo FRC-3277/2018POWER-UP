@@ -75,8 +75,6 @@ private:
 	bool useJoystick = true;
 	bool enableD_PadDebugging;
 
-	void MapButtonToController(const std::string& givenButtonName);
-
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
 	double Clamp(double joystickAxis);
 

@@ -129,7 +129,6 @@ OI::OI()
 	{
 		try
 		{
-			MapButtonToController(GrabberInjectionButtonId);
 			assignedController->GetAssignedButton(GrabberInjectionButtonId)->WhileHeld(new EatCubeCommand());
 		}
 		catch(const std::exception& e)
@@ -139,7 +138,6 @@ OI::OI()
 
 		try
 		{
-			MapButtonToController(GrabberEjectionButtonId);
 			assignedController->GetAssignedButton(GrabberEjectionButtonId)->WhileHeld(new SpitCubeCommand());
 		}
 		catch(const std::exception& e)
@@ -153,7 +151,6 @@ OI::OI()
 	{
 		try
 		{
-			MapButtonToController(ElevatorUpButtonId);
 			assignedController->GetAssignedButton(ElevatorUpButtonId)->WhileHeld(new RaiseElevatorCommand());
 		}
 		catch(const std::exception& e)
@@ -163,7 +160,6 @@ OI::OI()
 
 		try
 		{
-			MapButtonToController(ElevatorDownButtonId);
 			assignedController->GetAssignedButton(ElevatorDownButtonId)->WhileHeld(new LowerElevatorCommand());
 		}
 		catch(const std::exception& e)
@@ -173,7 +169,6 @@ OI::OI()
 
 		try
 		{
-			MapButtonToController(ToggleElevatorControlModeId);
 			// This command doesn't follow the norm.  It
 			assignedController->GetAssignedButton(ToggleElevatorControlModeId)->WhenPressed(new GoToDesiredSetpointCommand());
 		}
@@ -188,7 +183,6 @@ OI::OI()
 	{
 		try
 		{
-			MapButtonToController(LifterPrepareCoreEjectionButtonId);
 			assignedController->GetAssignedButton(LifterPrepareCoreEjectionButtonId)->WhenPressed(new PrepareLifterCoreForEjectCommand());
 		}
 		catch(const std::exception& e)
@@ -198,7 +192,6 @@ OI::OI()
 
 		try
 		{
-			MapButtonToController(LifterRunWinchButtonId);
 			assignedController->GetAssignedButton(LifterRunWinchButtonId)->WhileHeld(new LifterRunWinchCommand());
 		}
 		catch(const std::exception& e)
@@ -214,7 +207,6 @@ OI::OI()
 	{
 		try
 		{
-			MapButtonToController(JoystickFinesseButtonId);
 			assignedController->GetAssignedButton(JoystickFinesseButtonId)->ToggleWhenPressed(new ToggleFinesseModeCommand());
 		}
 		catch(const std::exception& e)
@@ -224,7 +216,6 @@ OI::OI()
 
 		try
 		{
-			MapButtonToController(InvertDriverControlsButtonId);
 			assignedController->GetAssignedButton(InvertDriverControlsButtonId)->WhenPressed(new InvertDriverControlsCommand());
 		}
 		catch(const std::exception& e)
@@ -232,11 +223,6 @@ OI::OI()
 			lumberJack->eLog(std::string("InvertDriverControlsButton.reset() failed;  will not be available; ") + std::string(e.what()));
 		}
 	}
-}
-
-void OI::MapButtonToController(const std::string& givenButtonName)
-{
-	assignedController->GetAssignedButton(givenButtonName).reset(new JoystickButton(assignedController->GetAssignedController(givenButtonName).get(), assignedController->GetAssignedButtonNumber(givenButtonName)));
 }
 
 double OI::GetJoystickX()

@@ -15,58 +15,76 @@ namespace UserDefinedController {
 	{
 		std::shared_ptr<frc::Joystick> joystick = nullptr;
 		int numberOfMappingsFound = 0;
+		bool isCached = false;
 
 		try
 		{
-			joystick = AirForceOne::GetController(givenButtonOrAxisName);
-			numberOfMappingsFound += 1;
+			// Attempt to pull from cache
+			joystick = GetCachedAxisController(givenButtonOrAxisName);
+			isCached = true;
 		}
 		catch(ERR::CustomError& e)
 		{
 			//do nothing, here to prevent failure
 		}
 
-		try
+		if(isCached == false)
 		{
-			if(joystick == nullptr)
+			try
 			{
-				joystick = Extreme3D_Pro::GetController(givenButtonOrAxisName);
-				numberOfMappingsFound += 1;
+				if(joystick == nullptr)
+				{
+					joystick = AirForceOne::GetController(givenButtonOrAxisName);
+					numberOfMappingsFound += 1;
+				}
 			}
-		}
-		catch(ERR::CustomError& e)
-		{
-			//do nothing, here to prevent failure
-		}
-
-		try
-		{
-			if(joystick == nullptr)
+			catch(ERR::CustomError& e)
 			{
-				joystick = XBox::GetController(givenButtonOrAxisName);
-				numberOfMappingsFound += 1;
-			}
-		}
-		catch(ERR::CustomError& e)
-		{
-			//do nothing, here to prevent failure
-		}
-
-		// If zero or more than one controller is mapped then boom!
-		if(numberOfMappingsFound == 0 || numberOfMappingsFound > 1)
-		{
-			std::string errMsg;
-
-			if(numberOfMappingsFound == 0)
-			{
-				errMsg = "; No controller mapped; ";
-			}
-			else if(numberOfMappingsFound > 1)
-			{
-				errMsg = "; More than one controller mapped; ";
+				//do nothing, here to prevent failure
 			}
 
-			throw ERR::CustomError(std::string(__FILE__) + errMsg + givenButtonOrAxisName);
+			try
+			{
+				if(joystick == nullptr)
+				{
+					joystick = Extreme3D_Pro::GetController(givenButtonOrAxisName);
+					numberOfMappingsFound += 1;
+				}
+			}
+			catch(ERR::CustomError& e)
+			{
+				//do nothing, here to prevent failure
+			}
+
+			try
+			{
+				if(joystick == nullptr)
+				{
+					joystick = XBox::GetController(givenButtonOrAxisName);
+					numberOfMappingsFound += 1;
+				}
+			}
+			catch(ERR::CustomError& e)
+			{
+				//do nothing, here to prevent failure
+			}
+
+			// If zero or more than one controller is mapped then boom!
+			if(numberOfMappingsFound == 0 || numberOfMappingsFound > 1)
+			{
+				std::string errMsg;
+
+				if(numberOfMappingsFound == 0)
+				{
+					errMsg = "; No controller mapped; ";
+				}
+				else if(numberOfMappingsFound > 1)
+				{
+					errMsg = "; More than one controller mapped; ";
+				}
+
+				throw ERR::CustomError(std::string(__FILE__) + errMsg + givenButtonOrAxisName);
+			}
 		}
 
 		return joystick;
@@ -188,58 +206,130 @@ namespace UserDefinedController {
 		return assignedButtonNumber;
 	}
 
-	int AssignedController::GetAssignedAxisNumber(const std::string& givenButtonName)
+	int AssignedController::GetAssignedAxisNumber(const std::string& givenAxisName)
 	{
 		int assignedAxisNumber;
 		int numberOfMappingsFound = 0;
+		bool isCached = false;
 
 		try
 		{
-			assignedAxisNumber = AirForceOne::GetAxisNumber(givenButtonName);
-			numberOfMappingsFound += 1;
+			assignedAxisNumber = GetCachedAxisNumber(givenAxisName);
+			isCached = true;
 		}
 		catch(ERR::CustomError& e)
 		{
 			//do nothing, here to prevent failure
 		}
 
-		try
+		if(isCached == false)
 		{
-			assignedAxisNumber = Extreme3D_Pro::GetAxisNumber(givenButtonName);
-			numberOfMappingsFound += 1;
-		}
-		catch(ERR::CustomError& e)
-		{
-			//do nothing, here to prevent failure
-		}
+			// for caching reasons only
+			std::shared_ptr<frc::Joystick> controller;
 
-		try
-		{
-			assignedAxisNumber = XBox::GetAxisNumber(givenButtonName);
-			numberOfMappingsFound += 1;
-		}
-		catch(ERR::CustomError& e)
-		{
-			//do nothing, here to prevent failure
-		}
-
-		// If zero or more than one controller is mapped then boom!
-		if(numberOfMappingsFound == 0 || numberOfMappingsFound > 1)
-		{
-			std::string errMsg;
-
-			if(numberOfMappingsFound == 0)
+			try
 			{
-				errMsg = "; No axis number mapped; ";
+				assignedAxisNumber = AirForceOne::GetAxisNumber(givenAxisName);
+				controller = AirForceOne::GetController(givenAxisName);
+				CacheAxisNumber(givenAxisName, controller, assignedAxisNumber);
+				numberOfMappingsFound += 1;
 			}
-			else if(numberOfMappingsFound > 1)
+			catch(ERR::CustomError& e)
 			{
-				errMsg = "; More than one axis number mapped; ";
+				//do nothing, here to prevent failure
 			}
 
-			throw ERR::CustomError(std::string(__FILE__) + errMsg + givenButtonName);
+			try
+			{
+				assignedAxisNumber = Extreme3D_Pro::GetAxisNumber(givenAxisName);
+				controller = Extreme3D_Pro::GetController(givenAxisName);
+				CacheAxisNumber(givenAxisName, controller, assignedAxisNumber);
+				numberOfMappingsFound += 1;
+			}
+			catch(ERR::CustomError& e)
+			{
+				//do nothing, here to prevent failure
+			}
+
+			try
+			{
+				assignedAxisNumber = XBox::GetAxisNumber(givenAxisName);
+				controller = XBox::GetController(givenAxisName);
+				CacheAxisNumber(givenAxisName, controller, assignedAxisNumber);
+				numberOfMappingsFound += 1;
+			}
+			catch(ERR::CustomError& e)
+			{
+				//do nothing, here to prevent failure
+			}
+
+			// If zero or more than one controller is mapped then boom!
+			if(numberOfMappingsFound == 0 || numberOfMappingsFound > 1)
+			{
+				std::string errMsg;
+
+				if(numberOfMappingsFound == 0)
+				{
+					errMsg = "; No axis number mapped; ";
+				}
+				else if(numberOfMappingsFound > 1)
+				{
+					errMsg = "; More than one axis number mapped; ";
+				}
+
+				throw ERR::CustomError(std::string(__FILE__) + errMsg + givenAxisName);
+			}
 		}
 
 		return assignedAxisNumber;
+	}
+
+	void AssignedController::CacheAxisNumber(const std::string& givenAxisName,
+												std::shared_ptr<frc::Joystick> controller,
+												int axisToAxisNumber)
+	{
+		ControllerAxisMapping axisMapping;
+		axisMapping.controller = controller;
+		axisMapping.axisNumber = axisToAxisNumber;
+		// TODO: prevent duplicate assignment to same axis mapping
+		userDefinedControllerAxisMapping.insert(std::make_pair(givenAxisName, axisMapping));
+	}
+
+	std::shared_ptr<frc::Joystick> AssignedController::GetCachedAxisController(const std::string& givenAxisName)
+	{
+		std::map<std::string, ControllerAxisMapping>::iterator iteratorPointer;
+		std::shared_ptr<frc::Joystick> controller;
+
+		iteratorPointer = userDefinedControllerAxisMapping.find(givenAxisName);
+		if(iteratorPointer != userDefinedControllerAxisMapping.end())
+		{
+			controller = iteratorPointer->second.controller;
+		}
+		else
+		{
+			lumberJack->eLog(std::string(__FILE__) + " Requested controller not found: " + givenAxisName);
+			throw ERR::CustomError(std::string(__FILE__) + "; Requested controller not found: " + givenAxisName);
+		}
+
+		return controller;
+	}
+
+	int AssignedController::GetCachedAxisNumber(const std::string& givenAxisName)
+	{
+		std::map<std::string, ControllerAxisMapping>::iterator iteratorPointer;
+		int axisNumber;
+
+		iteratorPointer = userDefinedControllerAxisMapping.find(givenAxisName);
+		if(iteratorPointer != userDefinedControllerAxisMapping.end())
+		{
+			axisNumber = iteratorPointer->second.axisNumber;
+		}
+		else
+		{
+			lumberJack->eLog(std::string(__FILE__) + " Requested axis not found: " + givenAxisName);
+			throw ERR::CustomError(std::string(__FILE__) + "; Requested axis not found: " + givenAxisName);
+		}
+
+		return axisNumber;
 	}
 }/* namespace UserDefinedController */
