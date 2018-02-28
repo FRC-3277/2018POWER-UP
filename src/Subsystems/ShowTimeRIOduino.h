@@ -7,6 +7,7 @@
 
 #pragma once
 #include "I2C.h"
+#include<string>
 #include <Commands/Subsystem.h>
 
 class ShowTimeRIOduino : public frc::Subsystem {
@@ -15,7 +16,7 @@ private:
 
 	int I2C_Channel = 4;
 
-	void ShowTimeRIOduino::Alive();
+	void Alive();
 
 
 public:

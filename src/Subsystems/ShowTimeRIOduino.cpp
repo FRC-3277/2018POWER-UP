@@ -16,15 +16,18 @@ ShowTimeRIOduino::ShowTimeRIOduino() : Subsystem("ShowTimeRIOduino") {
 
 }
 
-void ShowTimeRIOduino::InitDefaultCommand() {
+void ShowTimeRIOduino::InitDefaultCommand()
+{
 
 }
 
 void ShowTimeRIOduino::ShowTimeRIOduino::Alive()
 {
 	std::string WriteString = std::string("ok");
-	uint8_t OutCharArr[] = WriteString.c_str() };
+	std::vector<uint8_t> VectorFromString(WriteString.begin(), WriteString.end());
+	uint8_t *I2C_WriteStr = &VectorFromString[0];
+
 	uint8_t InCharArr[8] = { 0 };
 
-	I2C_Coms->Transaction(OutCharArr, sizeof(OutCharArr), InCharArr, sizeof(InCharArr));
+	I2C_Coms->Transaction(I2C_WriteStr, sizeof(I2C_WriteStr), InCharArr, sizeof(InCharArr));
 }
