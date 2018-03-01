@@ -28,6 +28,8 @@ void Robot::RobotInit()
 	SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
 	// Defaulting Robot Location in Driver Station
 	SmartDashboard::PutString("DB/String 0", "R");
+	// Defaulting Switch or Scale
+	SmartDashboard::PutString("DB/String 1", "SC");
 
 	try
 	{
