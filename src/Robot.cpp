@@ -23,9 +23,9 @@ void Robot::RobotInit()
 	//m_chooser.AddObject("My Auto", &m_myAuto);
 
 	// Smart Dashboard
-	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-	SmartDashboard::PutBoolean("Drive With Joystick? 0", true);
-	SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
+    //frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+	//SmartDashboard::PutBoolean("Drive With Joystick? 0", true);
+	//SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
 	// Defaulting Robot Location in Driver Station
 	SmartDashboard::PutString("DB/String 0", "R");
 	// Defaulting Switch or Scale
