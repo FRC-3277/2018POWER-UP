@@ -73,3 +73,8 @@ void Lifter::EnableLifterSubsystem()
 {
 	EnableLifterSubsystemLast30Seconds = true;
 }
+
+bool Lifter::IsReadyToEjectCore()
+{
+	return IsCorePreparedToBeEjected;
+}

@@ -205,16 +205,22 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 {
 	double TempSpeed = 0.0;
 	double TempSpeedChange = 0.0;
+	double LocalMultiplier = Multiplier;
+
+	if (IsLifterSubsystemEnabled && LimitSwitchTracker >= MED_LIMIT_SWITCH_NUMBER)
+	{
+		LocalMultiplier = LocalMultiplier / 2;
+	}
 
 	if(IsElevatorGoingUp)
 	{
-		TempSpeedChange = ElevatorTravelSpeed * Multiplier/15;
-		TempSpeed = ElevatorTravelSpeed * Multiplier;
+		TempSpeedChange = ElevatorTravelSpeed * LocalMultiplier/15;
+		TempSpeed = ElevatorTravelSpeed * LocalMultiplier;
 	}
 	else
 	{
 		TempSpeedChange = -ElevatorTravelSpeed * 6;
-		TempSpeed = ElevatorTravelSpeed * Multiplier;
+		TempSpeed = ElevatorTravelSpeed * LocalMultiplier;
 	}
 
 	DebugLog("UpdateSoftSpeedChangeArray", 2000);
@@ -238,7 +244,7 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 	if(IsElevatorGoingUp)
 	{
 		DebugLog(std::string("RaiseSpeedMultiplier: ") + std::to_string(RaiseSpeedMultiplier), 2000);
-		DebugLog(std::string("Multiplier: ") + std::to_string(Multiplier), 2000);
+		DebugLog(std::string("Multiplier: ") + std::to_string(LocalMultiplier), 2000);
 		DebugLog(std::string("ElevatorTravelSpeed: ") + std::to_string(ElevatorTravelSpeed), 2000);
 		DebugLog(std::string("Start Array value: ") + std::to_string(SoftStartChangeArray[SoftSpeedUpChangeArrayIterator]), 2000);
 		DebugLog(std::string("Iterator: ") + std::to_string(SoftSpeedUpChangeArrayIterator), 2000);
@@ -246,7 +252,7 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 	else
 	{
 		DebugLog(std::string("LowerSpeedMultiplier: ") + std::to_string(LowerSpeedMultiplier), 2000);
-		DebugLog(std::string("Multiplier: ") + std::to_string(Multiplier), 2000);
+		DebugLog(std::string("Multiplier: ") + std::to_string(LocalMultiplier), 2000);
 		DebugLog(std::string("ElevatorTravelSpeed: ") + std::to_string(ElevatorTravelSpeed), 2000);
 		DebugLog(std::string("Stop Array value: ") + std::to_string(SoftStopChangeArray[SoftSpeedDownChangeArrayIterator]), 2000);
 		DebugLog(std::string("Iterator: ") + std::to_string(SoftSpeedDownChangeArrayIterator), 2000);
@@ -326,6 +332,11 @@ void Elevator::DebugLog(const string& msg)
 	{
 		lumberJack->dLog(msg);
 	}
+}
+
+void Elevator::SetIsLifterSubsystemEnabled(bool IsLifterSubsystemEnabled)
+{
+	this->IsLifterSubsystemEnabled = IsLifterSubsystemEnabled;
 }
 
 void Elevator::DebugLog(const string& msg, int loggingEveryNth)

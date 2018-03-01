@@ -31,6 +31,8 @@ private:
 	// If it is going down then false
 	bool IsElevatorGoingUp = true;
 
+	bool IsLifterSubsystemEnabled = false;
+
 	// Track which limit switch has been recently visited.  Start with 1 from bottom until top limit switch
 	int LimitSwitchTracker = 0;
 	int RequestedLimitSwitchLocation = 0;
@@ -68,6 +70,7 @@ public:
 	void HoldElevator();
 	void ToggleInputControlMode();
 	bool GetInputControlMode();
+	void SetIsLifterSubsystemEnabled(bool IsLifterSubsystemEnabled);
 };
 
 #endif  // Elevator_H
