@@ -41,14 +41,14 @@ private:
 	int SoftSpeedUpChangeArrayIterator = 0;
 	int SoftSpeedDownChangeArrayIterator = 0;
 
-	static constexpr int SoftSpeedUpChangeArraySize = 100;
+	static constexpr int SoftSpeedUpChangeArraySize = 75;
 	static constexpr int SoftSpeedDownChangeArraySize = 75;
 
 	double SoftStartChangeArray[SoftSpeedUpChangeArraySize];
 	double SoftStopChangeArray[SoftSpeedDownChangeArraySize];
 	static constexpr double ElevatorHoldSpeed = 0.15;
 
-	static constexpr double RaiseSpeedMultiplier = 3.5;
+	static constexpr double RaiseSpeedMultiplier = 4;
 	static constexpr double LowerSpeedMultiplier = 1.5;
 
 	void UpdateSoftSpeedChangeArray(const double Multiplier);
