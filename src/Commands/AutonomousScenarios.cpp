@@ -54,9 +54,9 @@ void AutonomousScenarios::Execute()
 				// RR or RL
 				// R1 for Switch
 				// Distance: D0.5|d11;T-0.3|d-90;D0.5|d4.5;ER;GS;S;
-				DebugLog("D0.5|t500;T-0.3|t0.5;D0.5|t200;ER;GS;S;");
+				DebugLog("D0.25|t3000;");//T-0.3|t1000;D-0.5|1000;ER;GS;S;");
 				//TODO: Fix this... butchered for testing
-				listOfCommands = Split("D0.5|t300;T-0.3|t0.5;D-0.5|t300;ER;GS;S;", ';');
+				listOfCommands = Split("D0.25|t2000;D0.0|t2000;T-0.3|t1500;D0.25|t5000", ';');//T-0.3|t0.5;D-0.5|t300;ER;GS;S;", ';');
 			}
 			else if(GameData.compare(0, 2, "LR") == 0)
 			{
@@ -221,17 +221,17 @@ void AutonomousScenarios::ParseDriveTrainBasedCommands(const std::string& Comman
     	DebugLog("eachParam: " + eachParam);
         if(eachParam[0] == 'D')
         {
-            forwardBackward = std::stod(eachParam.substr(1, eachParam.size() - 1));
+            forwardBackward = -std::stod(eachParam.substr(1, eachParam.size() - 1));
             DebugLog(std::string("Drive speed: ") + eachParam.substr(1, eachParam.size() - 1).c_str());
         }
         if(eachParam[0] == 'T')
         {
-            rotation = std::stod(eachParam.substr(1, eachParam.size() - 1));
+            rotation = -std::stod(eachParam.substr(1, eachParam.size() - 1));
             DebugLog(std::string("Turn speed: ") + eachParam.substr(1, eachParam.size() - 1).c_str());
         }
         if(eachParam[0] == 'L')
         {
-            lateral = std::stod(eachParam.substr(1, eachParam.size() - 1));
+            lateral = -std::stod(eachParam.substr(1, eachParam.size() - 1));
             DebugLog(std::string("Lateral speed: ") + eachParam.substr(1, eachParam.size() - 1).c_str());
         }
         if(eachParam[0] == 't')
