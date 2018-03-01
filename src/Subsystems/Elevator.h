@@ -17,10 +17,6 @@ private:
 
 	std::shared_ptr<Servo> EndEffectorDropServo;
 
-	// TODO: Disable Max and Min
-	std::shared_ptr<DigitalInput> MaxHeightLimitSwitch;
-	std::shared_ptr<DigitalInput> MinHeightLimitSwitch;
-
 	std::shared_ptr<DigitalInput> HighLimitSwitch;
 	std::shared_ptr<DigitalInput> MedLimitSwitch;
 	std::shared_ptr<DigitalInput> LowLimitSwitch;
@@ -35,6 +31,8 @@ private:
 	// If it is going down then false
 	bool IsElevatorGoingUp = true;
 
+	bool IsLifterSubsystemEnabled = false;
+
 	// Track which limit switch has been recently visited.  Start with 1 from bottom until top limit switch
 	int LimitSwitchTracker = 0;
 	int RequestedLimitSwitchLocation = 0;
@@ -45,14 +43,14 @@ private:
 	int SoftSpeedUpChangeArrayIterator = 0;
 	int SoftSpeedDownChangeArrayIterator = 0;
 
-	static constexpr int SoftSpeedUpChangeArraySize = 100;
+	static constexpr int SoftSpeedUpChangeArraySize = 75;
 	static constexpr int SoftSpeedDownChangeArraySize = 75;
 
 	double SoftStartChangeArray[SoftSpeedUpChangeArraySize];
 	double SoftStopChangeArray[SoftSpeedDownChangeArraySize];
 	static constexpr double ElevatorHoldSpeed = 0.15;
 
-	static constexpr double RaiseSpeedMultiplier = 3.5;
+	static constexpr double RaiseSpeedMultiplier = 4;
 	static constexpr double LowerSpeedMultiplier = 1.5;
 
 	void UpdateSoftSpeedChangeArray(const double Multiplier);
@@ -72,6 +70,7 @@ public:
 	void HoldElevator();
 	void ToggleInputControlMode();
 	bool GetInputControlMode();
+	void SetIsLifterSubsystemEnabled(bool IsLifterSubsystemEnabled);
 };
 
 #endif  // Elevator_H
