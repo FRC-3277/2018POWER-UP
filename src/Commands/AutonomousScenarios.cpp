@@ -108,10 +108,13 @@ void AutonomousScenarios::Execute()
 					DebugLog("D0.5|t900;ER;GS;D-0.5|t600;T0.3|t500;D0.5|t0.3;S;");
 					listOfCommands = Split("D0.5|t900;ER;GS;D-0.5|t600;T0.3|t500;D0.5|t0.3;S;", ';');
 				}
+				else
+				{
 				// TODO: Do this
 				// L4 for Scale
-				// Time:
-				// Distance:
+				listOfCommands = Split("D0.5|t800;T0.3|t1500;D0.5|d15;T-0.3|t1500;T0.3|t1500;D0.5;D0.5|t1500;ER;GS;D-0.5|t300;S;", ';');
+				// Distance: D0.5|d19.5;T0.3|d90;D0.5|d15;T-0.3|d-90;T0.3|d90;D0.5;D0.5|d4;ER;GS;D-0.5|6.5;S;
+				}
 			}
 			else
 			{
