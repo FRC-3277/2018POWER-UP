@@ -23,11 +23,16 @@ void Robot::RobotInit()
 	//m_chooser.AddObject("My Auto", &m_myAuto);
 
 	// Smart Dashboard
-	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-	SmartDashboard::PutBoolean("Drive With Joystick? 0", true);
-	SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
+    //frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+	//SmartDashboard::PutBoolean("Drive With Joystick? 0", true);
+	//SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
 	// Defaulting Robot Location in Driver Station
 	SmartDashboard::PutString("DB/String 0", "R");
+	// Defaulting Switch or Scale
+	SmartDashboard::PutString("DB/String 1", "SC");
+	//Do or Do not
+	SmartDashboard::PutString("DB/String 3", "DeleteToBreakAuto");
+
 
 	try
 	{
@@ -203,6 +208,7 @@ void Robot::TeleopPeriodic()
 	if(timekeeper->GetElapsedTime() >= ElapsedSecondsBeforeEnableLifter || EnableLifter)
 	{
 		lifter->EnableLifterSubsystem();
+		elevator->SetIsLifterSubsystemEnabled(lifter->IsReadyToEjectCore());
 	}
 
 	if(EnableElevator)
