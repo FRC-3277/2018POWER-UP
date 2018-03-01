@@ -73,7 +73,7 @@ namespace UserDefinedController
 		}
 		else
 		{
-			lumberJack->eLog("Requested axis map not found: " + givenAxisName);
+			lumberJack->eLog(std::string(__FILE__) + "; Requested axis map not found: " + givenAxisName);
 			throw ERR::CustomError(std::string(__FILE__) + "; Requested axis map not found; " + givenAxisName);
 		}
 
@@ -97,6 +97,7 @@ namespace UserDefinedController
 			}
 			catch(ERR::CustomError& e)
 			{
+				lumberJack->eLog(std::string(__FILE__) + "; Requested controller not found: " + givenButtonOrAxisName);
 				throw ERR::CustomError(std::string(__FILE__) + "; Requested controller not found; " + givenButtonOrAxisName);
 			}
 		}
