@@ -56,7 +56,7 @@ void AutonomousScenarios::Execute()
 				// Distance: D0.5|d11;T-0.3|d-90;D0.5|d4.5;ER;GS;S;
 				DebugLog("D0.25|t3000;");//T-0.3|t1000;D-0.5|1000;ER;GS;S;");
 				//TODO: Fix this... butchered for testing
-				listOfCommands = Split("D0.25|t2000;D0.0|t2000;T-0.3|t1500;D0.25|t5000", ';');//T-0.3|t0.5;D-0.5|t300;ER;GS;S;", ';');
+				listOfCommands = Split("D0.25|t2000;D0.0|t2000;T-0.3|t1500;D0.25|t2000", ';');//T-0.3|t0.5;D-0.5|t300;ER;GS;S;", ';');
 			}
 			else if(GameData.compare(0, 2, "LR") == 0)
 			{
