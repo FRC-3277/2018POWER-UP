@@ -89,26 +89,26 @@ private:
 	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
 
 	// Joystick button role selection
-	static constexpr int JoystickFinesseButton = JOYSTICK_BUTTON_SEVEN;
+	static constexpr int JoystickFinesseButton = JOYSTICK_BUTTON_TWO;
 	// Drivetrain
-	static constexpr int InvertDriverControlsButtonNumber = JOYSTICK_BUTTON_TWELVE;
+	static constexpr int InvertDriverControlsButtonNumber = JOYSTICK_BUTTON_ELEVEN;
 
 	// Elevator
-	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_TWO;
+	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_FIVE;
 	static constexpr int ElevatorDownButtonNumber = JOYSTICK_BUTTON_THREE;
 	static constexpr int ToggleElevatorControlMode = AIRFORCEONE_BUTTON_FIVE;
 	static constexpr int DesiredElevatorSetpointAxisNumber = AIRFORCEONE_Z_AXIS;
 	//static constexpr int DesiredElevatorSetpointButtonNumber = JOYSTICK_BUTTON_FOUR;
 
 	// Grabber
-	static constexpr int GrabberInjectionButtonNumber = AIRFORCEONE_BUTTON_ONE;
-	static constexpr int GrabberEjectionButtonNumber = AIRFORCEONE_BUTTON_TWO;
+	static constexpr int GrabberInjectionButtonNumber = JOYSTICK_BUTTON_FOUR;
+	static constexpr int GrabberEjectionButtonNumber = JOYSTICK_BUTTON_SIX;
 	// Not actually mapped to Controller, but in use
 	static constexpr int GrabberSpitCubeLeverAxisNumber = AIRFORCEONE_X_AXIS;
 
 	// Lifter
 	static constexpr int LifterPrepareCoreEjectionButtonNumber = JOYSTICK_BUTTON_TEN;
-	static constexpr int LifterRunWinchButtonNumber = JOYSTICK_BUTTON_ELEVEN;
+	static constexpr int LifterRunWinchButtonNumber = JOYSTICK_BUTTON_TWELVE;
 
 	// xBox button role selection
 	static constexpr int XBoxFinnesseButtonNumber = XBOX_RIGHT_SHOLDER_BUTTON;

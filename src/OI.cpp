@@ -48,7 +48,7 @@ OI::OI()
 	{
 		try
 		{
-			InjectionButton.reset(new JoystickButton(AirForceOneController.get(), GrabberInjectionButtonNumber));
+			InjectionButton.reset(new JoystickButton(controllerDriver.get(), GrabberInjectionButtonNumber));
 			InjectionButton->WhileHeld(new EatCubeCommand());
 		}
 		catch(const std::exception& e)
@@ -58,7 +58,7 @@ OI::OI()
 
 		try
 		{
-			EjectionButton.reset(new JoystickButton(AirForceOneController.get(), GrabberEjectionButtonNumber));
+			EjectionButton.reset(new JoystickButton(controllerDriver.get(), GrabberEjectionButtonNumber));
 			EjectionButton->WhileHeld(new SpitCubeCommand());
 		}
 		catch(const std::exception& e)
