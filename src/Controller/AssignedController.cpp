@@ -83,7 +83,7 @@ namespace UserDefinedController {
 					errMsg = "; More than one controller mapped; ";
 				}
 
-				throw ERR::CustomError(std::string(__FILE__) + errMsg + givenButtonOrAxisName);
+				throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + errMsg + givenButtonOrAxisName);
 			}
 		}
 
@@ -145,7 +145,7 @@ namespace UserDefinedController {
 				errMsg = "; More than one controller button mapped; ";
 			}
 
-			throw ERR::CustomError(std::string(__FILE__) + errMsg + givenButtonName);
+			throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + errMsg + givenButtonName);
 		}
 
 		return joystickButton;
@@ -200,7 +200,7 @@ namespace UserDefinedController {
 				errMsg = "; More than one button number mapped; ";
 			}
 
-			throw ERR::CustomError(std::string(__FILE__) + errMsg + givenButtonName);
+			throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + errMsg + givenButtonName);
 		}
 
 		return assignedButtonNumber;
@@ -277,7 +277,7 @@ namespace UserDefinedController {
 					errMsg = "; More than one axis number mapped; ";
 				}
 
-				throw ERR::CustomError(std::string(__FILE__) + errMsg + givenAxisName);
+				throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + errMsg + givenAxisName);
 			}
 		}
 
@@ -307,8 +307,8 @@ namespace UserDefinedController {
 		}
 		else
 		{
-			lumberJack->eLog(std::string(__FILE__) + " Requested controller not found: " + givenAxisName);
-			throw ERR::CustomError(std::string(__FILE__) + "; Requested controller not found: " + givenAxisName);
+			lumberJack->eLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + " Requested controller not found: " + givenAxisName);
+			throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested controller not found: " + givenAxisName);
 		}
 
 		return controller;
@@ -326,8 +326,8 @@ namespace UserDefinedController {
 		}
 		else
 		{
-			lumberJack->eLog(std::string(__FILE__) + " Requested axis not found: " + givenAxisName);
-			throw ERR::CustomError(std::string(__FILE__) + "; Requested axis not found: " + givenAxisName);
+			lumberJack->eLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + " Requested axis not found: " + givenAxisName);
+			throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested axis not found: " + givenAxisName);
 		}
 
 		return axisNumber;

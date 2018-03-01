@@ -170,7 +170,7 @@ void Elevator::UpdateLimitSwitchTracker()
 
 	if(limitSwitchValueChanged)
 	{
-		lumberJack->iLog(std::string(__FILE__) + std::string("; Limit switch value changed: ") + std::to_string(LimitSwitchTracker));
+		lumberJack->iLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + std::string("; Limit switch value changed: ") + std::to_string(LimitSwitchTracker));
 	}
 }
 
@@ -199,7 +199,7 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 	else if(LimitSwitchTracker == DesiredSetpoint)
 	{
 		isAtDesiredSetpoint = true;
-		lumberJack->iLog(std::string(__FILE__) + std::string("; Elevator at desired setpoint: ") + std::to_string(DesiredSetpoint));
+		lumberJack->iLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + std::string("; Elevator at desired setpoint: ") + std::to_string(DesiredSetpoint));
 		HoldElevator();
 	}
 

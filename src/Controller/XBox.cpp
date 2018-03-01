@@ -54,8 +54,8 @@ namespace UserDefinedController
 		}
 		else
 		{
-			lumberJack->eLog(std::string(__FILE__) + "; Requested button map XBox not found: " + givenButtonName);
-			throw ERR::CustomError(std::string(__FILE__) + "; Requested button map XBox not found; " + givenButtonName);
+			lumberJack->eLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested button map XBox not found: " + givenButtonName);
+			throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested button map XBox not found; " + givenButtonName);
 		}
 
 		return controllerButtonMapping;
@@ -73,8 +73,8 @@ namespace UserDefinedController
 		}
 		else
 		{
-			lumberJack->eLog(std::string(__FILE__) + "; Requested axis map not found: " + givenAxisName);
-			throw ERR::CustomError(std::string(__FILE__) + "; Requested axis map not found; " + givenAxisName);
+			lumberJack->eLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested axis map not found: " + givenAxisName);
+			throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested axis map not found; " + givenAxisName);
 		}
 
 		return controllerAxisMapping;
@@ -97,8 +97,8 @@ namespace UserDefinedController
 			}
 			catch(ERR::CustomError& e)
 			{
-				lumberJack->eLog(std::string(__FILE__) + "; Requested controller not found: " + givenButtonOrAxisName);
-				throw ERR::CustomError(std::string(__FILE__) + "; Requested controller not found; " + givenButtonOrAxisName);
+				lumberJack->eLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested controller not found: " + givenButtonOrAxisName);
+				throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested controller not found; " + givenButtonOrAxisName);
 			}
 		}
 
@@ -115,7 +115,7 @@ namespace UserDefinedController
 		}
 		catch(ERR::CustomError& e)
 		{
-			throw ERR::CustomError(std::string(__FILE__) + "; Requested button not found; " + givenButtonName);
+			throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested button not found; " + givenButtonName);
 		}
 
 		return controllerButton;
@@ -131,7 +131,7 @@ namespace UserDefinedController
 		}
 		catch(ERR::CustomError& e)
 		{
-			throw ERR::CustomError(std::string(__FILE__) + "; Requested button number not found; " + givenButtonName);
+			throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested button number not found; " + givenButtonName);
 		}
 
 		return static_cast<int>(buttonNumber);
@@ -150,7 +150,7 @@ namespace UserDefinedController
 		else
 		{
 			lumberJack->eLog("Requested axis not found: " + givenAxisName);
-			throw ERR::CustomError(std::string(__FILE__) + "; Requested axis not found; " + givenAxisName);
+			throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested axis not found; " + givenAxisName);
 		}
 
 		return static_cast<int>(axisNumber);
