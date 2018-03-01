@@ -30,6 +30,9 @@ void Robot::RobotInit()
 	SmartDashboard::PutString("DB/String 0", "R");
 	// Defaulting Switch or Scale
 	SmartDashboard::PutString("DB/String 1", "SC");
+	//Do or Do not
+	SmartDashboard::PutString("DB/String 3", "DeleteToBreakAuto");
+
 
 	try
 	{
