@@ -168,8 +168,8 @@ void AutonomousScenarios::Execute()
 						// RL Or RR
 						// M1 for Switch
 						// Distance: D0.5|d11;ER;GS;S;
-						DebugLog("D0.5|t800;ER;GS;S;");
-						listOfCommands = Split("D0.5|t800;ER;GS;S;", ';');
+						DebugLog("D0.3|t800;ER;GS;S;");
+						listOfCommands = Split("D0.5|t3000;ER;GS;S;", ';');
 					}
 				}
 				break;

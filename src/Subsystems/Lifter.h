@@ -39,5 +39,6 @@ public:
 	void RunTheWinch();
 	void StopTheWinch();
 	void EnableLifterSubsystem();
+	bool IsReadyToEjectCore();
 };
 
