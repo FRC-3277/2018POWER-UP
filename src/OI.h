@@ -107,7 +107,7 @@ private:
 	static constexpr int GrabberSpitCubeLeverAxisNumber = AIRFORCEONE_X_AXIS;
 
 	// Lifter
-	static constexpr int LifterPrepareCoreEjectionButtonNumber = JOYSTICK_BUTTON_TEN;
+	static constexpr int LifterPrepareCoreEjectionButtonNumber = JOYSTICK_BUTTON_EIGHT;
 	static constexpr int LifterRunWinchButtonNumber = JOYSTICK_BUTTON_TWELVE;
 
 	// xBox button role selection

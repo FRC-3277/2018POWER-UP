@@ -202,6 +202,7 @@ void Robot::TeleopPeriodic()
 	if(timekeeper->GetElapsedTime() >= ElapsedSecondsBeforeEnableLifter || true)
 	{
 		lifter->EnableLifterSubsystem();
+		elevator->SetIsLifterSubsystemEnabled(lifter->IsReadyToEjectCore());
 	}
 
 	if(EnableElevator)
