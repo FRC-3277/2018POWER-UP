@@ -183,6 +183,9 @@ void AutonomousScenarios::Execute()
 		listOfCommands = Split("D0.3|t4000;", ';');
 	}
 
+	// TODO: Remove this once auton is tweaked.  It will break the line, but snuff out all other commands
+	listOfCommands = Split("D0.3|t4000;", ';');
+
 	for (auto eachCommand : listOfCommands)
 	{
 		DebugLog("eachCommand: " + eachCommand);
