@@ -85,13 +85,6 @@ void Elevator::RaiseElevator()
 	UpdateSoftSpeedChangeArray(RaiseSpeedMultiplier);
 	double speed = SoftSpeedChange();
 
-	//if(MaxHeightLimitSwitch->Get())
-	if(false)
-	{
-		//TODO: Re-enable once this is actually installed
-		//speed = StopElevatorSpeed;
-	}
-
 	LeftElevatorTalon->Set(speed);
 	lumberJack->dLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)));
 	RightElevatorTalon->Set(-speed);
@@ -109,13 +102,6 @@ void Elevator::LowerElevator()
 	IsElevatorOnTheMove = true;
 	UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
 	double speed = SoftSpeedChange();
-
-	//if(MinHeightLimitSwitch->Get())
-	if(false)
-	{
-		//TODO: Re-enable once this is actually installed
-		//speed = StopElevatorSpeed;
-	}
 
 	LeftElevatorTalon->Set(-speed);
 	lumberJack->dLog(std::string("LowerElevator: ") + std::string(std::to_string(-speed)));
