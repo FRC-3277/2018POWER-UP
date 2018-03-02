@@ -54,14 +54,14 @@ private:
 	int RequestedLimitSwitchLocation = 0;
 
 	static constexpr double ElevatorTravelSpeed = 0.25;
-	static constexpr double ElevatorLifterTravelSpeed = 0.60;
+	static constexpr double ElevatorLifterTravelSpeed = 0.75;
 	const double StopElevatorSpeed = 0.0;
 
 	int SoftSpeedUpChangeArrayIterator = 0;
 	int SoftSpeedDownChangeArrayIterator = 0;
 
 	static constexpr int SoftSpeedUpChangeArraySize = 60;
-	static constexpr int SoftSpeedDownChangeArraySize = 75;
+	static constexpr int SoftSpeedDownChangeArraySize = 60;
 
 	double SoftStartChangeArray[SoftSpeedUpChangeArraySize];
 	double SoftStopChangeArray[SoftSpeedDownChangeArraySize];

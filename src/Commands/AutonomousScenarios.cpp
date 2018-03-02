@@ -47,7 +47,9 @@ void AutonomousScenarios::Execute()
 	// TODO: Use the flag to enable/disable time/distance modes.
 
 	//Do or do not
-	if (DoAuto.size() != 0)
+
+	// Change to (DoAuto.size() != 0) When auto gets fixed
+	if (DoAuto.size() == 0)
 	{
 		switch(LocationOfRobot[0])
 		{
