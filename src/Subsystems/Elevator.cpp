@@ -133,7 +133,15 @@ void Elevator::UpdateLimitSwitchTracker()
 {
 	bool limitSwitchValueChanged = false;
 
-	if(!HighLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != HIGH_LIMIT_SWITCH_NUMBER)
+	lumberJack->dLog("LeftElevatorTalon: " + std::to_string(LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()));
+	lumberJack->dLog("RightElevatorTalon: " + std::to_string(RightElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()));
+
+	if(!LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MAX_LIMIT_SWITCH_NUMBER)
+	{
+		LimitSwitchTracker = MAX_LIMIT_SWITCH_NUMBER;
+		limitSwitchValueChanged = true;
+	}
+	else if(!HighLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != HIGH_LIMIT_SWITCH_NUMBER)
 	{
 		LimitSwitchTracker = HIGH_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
@@ -146,6 +154,11 @@ void Elevator::UpdateLimitSwitchTracker()
 	else if(!LowLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != LOW_LIMIT_SWITCH_NUMBER)
 	{
 		LimitSwitchTracker = LOW_LIMIT_SWITCH_NUMBER;
+		limitSwitchValueChanged = true;
+	}
+	if(!LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MIN_LIMIT_SWITCH_NUMBER)
+	{
+		LimitSwitchTracker = MIN_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
 	}
 	else
