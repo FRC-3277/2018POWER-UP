@@ -24,7 +24,7 @@ private:
 
 	static const bool
 			isInfoLoggingEnabled = true,
-			isDebugLoggingEnabled = true,
+			isDebugLoggingEnabled = false,
 			isErrorLoggingEnabled = true,
 			isWarningLoggingEnabled = false,
 			isFatalLoggingEnabled = true,
