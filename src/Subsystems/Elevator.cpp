@@ -220,7 +220,7 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 	else
 	{
 		TempSpeedChange = -ElevatorTravelSpeed * 4;
-		TempSpeed = ElevatorTravelSpeed * LocalMultiplier * 1.2;
+		TempSpeed = ElevatorTravelSpeed * LocalMultiplier * 1.4;
 	}
 
 	DebugLog("UpdateSoftSpeedChangeArray", 2000);
