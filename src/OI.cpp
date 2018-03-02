@@ -466,7 +466,7 @@ double OI::Clamp(double joystickAxis)
 int OI::GetDesiredElevatorSetpoint()
 {
 	int DesiredSetpoint = 1;
-	int NumberOfElevatorLimitSwitches = 5;
+	int NumberOfElevatorLimitSwitches = 6;
 	double SetPointDelimiterValue = 0.99/NumberOfElevatorLimitSwitches;
 	double CurrentActualElevatorSetpointControllerValue = ScaleAirForceOneAxis(-assignedController->GetAssignedController(GoToDesiredElevatorSetpointAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GoToDesiredElevatorSetpointAxisId)));
 	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
