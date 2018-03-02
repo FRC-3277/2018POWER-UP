@@ -307,7 +307,7 @@ namespace UserDefinedController {
 		}
 		else
 		{
-			lumberJack->eLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + " Requested controller not found: " + givenAxisName);
+			////lumberJack->eLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + " Requested controller not found: " + givenAxisName);
 			throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested controller not found: " + givenAxisName);
 		}
 
@@ -326,7 +326,7 @@ namespace UserDefinedController {
 		}
 		else
 		{
-			lumberJack->eLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + " Requested axis not found: " + givenAxisName);
+			////lumberJack->eLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + " Requested axis not found: " + givenAxisName);
 			throw ERR::CustomError(std::string(__FILE__) + "; " + std::to_string(__LINE__) + "; Requested axis not found: " + givenAxisName);
 		}
 
