@@ -6,18 +6,19 @@
 /*----------------------------------------------------------------------------*/
 #include "Robot.h"
 
+std::shared_ptr<Kronos::TimeKeeper> Robot::timekeeper;
 std::shared_ptr<DriveTrain> Robot::driveTrain;
 std::shared_ptr<Elevator> Robot::elevator;
 std::shared_ptr<Grabber> Robot::grabber;
 std::shared_ptr<Lifter> Robot::lifter;
 std::shared_ptr<GameStates> Robot::gamestates;
-std::shared_ptr<Kronos::TimeKeeper> Robot::timekeeper;
 std::shared_ptr<Camera> Robot::camera;
 std::unique_ptr<OI> Robot::oi;
 
 void Robot::RobotInit()
 {
 	lumberJack.reset(new LumberJack());
+	timekeeper.reset(new Kronos::TimeKeeper());
 
 	//m_chooser.AddDefault("Default Auto", &m_defaultAuto);
 	//m_chooser.AddObject("My Auto", &m_myAuto);
@@ -196,7 +197,7 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 {
-	if(timekeeper->GetElapsedTime() >= ElapsedSecondsBeforeEnableLifter)
+	if(timekeeper->GetElapsedTimeSec() >= ElapsedSecondsBeforeEnableLifter)
 	{
 		lifter->EnableLifterSubsystem();
 		elevator->SetIsLifterSubsystemEnabled(lifter->IsReadyToEjectCore());
