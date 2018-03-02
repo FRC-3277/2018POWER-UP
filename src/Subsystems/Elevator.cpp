@@ -265,7 +265,12 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 		TempSpeed = ElevatorTravelSpeed * LocalMultiplier * 0.25;
 	}
 
-	if(HasElevatorDirectionChanged)
+	// Ramping is undesirable when the lifter is enabled and rising past midway
+	if (IsLifterSubsystemEnabled && LimitSwitchTracker >= MED_LIMIT_SWITCH_NUMBER)
+	{
+		TempSpeed = ElevatorLifterTravelSpeed;
+	}
+	else if(HasElevatorDirectionChanged)
 	{
 		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeed/10;
 		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempSpeed/10;
@@ -285,12 +290,6 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 	}
 	else
 	{
-		// Ramping is undesirable when the lifter is enabled and rising past midway
-		if (IsLifterSubsystemEnabled && LimitSwitchTracker >= MED_LIMIT_SWITCH_NUMBER)
-		{
-			TempSpeed = ElevatorLifterTravelSpeed;
-		}
-
 		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeed;
 		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempSpeed;
 	}

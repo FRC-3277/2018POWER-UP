@@ -64,7 +64,7 @@ private:
 	void DisabledInit() override;
 	void DisabledPeriodic() override;
 
-	static constexpr int ElapsedSecondsBeforeEnableLifter = 135 - 40;
+	static constexpr int ElapsedSecondsBeforeEnableLifter = 135 - 130;
 
 	// Have it null by default so that if testing teleop it
 	// doesn't have undefined behavior and potentially crash.
