@@ -104,6 +104,11 @@ void Elevator::RaiseElevator()
 	UpdateSoftSpeedChangeArray(RaiseSpeedMultiplier);
 	double speed = SoftSpeedChange();
 
+	if(IsLifterSubsystemEnabled)
+	{
+		speed = ElevatorLifterTravelSpeed;
+	}
+
 	LeftElevatorTalon->Set(speed);
 	DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)), 30);
 	RightElevatorTalon->Set(-speed);
@@ -138,6 +143,11 @@ void Elevator::LowerElevator()
 	IsElevatorOnTheMove = true;
 	UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
 	double speed = SoftSpeedChange();
+
+	if(IsLifterSubsystemEnabled)
+	{
+		speed = ElevatorLifterTravelSpeed;
+	}
 
 	LeftElevatorTalon->Set(-speed);
 	DebugLog(std::string("LowerElevator: ") + std::string(std::to_string(-speed)), 30);
