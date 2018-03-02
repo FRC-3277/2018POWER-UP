@@ -170,6 +170,8 @@ void Robot::AutonomousInit()
 {
 	lumberJack->iLog("Begin Autonomous");
 
+	timekeeper->ResetClockStart();
+
 	gamestates->GetGameData();
 
 	if (autonomousScenarios.get() != nullptr)
