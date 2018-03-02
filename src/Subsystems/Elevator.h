@@ -53,8 +53,8 @@ private:
 	int SoftSpeedUpChangeArrayIterator = 0;
 	int SoftSpeedDownChangeArrayIterator = 0;
 
-	static constexpr int SoftSpeedUpChangeArraySize = 60;
-	static constexpr int SoftSpeedDownChangeArraySize = 60;
+	static constexpr int SoftSpeedUpChangeArraySize = 10;
+	static constexpr int SoftSpeedDownChangeArraySize = 40;
 
 	double SoftStartChangeArray[SoftSpeedUpChangeArraySize];
 	double SoftStopChangeArray[SoftSpeedDownChangeArraySize];
