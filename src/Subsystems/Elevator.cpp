@@ -4,6 +4,8 @@
 Elevator::Elevator() : frc::Subsystem("Elevator")
 {
 	lumberJack.reset(new LumberJack());
+	ChangeDirectionTimekeeper.reset(new Kronos::TimeKeeper());
+	HighLowExemptionTimekeeper.reset(new Kronos::TimeKeeper());
 
 	// Defaulting
 	std::fill_n(SoftStartChangeArray, SoftSpeedUpChangeArraySize, ElevatorTravelSpeed);
@@ -78,6 +80,14 @@ void Elevator::InitDefaultCommand()
 
 void Elevator::RaiseElevator()
 {
+	// TODO: Elevator change direction detection
+
+	// Indicates this direction of travel as just been enabled so start a grace period timer
+	if(!IsElevatorOnTheMove)
+	{
+		HighLowExemptionTimekeeper->ResetClockStart();
+	}
+
 	IsElevatorGoingUp = true;
 	DebugLog("RaiseElevator", 2000);
 
@@ -95,6 +105,14 @@ void Elevator::RaiseElevator()
 
 void Elevator::LowerElevator()
 {
+	// TODO: Elevator change direction detection
+
+	// Indicates this direction of travel as just been enabled so start a grace period timer
+	if(!IsElevatorOnTheMove)
+	{
+		HighLowExemptionTimekeeper->ResetClockStart();
+	}
+
 	IsElevatorGoingUp = false;
 
 	DebugLog("LowerElevator", 2000);
@@ -211,13 +229,20 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 
 	DebugLog("UpdateSoftSpeedChangeArray", 2000);
 
-	if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp ||
-			(IsElevatorManuallyControlled == false && abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
+	if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER &&
+			IsElevatorGoingUp &&
+			HighLowExemptionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisHighLowGracePeriod ||
+			(IsElevatorManuallyControlled == false &&
+					abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
 	{
 		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeedChange;
 	}
-	else if(LimitSwitchTracker == LOW_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp == false && SoftSpeedChange() > 0 ||
-			(IsElevatorManuallyControlled == false && abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
+	else if(LimitSwitchTracker == LOW_LIMIT_SWITCH_NUMBER &&
+			IsElevatorGoingUp == false &&
+			HighLowExemptionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisHighLowGracePeriod &&
+			SoftSpeedChange() > 0 ||
+			(IsElevatorManuallyControlled == false &&
+					abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
 	{
 		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempSpeedChange;
 	}
