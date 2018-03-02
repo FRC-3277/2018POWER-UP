@@ -174,7 +174,7 @@ void Elevator::UpdateLimitSwitchTracker()
 		LimitSwitchTracker = LOW_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
 	}
-	if(!LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MIN_LIMIT_SWITCH_NUMBER)
+	else if(!LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MIN_LIMIT_SWITCH_NUMBER)
 	{
 		LimitSwitchTracker = MIN_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
