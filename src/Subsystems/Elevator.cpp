@@ -326,17 +326,17 @@ bool Elevator::GetInputControlMode()
 	return IsElevatorManuallyControlled;
 }
 
+void Elevator::SetIsLifterSubsystemEnabled(bool IsLifterSubsystemEnabled)
+{
+	this->IsLifterSubsystemEnabled = IsLifterSubsystemEnabled;
+}
+
 void Elevator::DebugLog(const string& msg)
 {
 	if(ElevatorDebugLoggingEnabled)
 	{
 		lumberJack->dLog(msg);
 	}
-}
-
-void Elevator::SetIsLifterSubsystemEnabled(bool IsLifterSubsystemEnabled)
-{
-	this->IsLifterSubsystemEnabled = IsLifterSubsystemEnabled;
 }
 
 void Elevator::DebugLog(const string& msg, int loggingEveryNth)
