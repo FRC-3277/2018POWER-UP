@@ -244,15 +244,25 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 	double TempSpeedChange = 0.0;
 	double LocalMultiplier = Multiplier;
 
-	if(IsElevatorGoingUp)
+	if(IsElevatorGoingUp && IsElevatorManuallyControlled)
 	{
 		TempSpeedChange = ElevatorTravelSpeed * LocalMultiplier/15;
 		TempSpeed = ElevatorTravelSpeed * LocalMultiplier;
 	}
-	else
+	else if(!IsElevatorGoingUp && IsElevatorManuallyControlled)
 	{
 		TempSpeedChange = -ElevatorTravelSpeed * 4;
 		TempSpeed = ElevatorTravelSpeed * LocalMultiplier * 1.4;
+	}
+	else if(IsElevatorGoingUp && IsElevatorManuallyControlled == false)
+	{
+		TempSpeedChange = ElevatorTravelSpeed * LocalMultiplier/30;
+		TempSpeed = ElevatorTravelSpeed * LocalMultiplier/2;
+	}
+	else if(!IsElevatorGoingUp && IsElevatorManuallyControlled == false)
+	{
+		TempSpeedChange = -ElevatorTravelSpeed * 1.5;
+		TempSpeed = ElevatorTravelSpeed * LocalMultiplier * 0.25;
 	}
 
 	if(HasElevatorDirectionChanged)
@@ -262,18 +272,14 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 	}
 	else if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER &&
 			IsElevatorGoingUp &&
-			HighLowExemptionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisHighLowGracePeriod ||
-			(IsElevatorManuallyControlled == false &&
-					abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
+			HighLowExemptionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisHighLowGracePeriod)
 	{
 		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeedChange;
 	}
 	else if(LimitSwitchTracker == LOW_LIMIT_SWITCH_NUMBER &&
 			IsElevatorGoingUp == false &&
 			HighLowExemptionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisHighLowGracePeriod &&
-			SoftSpeedChange() > 0 ||
-			(IsElevatorManuallyControlled == false &&
-					abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
+			SoftSpeedChange() > 0)
 	{
 		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempSpeedChange;
 	}
