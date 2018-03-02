@@ -207,7 +207,8 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 {
-	if(timekeeper->GetElapsedTimeSec() >= ElapsedSecondsBeforeEnableLifter)
+	if(timekeeper->GetElapsedTimeSec() >= ElapsedSecondsBeforeEnableLifter  &&
+			elevator->GetLimitSwitchTracker() == elevator->MIN_LIMIT_SWITCH_NUMBER)
 	{
 		lifter->EnableLifterSubsystem();
 		elevator->SetIsLifterSubsystemEnabled(lifter->IsReadyToEjectCore());
