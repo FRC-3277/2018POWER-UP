@@ -178,7 +178,7 @@ void AutonomousScenarios::Execute()
 	}
 	else
 	{
-		listOfCommands = Split("D0.25|t3000;", ';');
+		listOfCommands = Split("D0.3|t4000;", ';');
 	}
 
 	for (auto eachCommand : listOfCommands)
