@@ -14,7 +14,8 @@ namespace Kronos
 			TimeKeeper();
 			virtual ~TimeKeeper();
 			// Time elapsed is in seconds
-			double GetElapsedTime();
+			double GetElapsedTimeSec();
+			double GetElapsedTimeMilli();
 			void ResetClockStart();
 	};
 } /* namespace Kronos */
