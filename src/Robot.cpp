@@ -11,7 +11,7 @@ std::shared_ptr<Elevator> Robot::elevator;
 std::shared_ptr<Grabber> Robot::grabber;
 std::shared_ptr<Lifter> Robot::lifter;
 std::shared_ptr<GameStates> Robot::gamestates;
-std::shared_ptr<TimeKeeper> Robot::timekeeper;
+std::shared_ptr<Kronos::TimeKeeper> Robot::timekeeper;
 std::shared_ptr<Camera> Robot::camera;
 std::unique_ptr<OI> Robot::oi;
 
@@ -196,8 +196,7 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 {
-	//TODO:: Fix this!
-	if(timekeeper->GetElapsedTime() >= ElapsedSecondsBeforeEnableLifter || true)
+	if(timekeeper->GetElapsedTime() >= ElapsedSecondsBeforeEnableLifter)
 	{
 		lifter->EnableLifterSubsystem();
 		elevator->SetIsLifterSubsystemEnabled(lifter->IsReadyToEjectCore());

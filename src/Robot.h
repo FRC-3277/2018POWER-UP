@@ -29,7 +29,7 @@
 #include "Subsystems/Grabber.h"
 #include "Subsystems/Lifter.h"
 #include "Subsystems/GameStates.h"
-#include "Subsystems/TimeKeeper.h"
+#include "Class/TimeKeeper.h"
 #include "Subsystems/Camera.h"
 
 // Commands
@@ -45,7 +45,7 @@ public:
 	static std::shared_ptr<Grabber> grabber;
 	static std::shared_ptr<Lifter> lifter;
 	static std::shared_ptr<GameStates> gamestates;
-	static std::shared_ptr<TimeKeeper> timekeeper;
+	static std::shared_ptr<Kronos::TimeKeeper> timekeeper;
 	static std::shared_ptr<Camera> camera;
 	static std::unique_ptr<OI> oi;
 
@@ -64,7 +64,7 @@ private:
 	void DisabledInit() override;
 	void DisabledPeriodic() override;
 
-	static constexpr int ElapsedSecondsBeforeEnableLifter = 135 - 30;
+	static constexpr int ElapsedSecondsBeforeEnableLifter = 20;//135 - 30;
 
 	// Have it null by default so that if testing teleop it
 	// doesn't have undefined behavior and potentially crash.
