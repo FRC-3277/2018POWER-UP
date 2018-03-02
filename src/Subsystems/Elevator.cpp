@@ -104,6 +104,11 @@ void Elevator::RaiseElevator()
 	UpdateSoftSpeedChangeArray(RaiseSpeedMultiplier);
 	double speed = SoftSpeedChange();
 
+	if(IsLifterSubsystemEnabled)
+	{
+		speed = ElevatorLifterTravelSpeed;
+	}
+
 	LeftElevatorTalon->Set(speed);
 	DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)), 30);
 	RightElevatorTalon->Set(-speed);
@@ -139,6 +144,11 @@ void Elevator::LowerElevator()
 	UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
 	double speed = SoftSpeedChange();
 
+	if(IsLifterSubsystemEnabled)
+	{
+		speed = ElevatorLifterTravelSpeed;
+	}
+
 	LeftElevatorTalon->Set(-speed);
 	DebugLog(std::string("LowerElevator: ") + std::string(std::to_string(-speed)), 30);
 	RightElevatorTalon->Set(speed);
@@ -154,7 +164,7 @@ void Elevator::UpdateLimitSwitchTracker()
 	DebugLog("LeftElevatorTalon: " + std::to_string(LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()), 30);
 	DebugLog("RightElevatorTalon: " + std::to_string(RightElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()), 30);
 
-	if(!LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MAX_LIMIT_SWITCH_NUMBER)
+	if(LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MAX_LIMIT_SWITCH_NUMBER)
 	{
 		LimitSwitchTracker = MAX_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
@@ -174,7 +184,7 @@ void Elevator::UpdateLimitSwitchTracker()
 		LimitSwitchTracker = LOW_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
 	}
-	else if(!LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MIN_LIMIT_SWITCH_NUMBER)
+	else if(LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MIN_LIMIT_SWITCH_NUMBER)
 	{
 		LimitSwitchTracker = MIN_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
