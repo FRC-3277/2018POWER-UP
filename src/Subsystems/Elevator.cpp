@@ -4,6 +4,8 @@
 Elevator::Elevator() : frc::Subsystem("Elevator")
 {
 	lumberJack.reset(new LumberJack());
+	ChangeDirectionTimekeeper.reset(new Kronos::TimeKeeper());
+	HighLowExemptionTimekeeper.reset(new Kronos::TimeKeeper());
 
 	// Defaulting
 	std::fill_n(SoftStartChangeArray, SoftSpeedUpChangeArraySize, ElevatorTravelSpeed);
@@ -37,7 +39,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	// Servo goes to home position when this line of code is hit.  This drops
 	// the end effector when Teleop or Autonomous mode is hit.
-	EndEffectorDropServo.reset(new Servo(DROP_END_EFFECTOR_SERVO_ID));
+	EndEffectorDropServo.reset(new Servo(ELEVATOR_DROP_END_EFFECTOR_SERVO_ID));
 
 	// Confident it is stopped at the beginning.
 	LimitSwitchTracker = 1;
@@ -45,7 +47,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	lumberJack->dLog("Assigning limit switches");
 	try
 	{
-		HighLimitSwitch.reset(new DigitalInput(HIGH_LIMIT_SWITCH_ID));
+		HighLimitSwitch.reset(new DigitalInput(ELEVATOR_HIGH_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
@@ -54,7 +56,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	try
 	{
-		MedLimitSwitch.reset(new DigitalInput(MED_LIMIT_SWITCH_ID));
+		MedLimitSwitch.reset(new DigitalInput(ELEVATOR_MED_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
@@ -63,7 +65,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	try
 	{
-		LowLimitSwitch.reset(new DigitalInput(LOW_LIMIT_SWITCH_ID));
+		LowLimitSwitch.reset(new DigitalInput(ELEVATOR_LOW_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
@@ -78,19 +80,20 @@ void Elevator::InitDefaultCommand()
 
 void Elevator::RaiseElevator()
 {
+	// TODO: Elevator change direction detection
+
+	// Indicates this direction of travel as just been enabled so start a grace period timer
+	if(!IsElevatorOnTheMove)
+	{
+		HighLowExemptionTimekeeper->ResetClockStart();
+	}
+
 	IsElevatorGoingUp = true;
 	DebugLog("RaiseElevator", 2000);
 
 	IsElevatorOnTheMove = true;
 	UpdateSoftSpeedChangeArray(RaiseSpeedMultiplier);
 	double speed = SoftSpeedChange();
-
-	//if(MaxHeightLimitSwitch->Get())
-	if(false)
-	{
-		//TODO: Re-enable once this is actually installed
-		//speed = StopElevatorSpeed;
-	}
 
 	LeftElevatorTalon->Set(speed);
 	lumberJack->dLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)));
@@ -102,6 +105,14 @@ void Elevator::RaiseElevator()
 
 void Elevator::LowerElevator()
 {
+	// TODO: Elevator change direction detection
+
+	// Indicates this direction of travel as just been enabled so start a grace period timer
+	if(!IsElevatorOnTheMove)
+	{
+		HighLowExemptionTimekeeper->ResetClockStart();
+	}
+
 	IsElevatorGoingUp = false;
 
 	DebugLog("LowerElevator", 2000);
@@ -109,13 +120,6 @@ void Elevator::LowerElevator()
 	IsElevatorOnTheMove = true;
 	UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
 	double speed = SoftSpeedChange();
-
-	//if(MinHeightLimitSwitch->Get())
-	if(false)
-	{
-		//TODO: Re-enable once this is actually installed
-		//speed = StopElevatorSpeed;
-	}
 
 	LeftElevatorTalon->Set(-speed);
 	lumberJack->dLog(std::string("LowerElevator: ") + std::string(std::to_string(-speed)));
@@ -203,14 +207,11 @@ void Elevator::StopElevator()
 
 void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 {
+	DebugLog("UpdateSoftSpeedChangeArray", 2000);
+
 	double TempSpeed = 0.0;
 	double TempSpeedChange = 0.0;
 	double LocalMultiplier = Multiplier;
-
-	if (IsLifterSubsystemEnabled && LimitSwitchTracker >= MED_LIMIT_SWITCH_NUMBER)
-	{
-		LocalMultiplier = LocalMultiplier / 2;
-	}
 
 	if(IsElevatorGoingUp)
 	{
@@ -223,20 +224,31 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 		TempSpeed = ElevatorTravelSpeed * LocalMultiplier * 1.4;
 	}
 
-	DebugLog("UpdateSoftSpeedChangeArray", 2000);
-
-	if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp ||
-			(IsElevatorManuallyControlled == false && abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
+	if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER &&
+			IsElevatorGoingUp &&
+			HighLowExemptionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisHighLowGracePeriod ||
+			(IsElevatorManuallyControlled == false &&
+					abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
 	{
 		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeedChange;
 	}
-	else if(LimitSwitchTracker == LOW_LIMIT_SWITCH_NUMBER && IsElevatorGoingUp == false && SoftSpeedChange() > 0 ||
-			(IsElevatorManuallyControlled == false && abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
+	else if(LimitSwitchTracker == LOW_LIMIT_SWITCH_NUMBER &&
+			IsElevatorGoingUp == false &&
+			HighLowExemptionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisHighLowGracePeriod &&
+			SoftSpeedChange() > 0 ||
+			(IsElevatorManuallyControlled == false &&
+					abs(RequestedLimitSwitchLocation - LimitSwitchTracker) == 1))
 	{
 		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempSpeedChange;
 	}
 	else
 	{
+		// Ramping is undesirable when the lifter is enabled and rising past midway
+		if (IsLifterSubsystemEnabled && LimitSwitchTracker >= MED_LIMIT_SWITCH_NUMBER)
+		{
+			TempSpeed = LocalMultiplier / 2;
+		}
+
 		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeed;
 		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempSpeed;
 	}
@@ -326,17 +338,17 @@ bool Elevator::GetInputControlMode()
 	return IsElevatorManuallyControlled;
 }
 
+void Elevator::SetIsLifterSubsystemEnabled(bool IsLifterSubsystemEnabled)
+{
+	this->IsLifterSubsystemEnabled = IsLifterSubsystemEnabled;
+}
+
 void Elevator::DebugLog(const string& msg)
 {
 	if(ElevatorDebugLoggingEnabled)
 	{
 		lumberJack->dLog(msg);
 	}
-}
-
-void Elevator::SetIsLifterSubsystemEnabled(bool IsLifterSubsystemEnabled)
-{
-	this->IsLifterSubsystemEnabled = IsLifterSubsystemEnabled;
 }
 
 void Elevator::DebugLog(const string& msg, int loggingEveryNth)

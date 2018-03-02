@@ -40,3 +40,4 @@
 *.xml
 .cproject
 build.properties
+.settings/org.eclipse.cdt.codan.core.prefs

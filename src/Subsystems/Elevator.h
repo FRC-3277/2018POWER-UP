@@ -3,14 +3,20 @@
 
 #include "LumberJack.h"
 
+#include "Class/TimeKeeper.h"
 #include "../RobotMap.h"
 #include "WPILib.h"
 #include "ctre/Phoenix.h"
 #include <Commands/Subsystem.h>
 
-class Elevator : public frc::Subsystem {
+class Elevator : public frc::Subsystem
+{
 private:
 	std::shared_ptr<LumberJack> lumberJack;
+	// Timers
+	// Dual purpose timer.  Stopwatch when button released and one when button pressed before grace period expired
+	std::shared_ptr<Kronos::TimeKeeper> ChangeDirectionTimekeeper;
+	std::shared_ptr<Kronos::TimeKeeper> HighLowExemptionTimekeeper;
 
 	std::shared_ptr<WPI_TalonSRX> LeftElevatorTalon;
 	std::shared_ptr<WPI_TalonSRX> RightElevatorTalon;
@@ -21,7 +27,8 @@ private:
 	std::shared_ptr<DigitalInput> MedLimitSwitch;
 	std::shared_ptr<DigitalInput> LowLimitSwitch;
 
-	static constexpr int HIGH_LIMIT_SWITCH_NUMBER = 4;
+	static constexpr int HIGH_LIMIT_SWITCH_NUMBER = 5;
+	static constexpr int EJECT_CORE_LIMIT_SWITCH_NUMBER = 4;
 	static constexpr int MED_LIMIT_SWITCH_NUMBER = 3;
 	static constexpr int LOW_LIMIT_SWITCH_NUMBER = 2;
 
@@ -30,8 +37,15 @@ private:
 	bool IsElevatorOnTheMove = false;
 	// If it is going down then false
 	bool IsElevatorGoingUp = true;
-
+	// When the lifter subsystem is enabled this is used in combination with location of elevator to determine speed reduction
 	bool IsLifterSubsystemEnabled = false;
+	// When this is triggered a timer is kicked off and the speed ramp is reduced
+	bool HasElevatorDirectionChanged = false;
+
+	// Time period where if the opposite direction button is pressed will trigger elevator direction has changed
+	static constexpr int ElapsedMillisTriggerDirectionChange = 500;
+	// Grace period where the upper and lower zones are not speed ramp restricted
+	static constexpr int ElapsedMillisHighLowGracePeriod = 1000;
 
 	// Track which limit switch has been recently visited.  Start with 1 from bottom until top limit switch
 	int LimitSwitchTracker = 0;
