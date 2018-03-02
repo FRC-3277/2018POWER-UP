@@ -80,12 +80,21 @@ void Elevator::InitDefaultCommand()
 
 void Elevator::RaiseElevator()
 {
-	// TODO: Elevator change direction detection
-
 	// Indicates this direction of travel as just been enabled so start a grace period timer
 	if(!IsElevatorOnTheMove)
 	{
+		ChangeDirectionTimekeeper->ResetClockStart();
 		HighLowExemptionTimekeeper->ResetClockStart();
+	}
+
+	// Elevator change direction detection
+	if(!IsElevatorGoingUp && ChangeDirectionTimekeeper->GetElapsedTimeMilli() < ElapsedMillisTriggerDirectionChange)
+	{
+		HasElevatorDirectionChanged = true;
+	}
+	else if(HasElevatorDirectionChanged && ChangeDirectionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisTriggerDirectionChange)
+	{
+		HasElevatorDirectionChanged = false;
 	}
 
 	IsElevatorGoingUp = true;
@@ -105,12 +114,21 @@ void Elevator::RaiseElevator()
 
 void Elevator::LowerElevator()
 {
-	// TODO: Elevator change direction detection
-
 	// Indicates this direction of travel as just been enabled so start a grace period timer
 	if(!IsElevatorOnTheMove)
 	{
+		ChangeDirectionTimekeeper->ResetClockStart();
 		HighLowExemptionTimekeeper->ResetClockStart();
+	}
+
+	// Elevator change direction detection
+	if(IsElevatorGoingUp && ChangeDirectionTimekeeper->GetElapsedTimeMilli() < ElapsedMillisTriggerDirectionChange)
+	{
+		HasElevatorDirectionChanged = true;
+	}
+	else if(HasElevatorDirectionChanged && ChangeDirectionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisTriggerDirectionChange)
+	{
+		HasElevatorDirectionChanged = false;
 	}
 
 	IsElevatorGoingUp = false;
@@ -224,7 +242,12 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 		TempSpeed = ElevatorTravelSpeed * LocalMultiplier * 1.4;
 	}
 
-	if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER &&
+	if(HasElevatorDirectionChanged)
+	{
+		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeed/10;
+		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempSpeed/10;
+	}
+	else if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER &&
 			IsElevatorGoingUp &&
 			HighLowExemptionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisHighLowGracePeriod ||
 			(IsElevatorManuallyControlled == false &&
