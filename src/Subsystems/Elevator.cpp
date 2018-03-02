@@ -37,7 +37,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	// Servo goes to home position when this line of code is hit.  This drops
 	// the end effector when Teleop or Autonomous mode is hit.
-	EndEffectorDropServo.reset(new Servo(DROP_END_EFFECTOR_SERVO_ID));
+	EndEffectorDropServo.reset(new Servo(ELEVATOR_DROP_END_EFFECTOR_SERVO_ID));
 
 	// Confident it is stopped at the beginning.
 	LimitSwitchTracker = 1;
@@ -45,7 +45,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	lumberJack->dLog("Assigning limit switches");
 	try
 	{
-		HighLimitSwitch.reset(new DigitalInput(HIGH_LIMIT_SWITCH_ID));
+		HighLimitSwitch.reset(new DigitalInput(ELEVATOR_HIGH_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
@@ -54,7 +54,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	try
 	{
-		MedLimitSwitch.reset(new DigitalInput(MED_LIMIT_SWITCH_ID));
+		MedLimitSwitch.reset(new DigitalInput(ELEVATOR_MED_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
@@ -63,7 +63,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	try
 	{
-		LowLimitSwitch.reset(new DigitalInput(LOW_LIMIT_SWITCH_ID));
+		LowLimitSwitch.reset(new DigitalInput(ELEVATOR_LOW_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
