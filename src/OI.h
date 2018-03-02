@@ -69,7 +69,7 @@ private:
 	 * 2 - Extreme3D_Pro as firstPlayerController with main role of driver with AirforceOne as secondPlayerController playing support role //TODO: add additional info here
 	 * 3 - Extreme3D_Pro as firstPlayerController with main role of driver with AirforceOne as secondPlayerController and XBox as thirdPlayerController playing support role //TODO: add additional info here
 	 */
-	static constexpr int PlayerControllerConfigurationMode = 0;
+	static constexpr int PlayerControllerConfigurationMode = 2;
 
 	// Use the Joystick when true, Use the xBox controller when false
 	bool useJoystick = true;

@@ -113,7 +113,7 @@ OI::OI()
 
 				// Grabber
 				assignedController->Extreme3D_Pro::AssignAxis(GrabberSpeedControlAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_SLIDER);
-				assignedController->Extreme3D_Pro::AssignButton(GrabberEjectionButtonId, firstPlayerController, EjectionButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_SIX);
+				assignedController->Extreme3D_Pro::AssignButton(GrabberEjectionButtonId, firstPlayerController, EjectionButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_TRIGGER);
 				assignedController->XBox::AssignButton(GrabberInjectionButtonId, secondPlayerController, InjectionButton, UDC::XBox::XBOX_BUTTON::XBOX_RIGHT_SHOLDER_BUTTON);
 
 				// Lifter
