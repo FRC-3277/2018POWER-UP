@@ -54,7 +54,7 @@ private:
 	int RequestedLimitSwitchLocation = 0;
 
 	static constexpr double ElevatorTravelSpeed = 0.25;
-	static constexpr double ElevatorLifterTravelSpeed = 0.40;
+	static constexpr double ElevatorLifterTravelSpeed = 0.60;
 	const double StopElevatorSpeed = 0.0;
 
 	int SoftSpeedUpChangeArrayIterator = 0;

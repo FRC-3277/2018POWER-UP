@@ -108,13 +108,17 @@ OI::OI()
 				assignedController->Extreme3D_Pro::AssignAxis(TwistAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_Z_AXIS);
 
 				// Elevator
-				assignedController->XBox::AssignButton(ElevatorUpButtonId, secondPlayerController, ElevatorUpButton, UDC::XBox::XBOX_BUTTON::XBOX_B_BUTTON);
-				assignedController->XBox::AssignButton(ElevatorDownButtonId, secondPlayerController, ElevatorDownButton, UDC::XBox::XBOX_BUTTON::XBOX_A_BUTTON);
+				assignedController->AirForceOne::AssignButton(ElevatorUpButtonId, secondPlayerController, ElevatorUpButton, UDC::AirForceOne::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_ONE);
+				assignedController->AirForceOne::AssignButton(ElevatorDownButtonId, secondPlayerController, ElevatorDownButton, UDC::AirForceOne::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_TWO);
+				// This allows the control of the elevator to switch between player one and player two.
+				// Player one is limited to direct up and own where player one can set and forget desired position.
+				assignedController->AirForceOne::AssignButton(ToggleElevatorControlModeId, secondPlayerController, ToggleElevatorControlModeButton, UDC::AirForceOne::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_FIVE);
+				assignedController->AirForceOne::AssignAxis(GoToDesiredElevatorSetpointAxisId, secondPlayerController, UDC::AirForceOne::AIRFORCEONE_AXIS::AIRFORCEONE_Z_AXIS);
 
 				// Grabber
 				assignedController->Extreme3D_Pro::AssignAxis(GrabberSpeedControlAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_SLIDER);
 				assignedController->Extreme3D_Pro::AssignButton(GrabberEjectionButtonId, firstPlayerController, EjectionButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_TRIGGER);
-				assignedController->XBox::AssignButton(GrabberInjectionButtonId, secondPlayerController, InjectionButton, UDC::XBox::XBOX_BUTTON::XBOX_RIGHT_SHOLDER_BUTTON);
+				assignedController->AirForceOne::AssignButton(GrabberInjectionButtonId, secondPlayerController, InjectionButton, UDC::AirForceOne::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_THREE);
 
 				// Lifter
 				assignedController->Extreme3D_Pro::AssignButton(LifterPrepareCoreEjectionButtonId, firstPlayerController, LifterEjectCoreButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_SEVEN);
@@ -123,10 +127,7 @@ OI::OI()
 				// Finesse and Invert Controls
 				assignedController->Extreme3D_Pro::AssignButton(InvertDriverControlsButtonId, firstPlayerController, InvertDriverControlsButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_ELEVEN);
 				assignedController->Extreme3D_Pro::AssignButton(JoystickFinesseButtonId, firstPlayerController, FinesseButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TWO);
-				// This allows the control of the elevator to switch between player one and player two.  
-				// Player one is limited to direct up and own where player one can set and forget desired position.
-				//assignedController->XBox::AssignButton(ToggleElevatorControlModeId, secondPlayerController, ToggleElevatorControlModeButton, UDC::XBox::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_FIVE);
-				//assignedController->XBox::AssignAxis(GoToDesiredElevatorSetpointAxisId, secondPlayerController, UDC::XBox::XBOX_AXIS::);
+
 
 
 
@@ -470,9 +471,9 @@ int OI::GetDesiredElevatorSetpoint()
 	double CurrentActualElevatorSetpointControllerValue = ScaleAirForceOneAxis(-assignedController->GetAssignedController(GoToDesiredElevatorSetpointAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GoToDesiredElevatorSetpointAxisId)));
 	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
 
-	lumberJack->iLog("DesiredSetpoint: " + std::to_string(DesiredSetpoint));
-	// TODO: Disabled currently due to elevator bucking which has caused camera damage due to reversals.
-	return 0;
+	lumberJack->dLog("DesiredSetpoint: " + std::to_string(DesiredSetpoint));
+	
+	return DesiredSetpoint;
 }
 
 double OI::GetAirForceOneXAxis() {
