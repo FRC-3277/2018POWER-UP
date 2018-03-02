@@ -154,7 +154,7 @@ void Elevator::UpdateLimitSwitchTracker()
 	DebugLog("LeftElevatorTalon: " + std::to_string(LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()), 30);
 	DebugLog("RightElevatorTalon: " + std::to_string(RightElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()), 30);
 
-	if(!LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MAX_LIMIT_SWITCH_NUMBER)
+	if(LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MAX_LIMIT_SWITCH_NUMBER)
 	{
 		LimitSwitchTracker = MAX_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
@@ -174,7 +174,7 @@ void Elevator::UpdateLimitSwitchTracker()
 		LimitSwitchTracker = LOW_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
 	}
-	else if(!LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MIN_LIMIT_SWITCH_NUMBER)
+	else if(LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MIN_LIMIT_SWITCH_NUMBER)
 	{
 		LimitSwitchTracker = MIN_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
