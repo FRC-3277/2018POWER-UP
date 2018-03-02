@@ -105,9 +105,9 @@ void Elevator::RaiseElevator()
 	double speed = SoftSpeedChange();
 
 	LeftElevatorTalon->Set(speed);
-	lumberJack->dLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)));
+	DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)), 30);
 	RightElevatorTalon->Set(-speed);
-	lumberJack->dLog(std::string("RaiseElevator: ") + std::string(std::to_string(-speed)));
+	DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(-speed)), 30);
 	//TODO: Re-enable once this is actually installed
 	UpdateLimitSwitchTracker();
 }
@@ -140,10 +140,10 @@ void Elevator::LowerElevator()
 	double speed = SoftSpeedChange();
 
 	LeftElevatorTalon->Set(-speed);
-	lumberJack->dLog(std::string("LowerElevator: ") + std::string(std::to_string(-speed)));
+	DebugLog(std::string("LowerElevator: ") + std::string(std::to_string(-speed)), 30);
 	RightElevatorTalon->Set(speed);
-	lumberJack->dLog(std::string("LowerElevator: ") + std::string(std::to_string(speed)));
-	//TODO: Re-enable once this is actually installed
+	DebugLog(std::string("LowerElevator: ") + std::string(std::to_string(speed)), 30);
+
 	UpdateLimitSwitchTracker();
 }
 
@@ -151,8 +151,8 @@ void Elevator::UpdateLimitSwitchTracker()
 {
 	bool limitSwitchValueChanged = false;
 
-	lumberJack->dLog("LeftElevatorTalon: " + std::to_string(LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()));
-	lumberJack->dLog("RightElevatorTalon: " + std::to_string(RightElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()));
+	DebugLog("LeftElevatorTalon: " + std::to_string(LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()), 30);
+	DebugLog("RightElevatorTalon: " + std::to_string(RightElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()), 30);
 
 	if(!LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MAX_LIMIT_SWITCH_NUMBER)
 	{
@@ -194,7 +194,7 @@ void Elevator::UpdateLimitSwitchTracker()
 // Meant not to be used directly, but called by commands
 bool Elevator::GoToSetPoint(int DesiredSetpoint)
 {
-	DebugLog("GoToSetPoint", 200);
+	DebugLog("GoToSetPoint", 30);
 
 	IsElevatorOnTheMove = true;
 
@@ -225,14 +225,14 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 
 void Elevator::StopElevator()
 {
-	DebugLog("StopElevator", 200);
+	DebugLog("StopElevator");
 
 	std::fill_n(SoftStartChangeArray, SoftSpeedUpChangeArraySize, ElevatorTravelSpeed);
 	std::fill_n(SoftStopChangeArray, SoftSpeedDownChangeArraySize, ElevatorTravelSpeed);
 	LeftElevatorTalon->Set(StopElevatorSpeed);
-	DebugLog(std::string("StopElevator: ") + std::string(std::to_string(StopElevatorSpeed)), 2000);
+	DebugLog(std::string("StopElevator: ") + std::string(std::to_string(StopElevatorSpeed)));
 	RightElevatorTalon->Set(StopElevatorSpeed);
-	DebugLog(std::string("StopElevator: ") + std::string(std::to_string(StopElevatorSpeed)), 2000);
+	DebugLog(std::string("StopElevator: ") + std::string(std::to_string(StopElevatorSpeed)));
 	IsElevatorOnTheMove = false;
 }
 
