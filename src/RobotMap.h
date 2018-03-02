@@ -25,11 +25,13 @@ static constexpr int REAR_RIGHT_MOTOR_CAN_ID = 5;
 // Elevator
 static constexpr int ELEVATOR_MOTOR_LEFT_CAN_ID = 10;
 static constexpr int ELEVATOR_MOTOR_RIGHT_CAN_ID = 11;
+
 // TODO: Get from motor controller
 static constexpr int DROP_END_EFFECTOR_SERVO_ID = 3;
 static constexpr int HIGH_LIMIT_SWITCH_ID = 9;
 static constexpr int MED_LIMIT_SWITCH_ID = 8;
 static constexpr int LOW_LIMIT_SWITCH_ID = 7;
+static constexpr int CHANGE_THIS_LIMIT_SWITCH_ID = 6;
 
 // Grabber
 static constexpr int GRABBER_LEFT_MOTOR_CAN_ID = 20;
