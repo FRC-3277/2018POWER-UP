@@ -4,6 +4,7 @@
 
 Grabber::Grabber() : frc::Subsystem("Grabber") {
 	lumberJack.reset(new LumberJack());
+	AutonTimekeeper.reset(new Kronos::TimeKeeper());
 
 	//Talons
 	try
@@ -90,12 +91,24 @@ void Grabber::GrabberEatStop()
 	EndEatCommand = false;
 }
 
-void Grabber::GrabberSpitStop() {
+void Grabber::GrabberSpitStop()
+{
 	GrabberLeftMotor->Set(0.0);
 	GrabberRightMotor->Set(0.0);
 	EndSpitCommand = false;
 }
 
-void Grabber::SetGrabberSpitSpeed(double GrabberMotorSpeed) {
+void Grabber::SetGrabberSpitSpeed(double GrabberMotorSpeed)
+{
 	this->GrabberMotorSpeed = GrabberMotorSpeed;
+}
+
+void Grabber::SetAutonTimerStart()
+{
+	AutonTimekeeper->ResetClockStart();
+}
+
+double Grabber::GetAutonTimerCurrent()
+{
+	return AutonTimekeeper->GetElapsedTimeMilli();
 }

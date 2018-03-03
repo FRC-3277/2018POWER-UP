@@ -13,7 +13,6 @@ void DriveWithJoystick::Initialize() {
 void DriveWithJoystick::Execute()
 {
 	Robot::driveTrain.get()->SetDrive(Robot::oi->GetJoystickX(), Robot::oi.get()->GetJoystickY(), Robot::oi.get()->GetJoystickTwist());
-
 }
 
 // Make this return true when this Command no longer needs to run execute()

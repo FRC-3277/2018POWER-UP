@@ -11,13 +11,17 @@
 #include "Robot.h"
 #include "LumberJack.h"
 
-class AutonomousSpitCubeCommand : public frc::Command {
-public:
-	AutonomousSpitCubeCommand();
-	void Initialize() override;
-	void Execute() override;
-	bool IsFinished() override;
-	void End() override;
-	void Interrupted() override;
+class AutonomousSpitCubeCommand : public frc::Command
+{
+	private:
+		double AutonSpitTimeoutMilli = 500;
+		
+	public:
+		AutonomousSpitCubeCommand();
+		void Initialize() override;
+		void Execute() override;
+		bool IsFinished() override;
+		void End() override;
+		void Interrupted() override;
 };
 

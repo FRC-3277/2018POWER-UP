@@ -6,18 +6,20 @@ EatCubeCommand::EatCubeCommand() {
 }
 
 // Called just before this Command runs the first time
-void EatCubeCommand::Initialize() {
-
+void EatCubeCommand::Initialize()
+{
 }
 
 // Called repeatedly when this Command is scheduled to run
-void EatCubeCommand::Execute() {
+void EatCubeCommand::Execute()
+{
 	Robot::grabber->EatCube();
 	lumberJack->iLog("EatCubeCommand", 50);
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool EatCubeCommand::IsFinished() {
+bool EatCubeCommand::IsFinished()
+{
 	return Robot::grabber->EndEatCommand;
 }
 

@@ -182,12 +182,12 @@ void AutonomousScenarios::Execute()
 	}
 	else
 	{
-		listOfCommands = Split("D0.3|t4000;", ';');
+		listOfCommands = Split("GS;", ';');
 	}
 
 	// TODO: Remove this once auton is tweaked.  It will break the line, but snuff out all other commands
 	//listOfCommands = Split("D0.3|t4000;", ';');
-	listOfCommands = Split("T0.3|t1600;", ';');
+	listOfCommands = Split("GS;", ';');
 
 	for (auto eachCommand : listOfCommands)
 	{
@@ -357,6 +357,7 @@ void AutonomousScenarios::ParseGrabberBasedCommands(const std::string& CommandTo
 		else if(CommandToParse[1] == 'S')
 		{
 			DebugLog("Grabber Spit\n");
+			printf("AutonomousSpitCubeCommand\n");
 			AutonomousSpitCubeCommand();
 		}
    }

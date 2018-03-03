@@ -13,6 +13,9 @@
 
 class AutonomousEatCubeCommand : public frc::Command 
 {
+	private:
+		double AutonEatTimeoutMilli = 500;
+	
 	public:
 		AutonomousEatCubeCommand();
 		void Initialize() override;

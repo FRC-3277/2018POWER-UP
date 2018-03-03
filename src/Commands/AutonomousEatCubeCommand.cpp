@@ -7,32 +7,38 @@
 
 #include "Commands/AutonomousEatCubeCommand.h"
 
-AutonomousEatCubeCommand::AutonomousEatCubeCommand() {
+AutonomousEatCubeCommand::AutonomousEatCubeCommand()
+{
 	Requires(Robot::grabber.get());
 }
 
 // Called just before this Command runs the first time
-void AutonomousEatCubeCommand::Initialize() {
-
+void AutonomousEatCubeCommand::Initialize()
+{
+	Robot::grabber->SetAutonTimerStart();
 }
 
 // Called repeatedly when this Command is scheduled to run
-void AutonomousEatCubeCommand::Execute() {
+void AutonomousEatCubeCommand::Execute()
+{
 	Robot::grabber->EatCube();
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool AutonomousEatCubeCommand::IsFinished() {
-	return Robot::grabber->EndEatCommand;
+bool AutonomousEatCubeCommand::IsFinished()
+{
+	return Robot::grabber->GetAutonTimerCurrent() > AutonEatTimeoutMilli;
 }
 
 // Called once after isFinished returns true
-void AutonomousEatCubeCommand::End() {
-
+void AutonomousEatCubeCommand::End()
+{
+	Robot::grabber->GrabberSpitStop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void AutonomousEatCubeCommand::Interrupted() {
-
+void AutonomousEatCubeCommand::Interrupted()
+{
+	Robot::grabber->GrabberSpitStop();
 }

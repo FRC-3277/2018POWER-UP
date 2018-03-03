@@ -18,6 +18,7 @@ private:
 	std::shared_ptr<Kronos::TimeKeeper> ChangeDirectionTimekeeper;
 	std::shared_ptr<Kronos::TimeKeeper> HighLowExemptionTimekeeper;
 	std::shared_ptr<Kronos::TimeKeeper> RampingTimeoutTimekeeper;
+	std::shared_ptr<Kronos::TimeKeeper> AutonTimekeeper;
 
 	std::shared_ptr<WPI_TalonSRX> LeftElevatorTalon;
 	std::shared_ptr<WPI_TalonSRX> RightElevatorTalon;
@@ -101,6 +102,8 @@ public:
 	bool GetInputControlMode();
 	void SetIsLifterSubsystemEnabled(bool IsLifterSubsystemEnabled);
 	bool IsElevatorAtDesiredSetpoint(int DesiredSetpoint);
+	void SetAutonTimerStart();
+	double GetAutonTimerCurrent();
 };
 
 #endif  // Elevator_H

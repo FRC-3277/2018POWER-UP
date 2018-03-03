@@ -49,7 +49,7 @@ static constexpr int LIFTER_RIGHT_EJECT_CORE_SERVO_ID = 1;
 static constexpr int CAMERA_CONTROL_SERVO_ID = 2;
 
 // Disable subsystems for debugging and testing
-static constexpr bool EnableDriveTrain = true;
+static constexpr bool EnableDriveTrain = false;
 static constexpr bool EnableElevator = true;
 static constexpr bool EnableGrabber = true;
 static constexpr bool EnableLifter = true;

@@ -4,6 +4,7 @@
 #include "LumberJack.h"
 
 #include "WPILib.h"
+#include "Class/TimeKeeper.h"
 #include <Commands/Subsystem.h>
 #include "ctre/Phoenix.h"
 
@@ -11,8 +12,7 @@ class Grabber : public Subsystem {
 private:
 	std::shared_ptr<LumberJack> lumberJack;
 
-	// It's desirable that everything possible under private except
-	// for methods that implement subsystem capabilities
+	std::shared_ptr<Kronos::TimeKeeper> AutonTimekeeper;
 
 	//Motors
 	std::shared_ptr<WPI_TalonSRX> GrabberLeftMotor;
@@ -29,6 +29,7 @@ private:
 
 
 public:
+	// set this to true with the limit switch
 	bool EndSpitCommand = false;
 	bool EndEatCommand = false;
 	bool EndAugmentorTiltUpCommand = false;
@@ -43,6 +44,8 @@ public:
 	void GrabberEatStop();
 	void GrabberSpitStop();
 	void SetGrabberSpitSpeed(double GrabberMotorSpeed);
+	void SetAutonTimerStart();
+	double GetAutonTimerCurrent();
 
 };
 

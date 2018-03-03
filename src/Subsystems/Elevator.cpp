@@ -7,6 +7,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	ChangeDirectionTimekeeper.reset(new Kronos::TimeKeeper());
 	HighLowExemptionTimekeeper.reset(new Kronos::TimeKeeper());
 	RampingTimeoutTimekeeper.reset(new Kronos::TimeKeeper());
+	AutonTimekeeper.reset(new Kronos::TimeKeeper());
 
 	TimeBasedSpeedChangeIteratorRaise = (ElevatorTravelSpeed * RaiseSpeedMultiplier) / (ElevatorMillisRamping/20);
 	TimeBasedSpeedChangeIteratorLower = (ElevatorTravelSpeed * LowerSpeedMultiplier) / (ElevatorMillisRamping/20);
@@ -479,6 +480,16 @@ void Elevator::SetIsLifterSubsystemEnabled(bool IsLifterSubsystemEnabled)
 bool Elevator::IsElevatorAtDesiredSetpoint(int DesiredSetpoint)
 {
 	return DesiredSetpoint == LimitSwitchTracker;
+}
+
+void Elevator::SetAutonTimerStart()
+{
+	AutonTimekeeper->ResetClockStart();
+}
+
+double Elevator::GetAutonTimerCurrent()
+{
+	return AutonTimekeeper->GetElapsedTimeMilli();
 }
 
 void Elevator::DebugLog(const string& msg)
