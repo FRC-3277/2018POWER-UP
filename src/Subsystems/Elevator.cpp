@@ -125,6 +125,10 @@ void Elevator::RaiseElevator()
 		else
 		{
 			speed = ElevatorTravelSpeed * RaiseSpeedMultiplier;
+			if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER)
+			{
+				speed = speed / 2;
+			}
 		}
 	}
 	else
@@ -184,6 +188,10 @@ void Elevator::LowerElevator()
 		else
 		{
 			speed = ElevatorTravelSpeed * LowerSpeedMultiplier;
+			if(LimitSwitchTracker <= LOW_LIMIT_SWITCH_NUMBER)
+			{
+				speed = speed / 2;
+			}
 		}
 	}
 	else
