@@ -230,48 +230,29 @@ void Elevator::UpdateLimitSwitchTracker()
 {
 	bool limitSwitchValueChanged = false;
 
-	DebugLog("LeftElevatorTalon: " + std::to_string(LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()), 30);
-	DebugLog("RightElevatorTalon: " + std::to_string(RightElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed()), 30);
-
-	if(LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MAX_LIMIT_SWITCH_NUMBER)
+	if(LeftElevatorTalon->GetSensorCollection().IsFwdLimitSwitchClosed())
 	{
 		LimitSwitchTracker = MAX_LIMIT_SWITCH_NUMBER;
-		limitSwitchValueChanged = true;
 	}
-	else if(!HighLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != HIGH_LIMIT_SWITCH_NUMBER)
+	else if(!HighLimitSwitch->Get())
 	{
 		LimitSwitchTracker = HIGH_LIMIT_SWITCH_NUMBER;
-		limitSwitchValueChanged = true;
 	}
-	else if(!EjectCoreLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != EJECT_CORE_LIMIT_SWITCH_NUMBER)
+	else if(!EjectCoreLimitSwitch->Get())
 	{
 		LimitSwitchTracker = EJECT_CORE_LIMIT_SWITCH_NUMBER;
-		limitSwitchValueChanged = true;
 	}
-	else if(!MedLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != MED_LIMIT_SWITCH_NUMBER)
+	else if(!MedLimitSwitch->Get())
 	{
 		LimitSwitchTracker = MED_LIMIT_SWITCH_NUMBER;
-		limitSwitchValueChanged = true;
 	}
-	else if(!LowLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != LOW_LIMIT_SWITCH_NUMBER)
+	else if(!LowLimitSwitch->Get())
 	{
 		LimitSwitchTracker = LOW_LIMIT_SWITCH_NUMBER;
-		limitSwitchValueChanged = true;
 	}
-	else if(LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed() && !limitSwitchValueChanged && LimitSwitchTracker != MIN_LIMIT_SWITCH_NUMBER)
+	else if(LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed())
 	{
 		LimitSwitchTracker = MIN_LIMIT_SWITCH_NUMBER;
-		limitSwitchValueChanged = true;
-	}
-	else
-	{
-		// Reset
-		limitSwitchValueChanged = false;
-	}
-
-	if(limitSwitchValueChanged)
-	{
-		lumberJack->iLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + std::string("; Limit switch value changed: ") + std::to_string(LimitSwitchTracker));
 	}
 }
 
@@ -298,6 +279,8 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 	{
 		ElevatorRunHalfSpeed = false;
 	}
+
+	//lumberJack->eLog(std::string("Desired: ") + std::to_string(DesiredSetpoint) + std::string(" Current: ") + std::to_string(LimitSwitchTracker));
 
 	// Go up or go down?
 	if(LimitSwitchTracker == DesiredSetpoint)

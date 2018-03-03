@@ -28,6 +28,8 @@ void AutonomousScenarios::Execute()
 	* GE = Eat Cube
 	* GS = Spit Cube
 	* Z = Group Command selector (Numberical selection) - //TODO: create groups
+	* Turn at 0.3 speed for 1600 = turn right 90 degrees
+	* Drive at 0.3 speed for 1000 = 38 inches
 	*/
 
 	std::vector<std::string> listOfCommands;
@@ -184,7 +186,8 @@ void AutonomousScenarios::Execute()
 	}
 
 	// TODO: Remove this once auton is tweaked.  It will break the line, but snuff out all other commands
-	listOfCommands = Split("D0.3|t4000;", ';');
+	//listOfCommands = Split("D0.3|t4000;", ';');
+	listOfCommands = Split("T0.3|t1600;", ';');
 
 	for (auto eachCommand : listOfCommands)
 	{
