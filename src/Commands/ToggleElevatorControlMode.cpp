@@ -9,11 +9,13 @@
 
 ToggleElevatorControlMode::ToggleElevatorControlMode()
 {
+	Requires(Robot::elevator.get());
 }
 
 // Called just before this Command runs the first time
 void ToggleElevatorControlMode::Initialize()
 {
+	printf("ToggleElevatorControlMode");
 	Robot::elevator->ToggleInputControlMode();
 }
 
