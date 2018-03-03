@@ -79,12 +79,12 @@ private:
 public:
 	Elevator();
 
-	static constexpr int MAX_LIMIT_SWITCH_NUMBER = 6;
-	static constexpr int HIGH_LIMIT_SWITCH_NUMBER = 5;
-	static constexpr int EJECT_CORE_LIMIT_SWITCH_NUMBER = 4;
-	static constexpr int MED_LIMIT_SWITCH_NUMBER = 3;
-	static constexpr int LOW_LIMIT_SWITCH_NUMBER = 2;
-	static constexpr int MIN_LIMIT_SWITCH_NUMBER = 1;
+	static constexpr int MAX_LIMIT_SWITCH_NUMBER = 5;
+	static constexpr int HIGH_LIMIT_SWITCH_NUMBER = 4;
+	static constexpr int EJECT_CORE_LIMIT_SWITCH_NUMBER = 3;
+	static constexpr int MED_LIMIT_SWITCH_NUMBER = 2;
+	static constexpr int LOW_LIMIT_SWITCH_NUMBER = 1;
+	static constexpr int MIN_LIMIT_SWITCH_NUMBER = 0;
 
 	void InitDefaultCommand();
 	void RaiseElevator();
