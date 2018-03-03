@@ -11,13 +11,14 @@
 #include "Robot.h"
 #include "LumberJack.h"
 
-class AutonomousEatCubeCommand : public frc::Command {
-public:
-	AutonomousEatCubeCommand();
-	void Initialize() override;
-	void Execute() override;
-	bool IsFinished() override;
-	void End() override;
-	void Interrupted() override;
+class AutonomousEatCubeCommand : public frc::Command 
+{
+	public:
+		AutonomousEatCubeCommand();
+		void Initialize() override;
+		void Execute() override;
+		bool IsFinished() override;
+		void End() override;
+		void Interrupted() override;
 };
 
