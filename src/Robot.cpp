@@ -218,7 +218,7 @@ void Robot::TeleopPeriodic()
 	if(EnableElevator)
 	{
 		elevator->UpdateLimitSwitchTracker();
-		if(Robot::elevator->GetInputControlMode() == false && Robot::elevator->IsElevatorAtDesiredSetpoint(Robot::oi->GetDesiredElevatorSetpoint()))
+		if(Robot::elevator->GetInputControlMode() == false && !Robot::elevator->IsElevatorAtDesiredSetpoint(Robot::oi->GetDesiredElevatorSetpoint()))
 		{
 			Robot::elevator->GoToSetPoint(Robot::oi->GetDesiredElevatorSetpoint());
 		}
