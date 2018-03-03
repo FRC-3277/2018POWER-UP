@@ -136,6 +136,11 @@ void Elevator::RaiseElevator()
 		speed = SoftSpeedChange();
 	}
 
+	if(ElevatorRunHalfSpeed)
+	{
+		speed = speed/2;
+	}
+
 	LeftElevatorTalon->Set(speed);
 	DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)), 30);
 	RightElevatorTalon->Set(-speed);
@@ -197,6 +202,11 @@ void Elevator::LowerElevator()
 	else
 	{
 		speed = SoftSpeedChange();
+	}
+
+	if(ElevatorRunHalfSpeed)
+	{
+		speed = speed/2;
 	}
 
 	LeftElevatorTalon->Set(-speed);
@@ -266,6 +276,15 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 
 	//lumberJack->eLog(std::string("DesiredSetpoint: ") + std::to_string(DesiredSetpoint) + std::string("LimitSwitchTracker: ") + std::to_string(LimitSwitchTracker));
 
+	if(abs(DesiredSetpoint - LimitSwitchTracker) == 1)
+	{
+		ElevatorRunHalfSpeed = true;
+	}
+	else
+	{
+		ElevatorRunHalfSpeed = false;
+	}
+
 	// Go up or go down?
 	if(LimitSwitchTracker == DesiredSetpoint)
 	{
@@ -309,6 +328,7 @@ void Elevator::StopElevator()
 	DebugLog(std::string("StopElevator: ") + std::string(std::to_string(StopElevatorSpeed)));
 	// reset
 	TimeBasedSpeed = ElevatorTravelSpeed;
+	ElevatorRunHalfSpeed = false;
 }
 
 void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)

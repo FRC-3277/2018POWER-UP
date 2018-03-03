@@ -37,6 +37,8 @@ private:
 	bool IsLifterSubsystemEnabled = false;
 	// When this is triggered a timer is kicked off and the speed ramp is reduced
 	bool HasElevatorDirectionChanged = false;
+	// Run the elevator at half the prescribed speed
+	bool ElevatorRunHalfSpeed = false;
 
 	// Time period where if the opposite direction button is pressed will trigger elevator direction has changed
 	static constexpr int ElapsedMillisTriggerDirectionChange = 500;
