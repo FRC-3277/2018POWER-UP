@@ -448,6 +448,11 @@ void Elevator::SetIsLifterSubsystemEnabled(bool IsLifterSubsystemEnabled)
 	this->IsLifterSubsystemEnabled = IsLifterSubsystemEnabled;
 }
 
+bool Elevator::IsElevatorAtDesiredSetpoint(int DesiredSetpoint)
+{
+	return DesiredSetpoint == LimitSwitchTracker;
+}
+
 void Elevator::DebugLog(const string& msg)
 {
 	if(ElevatorDebugLoggingEnabled)
