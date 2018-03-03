@@ -217,6 +217,7 @@ void Robot::TeleopPeriodic()
 
 	if(EnableElevator)
 	{
+		//lumberJack->eLog(std::to_string(Robot::elevator->GetLimitSwitchTracker()));
 		elevator->UpdateLimitSwitchTracker();
 		if(Robot::elevator->GetInputControlMode() == false && !Robot::elevator->IsElevatorAtDesiredSetpoint(Robot::oi->GetDesiredElevatorSetpoint()))
 		{
