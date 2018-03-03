@@ -271,7 +271,7 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 	{
 		isAtDesiredSetpoint = true;
 		lumberJack->iLog(std::string(__FILE__) + "; " + std::to_string(__LINE__) + std::string("; Elevator at desired setpoint: ") + std::to_string(DesiredSetpoint));
-		HoldElevator();
+		StopElevator();
 	}
 	else if(DesiredSetpoint > LimitSwitchTracker)
 	{
