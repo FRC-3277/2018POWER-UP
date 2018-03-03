@@ -25,6 +25,7 @@ private:
 	std::shared_ptr<Servo> EndEffectorDropServo;
 
 	std::shared_ptr<DigitalInput> HighLimitSwitch;
+	std::shared_ptr<DigitalInput>  EjectCoreLimitSwitch;
 	std::shared_ptr<DigitalInput> MedLimitSwitch;
 	std::shared_ptr<DigitalInput> LowLimitSwitch;
 

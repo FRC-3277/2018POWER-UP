@@ -60,6 +60,15 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	try
 	{
+		EjectCoreLimitSwitch.reset(new DigitalInput(ELEVATOR_EJECT_CORE_LIMIT_SWITCH_ID));
+	}
+	catch(const std::exception& e)
+	{
+		lumberJack->eLog(std::string("EjectCoreLimitSwitch.reset() failed; ") + std::string(e.what()));
+	}
+
+	try
+	{
 		MedLimitSwitch.reset(new DigitalInput(ELEVATOR_MED_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
@@ -232,6 +241,11 @@ void Elevator::UpdateLimitSwitchTracker()
 	else if(!HighLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != HIGH_LIMIT_SWITCH_NUMBER)
 	{
 		LimitSwitchTracker = HIGH_LIMIT_SWITCH_NUMBER;
+		limitSwitchValueChanged = true;
+	}
+	else if(!EjectCoreLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != EJECT_CORE_LIMIT_SWITCH_NUMBER)
+	{
+		LimitSwitchTracker = EJECT_CORE_LIMIT_SWITCH_NUMBER;
 		limitSwitchValueChanged = true;
 	}
 	else if(!MedLimitSwitch->Get() && !limitSwitchValueChanged && LimitSwitchTracker != MED_LIMIT_SWITCH_NUMBER)
