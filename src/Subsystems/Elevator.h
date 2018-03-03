@@ -43,7 +43,7 @@ private:
 	// Grace period where the upper and lower zones are not speed ramp restricted
 	static constexpr int ElapsedMillisHighLowGracePeriod = 1000;
 	// Elevator ramping
-	static constexpr int ElevatorMillisRamping = 500;
+	static constexpr int ElevatorMillisRamping = 1000;
 	bool TimeBasedRamping = true;
 
 	// Track which limit switch has been recently visited.  Start with 1 from bottom until top limit switch
