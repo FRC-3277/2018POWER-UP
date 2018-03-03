@@ -17,6 +17,7 @@ private:
 	// Dual purpose timer.  Stopwatch when button released and one when button pressed before grace period expired
 	std::shared_ptr<Kronos::TimeKeeper> ChangeDirectionTimekeeper;
 	std::shared_ptr<Kronos::TimeKeeper> HighLowExemptionTimekeeper;
+	std::shared_ptr<Kronos::TimeKeeper> RampingTimeoutTimekeeper;
 
 	std::shared_ptr<WPI_TalonSRX> LeftElevatorTalon;
 	std::shared_ptr<WPI_TalonSRX> RightElevatorTalon;
@@ -41,6 +42,9 @@ private:
 	static constexpr int ElapsedMillisTriggerDirectionChange = 500;
 	// Grace period where the upper and lower zones are not speed ramp restricted
 	static constexpr int ElapsedMillisHighLowGracePeriod = 1000;
+	// Elevator ramping
+	static constexpr int ElevatorMillisRamping = 500;
+	bool TimeBasedRamping = true;
 
 	// Track which limit switch has been recently visited.  Start with 1 from bottom until top limit switch
 	int LimitSwitchTracker = 0;
@@ -52,6 +56,10 @@ private:
 
 	int SoftSpeedUpChangeArrayIterator = 0;
 	int SoftSpeedDownChangeArrayIterator = 0;
+
+	double TimeBasedSpeedChangeIteratorRaise = 0.0;
+	double TimeBasedSpeedChangeIteratorLower = 0.0;
+	double TimeBasedSpeed = 0.0;
 
 	static constexpr int SoftSpeedUpChangeArraySize = 10;
 	static constexpr int SoftSpeedDownChangeArraySize = 40;

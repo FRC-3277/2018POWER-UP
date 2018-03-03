@@ -6,6 +6,10 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	lumberJack.reset(new LumberJack());
 	ChangeDirectionTimekeeper.reset(new Kronos::TimeKeeper());
 	HighLowExemptionTimekeeper.reset(new Kronos::TimeKeeper());
+	RampingTimeoutTimekeeper.reset(new Kronos::TimeKeeper());
+
+	TimeBasedSpeedChangeIteratorRaise = (ElevatorTravelSpeed * RaiseSpeedMultiplier) / (ElevatorMillisRamping/20);
+	TimeBasedSpeedChangeIteratorLower = (ElevatorTravelSpeed * LowerSpeedMultiplier) / (ElevatorMillisRamping/20);
 
 	// Defaulting
 	std::fill_n(SoftStartChangeArray, SoftSpeedUpChangeArraySize, ElevatorTravelSpeed);
@@ -85,6 +89,7 @@ void Elevator::RaiseElevator()
 	{
 		ChangeDirectionTimekeeper->ResetClockStart();
 		HighLowExemptionTimekeeper->ResetClockStart();
+		RampingTimeoutTimekeeper->ResetClockStart();
 	}
 
 	// Elevator change direction detection
@@ -102,11 +107,29 @@ void Elevator::RaiseElevator()
 
 	IsElevatorOnTheMove = true;
 	UpdateSoftSpeedChangeArray(RaiseSpeedMultiplier);
-	double speed = SoftSpeedChange();
+	double speed = 0.0;
 
 	if(IsLifterSubsystemEnabled)
 	{
 		speed = ElevatorLifterTravelSpeed;
+	}
+	else if(TimeBasedRamping)
+	{
+		double TimeElapsed = RampingTimeoutTimekeeper->GetElapsedTimeMilli();
+
+		if(TimeElapsed < TimeBasedRamping)
+		{
+			TimeBasedSpeed += TimeBasedSpeedChangeIteratorRaise;
+			speed = TimeBasedSpeed; 
+		}
+		else
+		{
+			speed = ElevatorTravelSpeed * RaiseSpeedMultiplier;
+		}
+	}
+	else
+	{
+		speed = SoftSpeedChange();
 	}
 
 	LeftElevatorTalon->Set(speed);
@@ -124,6 +147,7 @@ void Elevator::LowerElevator()
 	{
 		ChangeDirectionTimekeeper->ResetClockStart();
 		HighLowExemptionTimekeeper->ResetClockStart();
+		RampingTimeoutTimekeeper->ResetClockStart();
 	}
 
 	// Elevator change direction detection
@@ -147,6 +171,24 @@ void Elevator::LowerElevator()
 	if(IsLifterSubsystemEnabled)
 	{
 		speed = ElevatorLifterTravelSpeed / 5;
+	}
+	else if(TimeBasedRamping)
+	{
+		double TimeElapsed = RampingTimeoutTimekeeper->GetElapsedTimeMilli();
+
+		if(TimeElapsed < TimeBasedRamping)
+		{
+			TimeBasedSpeed += TimeBasedSpeedChangeIteratorLower;
+			speed = TimeBasedSpeed; 
+		}
+		else
+		{
+			speed = ElevatorTravelSpeed * LowerSpeedMultiplier;
+		}
+	}
+	else
+	{
+		speed = SoftSpeedChange();
 	}
 
 	LeftElevatorTalon->Set(-speed);
@@ -246,6 +288,8 @@ void Elevator::StopElevator()
 	RightElevatorTalon->Set(StopElevatorSpeed);
 	DebugLog(std::string("StopElevator: ") + std::string(std::to_string(StopElevatorSpeed)));
 	IsElevatorOnTheMove = false;
+	// reset
+	TimeBasedSpeed = ElevatorTravelSpeed;
 }
 
 void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
