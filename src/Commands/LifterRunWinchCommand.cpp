@@ -7,7 +7,8 @@
 
 #include "LifterRunWinchCommand.h"
 
-LifterRunWinchCommand::LifterRunWinchCommand() {
+LifterRunWinchCommand::LifterRunWinchCommand()
+{
 	Requires(Robot::lifter.get());
 }
 
