@@ -289,13 +289,19 @@ void Elevator::StopElevator()
 {
 	DebugLog("StopElevator");
 
+	for(double i = LeftElevatorTalon->Get()/100; i > 0; i += LeftElevatorTalon->Get()/100)
+	{
+		LeftElevatorTalon->Set(LeftElevatorTalon->Get() - i);
+		RightElevatorTalon->Set(RightElevatorTalon->Get() - i);
+	}
+
+	LeftElevatorTalon->Set(StopElevatorSpeed);
+	RightElevatorTalon->Set(StopElevatorSpeed);
+	IsElevatorOnTheMove = false;
 	std::fill_n(SoftStartChangeArray, SoftSpeedUpChangeArraySize, ElevatorTravelSpeed);
 	std::fill_n(SoftStopChangeArray, SoftSpeedDownChangeArraySize, ElevatorTravelSpeed);
-	LeftElevatorTalon->Set(StopElevatorSpeed);
 	DebugLog(std::string("StopElevator: ") + std::string(std::to_string(StopElevatorSpeed)));
-	RightElevatorTalon->Set(StopElevatorSpeed);
 	DebugLog(std::string("StopElevator: ") + std::string(std::to_string(StopElevatorSpeed)));
-	IsElevatorOnTheMove = false;
 	// reset
 	TimeBasedSpeed = ElevatorTravelSpeed;
 }
