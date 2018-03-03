@@ -289,10 +289,15 @@ void Elevator::StopElevator()
 {
 	DebugLog("StopElevator");
 
-	for(double i = LeftElevatorTalon->Get()/100; i > 0; i += LeftElevatorTalon->Get()/100)
+	double CurrentSpeed = LeftElevatorTalon->Get();
+	for(double i = CurrentSpeed; CurrentSpeed > 0; CurrentSpeed -= CurrentSpeed/10)
 	{
-		LeftElevatorTalon->Set(LeftElevatorTalon->Get() - i);
-		RightElevatorTalon->Set(RightElevatorTalon->Get() - i);
+		LeftElevatorTalon->Set(CurrentSpeed);
+		RightElevatorTalon->Set(-CurrentSpeed);
+		if(CurrentSpeed <= ElevatorHoldSpeed)
+		{
+			break;
+		}
 	}
 
 	LeftElevatorTalon->Set(StopElevatorSpeed);
