@@ -97,6 +97,7 @@ public:
 	void ToggleInputControlMode();
 	bool GetInputControlMode();
 	void SetIsLifterSubsystemEnabled(bool IsLifterSubsystemEnabled);
+	bool IsElevatorAtDesiredSetpoint(int DesiredSetpoint);
 };
 
 #endif  // Elevator_H

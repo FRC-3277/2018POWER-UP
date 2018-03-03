@@ -7,17 +7,13 @@ GoToDesiredSetpointCommand::GoToDesiredSetpointCommand() {
 // Called just before this Command runs the first time
 void GoToDesiredSetpointCommand::Initialize()
 {
-	Robot::elevator->ToggleInputControlMode();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void GoToDesiredSetpointCommand::Execute()
 {
 	// Manual mode is disabled
-	if(Robot::elevator->GetInputControlMode() == false)
-	{
-		IsAtDesiredSetpoint = Robot::elevator->GoToSetPoint(Robot::oi->GetDesiredElevatorSetpoint());
-	}
+	IsAtDesiredSetpoint = Robot::elevator->GoToSetPoint(Robot::oi->GetDesiredElevatorSetpoint());
 }
 
 // Make this return true when this Command no longer needs to run execute()
