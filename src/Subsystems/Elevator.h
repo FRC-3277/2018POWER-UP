@@ -59,7 +59,7 @@ private:
 
 	double TimeBasedSpeedChangeIteratorRaise = 0.0;
 	double TimeBasedSpeedChangeIteratorLower = 0.0;
-	double TimeBasedSpeed = 0.0;
+	double TimeBasedSpeed = ElevatorTravelSpeed;
 
 	static constexpr int SoftSpeedUpChangeArraySize = 10;
 	static constexpr int SoftSpeedDownChangeArraySize = 40;
