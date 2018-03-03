@@ -18,6 +18,7 @@
 #include "Commands/ToggleFinesseModeCommand.h"
 #include "Commands/LifterRunWinchCommand.h"
 #include "Commands/PrepareLifterCoreForEjectCommand.h"
+#include "Commands/ToggleElevatorControlMode.h"
 
 namespace UDC = UserDefinedController;
 
@@ -189,7 +190,7 @@ OI::OI()
 		try
 		{
 			// This command doesn't follow the norm.  It
-			assignedController->GetAssignedButton(ToggleElevatorControlModeId)->WhenPressed(new GoToDesiredSetpointCommand());
+			assignedController->GetAssignedButton(ToggleElevatorControlModeId)->WhenPressed(new ToggleElevatorControlMode());
 		}
 		catch(const std::exception& e)
 		{
