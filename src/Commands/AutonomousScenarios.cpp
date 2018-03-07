@@ -30,6 +30,7 @@ void AutonomousScenarios::Execute()
 	* Z = Group Command selector (Numberical selection) - //TODO: create groups
 	* Turn at 0.3 speed for 1600 = turn right 90 degrees
 	* Drive at 0.3 speed for 1000 = 38 inches
+	* Based on data above, 0.3 speed for about 316 = 1 foot
 	*/
 
 	std::vector<std::string> listOfCommands;
