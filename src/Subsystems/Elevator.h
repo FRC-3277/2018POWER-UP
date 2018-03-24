@@ -47,6 +47,13 @@ private:
 	static const int kPIDLoopIdx = 0;
 	static const int kTimeoutMs = 10;
 	static const int kNoTimeoutMs = 0;
+	// prevent encoder reset more than once
+	bool encoderHasBeenReset = false;
+
+	// From the datasheet
+	static const int kCyclesPerRevolution = 64;
+	// Ticks or units per rotation when read using "Encoder Position" or "Sensor Position"
+	static const int kCountsPerRevolution = 64 * 4;
 
 	// Time period where if the opposite direction button is pressed will trigger elevator direction has changed
 	static constexpr int ElapsedMillisTriggerDirectionChange = 500;
@@ -90,10 +97,6 @@ public:
 	Elevator();
 
 	static constexpr int MAX_LIMIT_SWITCH_NUMBER = 5;
-	static constexpr int EJECT_CORE_LIMIT_SWITCH_NUMBER = 4;
-	static constexpr int HIGH_LIMIT_SWITCH_NUMBER = 3;
-	static constexpr int MED_LIMIT_SWITCH_NUMBER = 2;
-	static constexpr int LOW_LIMIT_SWITCH_NUMBER = 1;
 	static constexpr int MIN_LIMIT_SWITCH_NUMBER = 0;
 
 	void InitDefaultCommand();

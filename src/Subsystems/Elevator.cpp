@@ -143,11 +143,13 @@ void Elevator::RaiseElevator()
 		}
 		else
 		{
+			/*
 			speed = ElevatorTravelSpeed * RaiseSpeedMultiplier;
 			if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER)
 			{
 				speed = speed / 2;
 			}
+			*/
 		}
 	}
 	else
@@ -214,10 +216,14 @@ void Elevator::LowerElevator()
 		else
 		{
 			speed = ElevatorTravelSpeed * LowerSpeedMultiplier;
+			/*
+			 * //TODO: Is this needed with the encoder?
+
 			if(LimitSwitchTracker <= LOW_LIMIT_SWITCH_NUMBER)
 			{
 				speed = speed / 2;
 			}
+			*/
 		}
 	}
 	else
@@ -246,25 +252,21 @@ void Elevator::UpdateLimitSwitchTracker()
 	{
 		LimitSwitchTracker = MAX_LIMIT_SWITCH_NUMBER;
 	}
-	else if(!HighLimitSwitch->Get())
-	{
-		LimitSwitchTracker = HIGH_LIMIT_SWITCH_NUMBER;
-	}
-	else if(!EjectCoreLimitSwitch->Get())
-	{
-		LimitSwitchTracker = EJECT_CORE_LIMIT_SWITCH_NUMBER;
-	}
-	else if(!MedLimitSwitch->Get())
-	{
-		LimitSwitchTracker = MED_LIMIT_SWITCH_NUMBER;
-	}
-	else if(!LowLimitSwitch->Get())
-	{
-		LimitSwitchTracker = LOW_LIMIT_SWITCH_NUMBER;
-	}
 	else if(LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed())
 	{
 		LimitSwitchTracker = MIN_LIMIT_SWITCH_NUMBER;
+		if(encoderHasBeenReset == false)
+		{
+			// Reset the encoder position as a precaution
+			LeftElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
+			RightElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
+		}
+
+		encoderHasBeenReset = true;
+	}
+	else if (encoderHasBeenReset)
+	{
+		encoderHasBeenReset = false;
 	}
 }
 
@@ -376,22 +378,25 @@ void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)
 	}
 
 	// Ramping is undesirable when the lifter is enabled and rising past midway
+	//TODO: Is this needed with the encoder?
+	/*
 	if (IsLifterSubsystemEnabled && LimitSwitchTracker >= MED_LIMIT_SWITCH_NUMBER)
 	{
 		TempSpeed = ElevatorLifterTravelSpeed;
 	}
-	else if(HasElevatorDirectionChanged)
+	else */
+	if(HasElevatorDirectionChanged)
 	{
 		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeed/10;
 		SoftStopChangeArray[SoftSpeedDownChangeArrayIterator] = TempSpeed/10;
 	}
-	else if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER &&
+	else if(//TODO: Is this needed with the encoder?
 			IsElevatorGoingUp &&
 			HighLowExemptionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisHighLowGracePeriod)
 	{
 		SoftStartChangeArray[SoftSpeedUpChangeArrayIterator] = TempSpeedChange;
 	}
-	else if(LimitSwitchTracker == LOW_LIMIT_SWITCH_NUMBER &&
+	else if(//TODO: Is this needed with the encoder?
 			IsElevatorGoingUp == false &&
 			HighLowExemptionTimekeeper->GetElapsedTimeMilli() > ElapsedMillisHighLowGracePeriod &&
 			SoftSpeedChange() > 0)
