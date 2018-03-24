@@ -104,7 +104,7 @@ public:
 	void RaiseElevator();
 	void LowerElevator();
 	bool GoToSetPoint(int DesiredSetpoint);
-	bool GoToSetPosition(int DesiredSetpoint);
+	void GoToSetPosition(int DesiredSetpoint);
 	void StopElevator();
 	void UpdateLimitSwitchTracker();
 	int GetLimitSwitchTracker();

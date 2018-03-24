@@ -318,7 +318,7 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 }
 
 
-bool Elevator::GoToSetPosition(int DesiredPosition)
+void Elevator::GoToSetPosition(int DesiredPosition)
 {
 	double CurrentElevatorPosition = LeftElevatorTalon->GetSelectedSensorPosition(0);
 	lumberJack->iLog(std::string("CurrentElevatorPosition: ") + std::string(std::to_string(CurrentElevatorPosition)));
