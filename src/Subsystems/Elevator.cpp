@@ -37,10 +37,19 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 
 	// Set every Talon to reset the motor safety timeout.
-	LeftElevatorTalon->Set(ControlMode::PercentOutput, 0);
+	//LeftElevatorTalon->Set(ControlMode::PercentOutput, 0);
 	//RightElevatorTalon->Follow(*LeftElevatorTalon);
 	//RightElevatorTalon->SetInverted(true);
-	RightElevatorTalon->Set(ControlMode::PercentOutput, 0);
+	//RightElevatorTalon->Set(ControlMode::PercentOutput, 0);
+
+	/* choose quadrature which has a faster update rate */
+	LeftElevatorTalon->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 10);
+	/* Talon will send new frame every 5ms */
+	LeftElevatorTalon->SetStatusFramePeriod(StatusFrame::Status_1_General_, 5, 10);
+	LeftElevatorTalon->SetSensorPhase(kSensorPhase);
+
+	RightElevatorTalon->Follow(*LeftElevatorTalon);
+	RightElevatorTalon->SetInverted(true);
 
 	// Servo goes to home position when this line of code is hit.  This drops
 	// the end effector when Teleop or Autonomous mode is hit.
@@ -152,11 +161,14 @@ void Elevator::RaiseElevator()
 	}
 
 	LeftElevatorTalon->Set(speed);
-	DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)), 30);
-	RightElevatorTalon->Set(-speed);
-	DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(-speed)), 30);
+	//DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)), 30);
+	//RightElevatorTalon->Set(-speed);
+	//DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(-speed)), 30);
 	//TODO: Re-enable once this is actually installed
 	UpdateLimitSwitchTracker();
+
+	double read = LeftElevatorTalon->GetSelectedSensorPosition(0);
+	lumberJack->iLog(std::string("RaiseElevator: ") + std::string(std::to_string(read)));
 }
 
 void Elevator::LowerElevator()
@@ -221,7 +233,7 @@ void Elevator::LowerElevator()
 
 	LeftElevatorTalon->Set(-speed);
 	DebugLog(std::string("LowerElevator: ") + std::string(std::to_string(-speed)), 30);
-	RightElevatorTalon->Set(speed);
+	//RightElevatorTalon->Set(speed);
 	DebugLog(std::string("LowerElevator: ") + std::string(std::to_string(speed)), 30);
 
 	UpdateLimitSwitchTracker();
@@ -302,6 +314,12 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 	return isAtDesiredSetpoint;
 }
 
+
+bool Elevator::GoToSetPosition(int DesiredPosition)
+{
+	LeftElevatorTalon->SetSelectedSensorPosition(DesiredPosition, kPIDLoopIdx, kNoTimeoutMs);
+}
+
 void Elevator::StopElevator()
 {
 	DebugLog("StopElevator");
@@ -310,7 +328,7 @@ void Elevator::StopElevator()
 	for(double i = CurrentSpeed; CurrentSpeed > 0; CurrentSpeed -= CurrentSpeed/10)
 	{
 		LeftElevatorTalon->Set(CurrentSpeed);
-		RightElevatorTalon->Set(-CurrentSpeed);
+		//RightElevatorTalon->Set(-CurrentSpeed);
 		if(CurrentSpeed <= ElevatorHoldSpeed)
 		{
 			break;
@@ -318,7 +336,7 @@ void Elevator::StopElevator()
 	}
 
 	LeftElevatorTalon->Set(StopElevatorSpeed);
-	RightElevatorTalon->Set(StopElevatorSpeed);
+	//RightElevatorTalon->Set(StopElevatorSpeed);
 	IsElevatorOnTheMove = false;
 	std::fill_n(SoftStartChangeArray, SoftSpeedUpChangeArraySize, ElevatorTravelSpeed);
 	std::fill_n(SoftStopChangeArray, SoftSpeedDownChangeArraySize, ElevatorTravelSpeed);
@@ -451,7 +469,7 @@ void Elevator::HoldElevator()
 		DebugLog("HoldElevator", 200);
 		LeftElevatorTalon->Set(ElevatorHoldSpeed);
 		DebugLog(std::string("HoldElevator: ") + std::string(std::to_string(ElevatorHoldSpeed)), 2000);
-		RightElevatorTalon->Set(-ElevatorHoldSpeed);
+		//RightElevatorTalon->Set(-ElevatorHoldSpeed);
 		DebugLog(std::string("HoldElevator: ") + std::string(std::to_string(-ElevatorHoldSpeed)), 2000);
 	}
 }

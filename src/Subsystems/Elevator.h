@@ -42,6 +42,12 @@ private:
 	// Run the elevator at half the prescribed speed
 	bool ElevatorRunHalfSpeed = false;
 
+	/* pick this so self-test stops reporting sensor-out-of-phase */
+	static const bool kSensorPhase = false;
+	static const int kPIDLoopIdx = 0;
+	static const int kTimeoutMs = 10;
+	static const int kNoTimeoutMs = 0;
+
 	// Time period where if the opposite direction button is pressed will trigger elevator direction has changed
 	static constexpr int ElapsedMillisTriggerDirectionChange = 500;
 	// Grace period where the upper and lower zones are not speed ramp restricted
@@ -94,6 +100,7 @@ public:
 	void RaiseElevator();
 	void LowerElevator();
 	bool GoToSetPoint(int DesiredSetpoint);
+	bool GoToSetPosition(int DesiredSetpoint);
 	void StopElevator();
 	void UpdateLimitSwitchTracker();
 	int GetLimitSwitchTracker();
