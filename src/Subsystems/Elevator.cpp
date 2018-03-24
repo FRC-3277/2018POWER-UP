@@ -172,9 +172,6 @@ void Elevator::RaiseElevator()
 	//RightElevatorTalon->Set(-speed);
 	//DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(-speed)), 30);
 	UpdateLimitSwitchTracker();
-
-	double read = LeftElevatorTalon->GetSelectedSensorPosition(0);
-	lumberJack->iLog(std::string("RaiseElevator: ") + std::string(std::to_string(read)));
 }
 
 void Elevator::LowerElevator()
@@ -323,6 +320,8 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 
 bool Elevator::GoToSetPosition(int DesiredPosition)
 {
+	double CurrentElevatorPosition = LeftElevatorTalon->GetSelectedSensorPosition(0);
+	lumberJack->iLog(std::string("CurrentElevatorPosition: ") + std::string(std::to_string(CurrentElevatorPosition)));
 	LeftElevatorTalon->SetSelectedSensorPosition(DesiredPosition, kPIDLoopIdx, kNoTimeoutMs);
 }
 
