@@ -1,6 +1,8 @@
 #include "Subsystems/Elevator.h"
 #include "RobotMap.h"
 
+#include "../Commands/GoToDesiredPositionCommand.h"
+
 Elevator::Elevator() : frc::Subsystem("Elevator")
 {
 	lumberJack.reset(new LumberJack());
@@ -104,6 +106,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 void Elevator::InitDefaultCommand()
 {
 	EndEffectorDropServo->SetAngle(25);
+	SetDefaultCommand(new GoToDesiredPositionCommand());
 }
 
 void Elevator::RaiseElevator()
