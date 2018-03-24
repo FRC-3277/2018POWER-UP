@@ -6,9 +6,9 @@
 #include "Robot.h"
 #include <Commands/Command.h>
 
-class GoToDesiredSetpointCommand : public frc::Command {
+class GoToDesiredPositionCommand : public frc::Command {
 public:
-	GoToDesiredSetpointCommand();
+	GoToDesiredPositionCommand();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -17,8 +17,6 @@ public:
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;
-
-	bool IsAtDesiredSetpoint = false;
 };
 
 #endif  // ElevatorCommand_H

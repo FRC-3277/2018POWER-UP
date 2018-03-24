@@ -10,15 +10,15 @@
 #include "OI.h"
 #include "WPILib.h"
 #include "Commands/EatCubeCommand.h"
-#include "Commands/SpitCubeCommand.h"
+#include "Commands/GoToDesiredPositionCommand.h"
 #include "Commands/InvertDriverControlsCommand.h"
-#include "Commands/LowerElevatorCommand.h"
-#include "Commands/RaiseElevatorCommand.h"
-#include "Commands/GoToDesiredSetpointCommand.h"
-#include "Commands/ToggleFinesseModeCommand.h"
 #include "Commands/LifterRunWinchCommand.h"
+#include "Commands/LowerElevatorCommand.h"
 #include "Commands/PrepareLifterCoreForEjectCommand.h"
+#include "Commands/RaiseElevatorCommand.h"
+#include "Commands/SpitCubeCommand.h"
 #include "Commands/ToggleElevatorControlMode.h"
+#include "Commands/ToggleFinesseModeCommand.h"
 
 namespace UDC = UserDefinedController;
 
