@@ -79,8 +79,8 @@ OI::OI()
 				assignedController->Extreme3D_Pro::AssignButton(JoystickFinesseButtonId, firstPlayerController, FinesseButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_SEVEN);
 				assignedController->Extreme3D_Pro::AssignButton(InvertDriverControlsButtonId, firstPlayerController, InvertDriverControlsButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TWELVE);
 
-				assignedController->Extreme3D_Pro::AssignButton(ElevatorUpButtonId, firstPlayerController, ElevatorUpButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TWO);
-				assignedController->Extreme3D_Pro::AssignButton(ElevatorDownButtonId, firstPlayerController, ElevatorDownButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_THREE);
+				//assignedController->Extreme3D_Pro::AssignButton(ElevatorUpButtonId, firstPlayerController, ElevatorUpButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_TWO);
+				//assignedController->Extreme3D_Pro::AssignButton(ElevatorDownButtonId, firstPlayerController, ElevatorDownButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_THREE);
 
 				// Grabber
 				assignedController->Extreme3D_Pro::AssignButton(GrabberInjectionButtonId, firstPlayerController, InjectionButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_FOUR);
@@ -109,12 +109,12 @@ OI::OI()
 				assignedController->Extreme3D_Pro::AssignAxis(TwistAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_Z_AXIS);
 
 				// Elevator
-				assignedController->AirForceOne::AssignButton(ElevatorUpButtonId, secondPlayerController, ElevatorUpButton, UDC::AirForceOne::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_ONE);
-				assignedController->AirForceOne::AssignButton(ElevatorDownButtonId, secondPlayerController, ElevatorDownButton, UDC::AirForceOne::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_TWO);
+				//assignedController->AirForceOne::AssignButton(ElevatorUpButtonId, secondPlayerController, ElevatorUpButton, UDC::AirForceOne::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_ONE);
+				//assignedController->AirForceOne::AssignButton(ElevatorDownButtonId, secondPlayerController, ElevatorDownButton, UDC::AirForceOne::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_TWO);
 				// This allows the control of the elevator to switch between player one and player two.
 				// Player one is limited to direct up and own where player one can set and forget desired position.
-				assignedController->AirForceOne::AssignButton(ToggleElevatorControlModeId, secondPlayerController, ToggleElevatorControlModeButton, UDC::AirForceOne::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_FIVE);
-				assignedController->AirForceOne::AssignAxis(GoToDesiredElevatorSetpointAxisId, secondPlayerController, UDC::AirForceOne::AIRFORCEONE_AXIS::AIRFORCEONE_Z_AXIS);
+				//assignedController->AirForceOne::AssignButton(ToggleElevatorControlModeId, secondPlayerController, ToggleElevatorControlModeButton, UDC::AirForceOne::AIRFORCEONE_BUTTON::AIRFORCEONE_BUTTON_FIVE);
+				assignedController->AirForceOne::AssignAxis(ElevatorAxisId, secondPlayerController, UDC::AirForceOne::AIRFORCEONE_AXIS::AIRFORCEONE_Z_AXIS);
 
 				// Grabber
 				assignedController->Extreme3D_Pro::AssignAxis(GrabberSpeedControlAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_SLIDER);
@@ -171,7 +171,7 @@ OI::OI()
 	{
 		try
 		{
-			assignedController->GetAssignedButton(ElevatorUpButtonId)->WhileHeld(new RaiseElevatorCommand());
+			//assignedController->GetAssignedButton(ElevatorUpButtonId)->WhileHeld(new RaiseElevatorCommand());
 		}
 		catch(const std::exception& e)
 		{
@@ -180,7 +180,7 @@ OI::OI()
 
 		try
 		{
-			assignedController->GetAssignedButton(ElevatorDownButtonId)->WhileHeld(new LowerElevatorCommand());
+			//assignedController->GetAssignedButton(ElevatorDownButtonId)->WhileHeld(new LowerElevatorCommand());
 		}
 		catch(const std::exception& e)
 		{
@@ -190,7 +190,7 @@ OI::OI()
 		try
 		{
 			// This command doesn't follow the norm.  It
-			assignedController->GetAssignedButton(ToggleElevatorControlModeId)->WhenPressed(new ToggleElevatorControlMode());
+			//assignedController->GetAssignedButton(ToggleElevatorControlModeId)->WhenPressed(new ToggleElevatorControlMode());
 		}
 		catch(const std::exception& e)
 		{
@@ -466,7 +466,7 @@ int OI::GetDesiredElevatorSetpoint()
 	int DesiredSetpoint = 1;
 	int NumberOfElevatorLimitSwitches = 6;
 	double SetPointDelimiterValue = 0.99/NumberOfElevatorLimitSwitches;
-	double CurrentActualElevatorSetpointControllerValue = ScaleAirForceOneAxisPercent(-assignedController->GetAssignedController(GoToDesiredElevatorSetpointAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GoToDesiredElevatorSetpointAxisId)));
+	double CurrentActualElevatorSetpointControllerValue = ScaleAirForceOneAxisPercent(-assignedController->GetAssignedController(ElevatorAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(ElevatorAxisId)));
 	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
 
 	lumberJack->dLog("DesiredSetpoint: " + std::to_string(DesiredSetpoint));
@@ -476,7 +476,7 @@ int OI::GetDesiredElevatorSetpoint()
 
 int OI::GetDesiredElevatorPosition()
 {
-	int DesiredPosition = ScaleAirForceOneAxisPosition(-assignedController->GetAssignedController(GoToDesiredElevatorSetpointAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GoToDesiredElevatorSetpointAxisId)));
+	int DesiredPosition = ScaleAirForceOneAxisPosition(-assignedController->GetAssignedController(ElevatorAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(ElevatorAxisId)));
 
 	return DesiredPosition;
 }

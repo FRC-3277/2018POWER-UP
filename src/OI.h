@@ -39,19 +39,19 @@ private:
 	std::string LateralAxisId = std::string("LateralAxisId");
 	std::string TwistAxisId = std::string("TwistAxisId");
 	std::string ForwardReverseAxisId = std::string("ForwardReverseAxisId");
-	std::string GoToDesiredElevatorSetpointAxisId = std::string("GoToDesiredElevatorSetpointAxisId");
+	std::string ElevatorAxisId = std::string("ElevatorAxisId");
 	std::string GrabberSpeedControlAxisId = std::string("GrabberSpeedControlAxisId");
 
 	// Buttons
-	std::string ElevatorDownButtonId = std::string("ElevatorDownButtonId");
-	std::string ElevatorUpButtonId = std::string("ElevatorUpButtonId");
+	//std::string ElevatorDownButtonId = std::string("ElevatorDownButtonId");
+	//std::string ElevatorUpButtonId = std::string("ElevatorUpButtonId");
 	std::string GrabberEjectionButtonId = std::string("GrabberEjectionButtonId");
 	std::string GrabberInjectionButtonId = std::string("GrabberInjectionButtonId");
 	std::string InvertDriverControlsButtonId = std::string("InvertDriverControlsButtonId");
 	std::string JoystickFinesseButtonId = std::string("JoystickFinesseButtonId");
 	std::string LifterPrepareCoreEjectionButtonId = std::string("LifterPrepareCoreEjectionButtonId");
 	std::string LifterRunWinchButtonId = std::string("LifterRunWinchButtonId");
-	std::string ToggleElevatorControlModeId = std::string("ToggleElevatorControlModeId");
+	//std::string ToggleElevatorControlModeId = std::string("ToggleElevatorControlModeId");
 
 	/*
 	 * To ensure consistency the controllers must be mapped to a slot in the driver station.
