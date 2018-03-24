@@ -525,7 +525,7 @@ int OI::ScaleAirForceOneAxisPosition(double ValueToRescale)
 	}
 	else
 	{
-		Output = fabs((ValueToRescale + 0.99) / 2);
+		Output = NewMax/2 - (abs(ValueToRescale) * NewMax/2);
 	}
 
 	return Output;
