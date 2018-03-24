@@ -474,11 +474,20 @@ int OI::GetDesiredElevatorSetpoint()
 	return DesiredSetpoint;
 }
 
+int OI::GetDesiredElevatorPosition()
+{
+	int DesiredPosition = 0;
+	int DesiredPosition = (int)ScaleAirForceOneAxisPosition(-assignedController->GetAssignedController(GoToDesiredElevatorSetpointAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GoToDesiredElevatorSetpointAxisId)));
+
+	return DesiredPosition;
+}
+
 double OI::GetAirForceOneXAxis() {
 	return Clamp(assignedController->GetAssignedController(GrabberSpeedControlAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GrabberSpeedControlAxisId)));
 }
 
-double OI::ScaleAirForceOneAxis(double ValueToRescale) {
+double OI::ScaleAirForceOneAxisPercent(double ValueToRescale)
+{
 	double Output = 0.0;
 
 	if(ValueToRescale > 0.0)
@@ -490,6 +499,29 @@ double OI::ScaleAirForceOneAxis(double ValueToRescale) {
 	else if(ValueToRescale == 0.0)
 	{
 		Output = 0.5;
+	}
+	else
+	{
+		Output = fabs((ValueToRescale + 0.99) / 2);
+	}
+
+	return Output;
+}
+
+int OI::ScaleAirForceOneAxisPosition(int ValueToRescale)
+{
+	//TODO: Get max value and apply
+	int Output = 0;
+	int NewMax = 1000;
+	int NewMin = NewMax/2 + 1;
+
+	if(ValueToRescale > 0)
+	{
+		Output = (((NewMax - NewMin) * (ValueToRescale - 0.0)) / (0.99 - 0.0)) + NewMin;
+	}
+	else if(ValueToRescale == 0.0)
+	{
+		Output = NewMax/2;
 	}
 	else
 	{

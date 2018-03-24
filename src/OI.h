@@ -101,6 +101,8 @@ public:
 	double GetJoystickY();
 	double GetJoystickTwist();
 	double GetAirForceOneXAxis();
-	double ScaleAirForceOneAxis(double ValueToRescale);
+	double ScaleAirForceOneAxisPercent(double ValueToRescale);
+	int ScaleAirForceOneAxisPosition(int ValueToRescale);
 	int GetDesiredElevatorSetpoint();
+	int GetDesiredElevatorPosition();
 };
