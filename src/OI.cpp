@@ -466,7 +466,7 @@ int OI::GetDesiredElevatorSetpoint()
 	int DesiredSetpoint = 1;
 	int NumberOfElevatorLimitSwitches = 6;
 	double SetPointDelimiterValue = 0.99/NumberOfElevatorLimitSwitches;
-	double CurrentActualElevatorSetpointControllerValue = ScaleAirForceOneAxis(-assignedController->GetAssignedController(GoToDesiredElevatorSetpointAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GoToDesiredElevatorSetpointAxisId)));
+	double CurrentActualElevatorSetpointControllerValue = ScaleAirForceOneAxisPercent(-assignedController->GetAssignedController(GoToDesiredElevatorSetpointAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GoToDesiredElevatorSetpointAxisId)));
 	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
 
 	lumberJack->dLog("DesiredSetpoint: " + std::to_string(DesiredSetpoint));
@@ -476,13 +476,13 @@ int OI::GetDesiredElevatorSetpoint()
 
 int OI::GetDesiredElevatorPosition()
 {
-	int DesiredPosition = 0;
-	int DesiredPosition = (int)ScaleAirForceOneAxisPosition(-assignedController->GetAssignedController(GoToDesiredElevatorSetpointAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GoToDesiredElevatorSetpointAxisId)));
+	int DesiredPosition = ScaleAirForceOneAxisPosition(-assignedController->GetAssignedController(GoToDesiredElevatorSetpointAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GoToDesiredElevatorSetpointAxisId)));
 
 	return DesiredPosition;
 }
 
-double OI::GetAirForceOneXAxis() {
+double OI::GetAirForceOneXAxis()
+{
 	return Clamp(assignedController->GetAssignedController(GrabberSpeedControlAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(GrabberSpeedControlAxisId)));
 }
 
@@ -508,7 +508,7 @@ double OI::ScaleAirForceOneAxisPercent(double ValueToRescale)
 	return Output;
 }
 
-int OI::ScaleAirForceOneAxisPosition(int ValueToRescale)
+int OI::ScaleAirForceOneAxisPosition(double ValueToRescale)
 {
 	//TODO: Get max value and apply
 	int Output = 0;
