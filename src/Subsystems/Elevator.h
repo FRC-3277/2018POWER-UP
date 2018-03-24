@@ -47,6 +47,7 @@ private:
 	static const int kPIDLoopIdx = 0;
 	static const int kTimeoutMs = 10;
 	static const int kNoTimeoutMs = 0;
+	static const int kRampSecondsFromNeutralToFull = 1;
 	// prevent encoder reset more than once
 	bool encoderHasBeenReset = false;
 

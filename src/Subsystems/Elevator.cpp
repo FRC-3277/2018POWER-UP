@@ -51,6 +51,11 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	RightElevatorTalon->Follow(*LeftElevatorTalon);
 	RightElevatorTalon->SetInverted(true);
 
+	/* Talon is configured to ramp and followers are configured to 0*/
+	LeftElevatorTalon->ConfigOpenloopRamp(kRampSecondsFromNeutralToFull, kNoTimeoutMs);
+	/* no need since master ramps */
+	RightElevatorTalon->ConfigOpenloopRamp(0, kNoTimeoutMs);
+
 	// Servo goes to home position when this line of code is hit.  This drops
 	// the end effector when Teleop or Autonomous mode is hit.
 	EndEffectorDropServo.reset(new Servo(ELEVATOR_DROP_END_EFFECTOR_SERVO_ID));
