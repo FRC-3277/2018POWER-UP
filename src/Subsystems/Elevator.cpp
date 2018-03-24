@@ -58,6 +58,10 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	/* no need since master ramps */
 	RightElevatorTalon->ConfigOpenloopRamp(0, kNoTimeoutMs);
 
+	// Reset the encoder position as a precaution
+	LeftElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
+	RightElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
+
 	// Servo goes to home position when this line of code is hit.  This drops
 	// the end effector when Teleop or Autonomous mode is hit.
 	EndEffectorDropServo.reset(new Servo(ELEVATOR_DROP_END_EFFECTOR_SERVO_ID));
