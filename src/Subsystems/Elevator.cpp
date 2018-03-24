@@ -164,7 +164,6 @@ void Elevator::RaiseElevator()
 	//DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)), 30);
 	//RightElevatorTalon->Set(-speed);
 	//DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(-speed)), 30);
-	//TODO: Re-enable once this is actually installed
 	UpdateLimitSwitchTracker();
 
 	double read = LeftElevatorTalon->GetSelectedSensorPosition(0);

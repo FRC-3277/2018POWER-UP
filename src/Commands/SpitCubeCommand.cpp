@@ -11,8 +11,9 @@ void SpitCubeCommand::Initialize() {
 }
 
 // Called repeatedly when this Command is scheduled to run
-void SpitCubeCommand::Execute() {
-	Robot::grabber->SetGrabberSpitSpeed(Robot::oi->ScaleAirForceOneAxis(-Robot::oi->GetAirForceOneXAxis()));
+void SpitCubeCommand::Execute()
+{
+	Robot::grabber->SetGrabberSpitSpeed(Robot::oi->ScaleAirForceOneAxisPercent(-Robot::oi->GetAirForceOneXAxis()));
 	Robot::grabber->SpitCube();
 	lumberJack->iLog("SpitCubeCommand", 50);
 }
