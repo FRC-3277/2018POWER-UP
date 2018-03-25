@@ -64,6 +64,10 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	RightElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
 	RightElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
 
+	// Only the left since right is a follower
+	LeftElevatorTalon->ConfigPeakOutputForward(kMaxElevatorSpeed, kTimeoutMs);
+	LeftElevatorTalon->ConfigPeakOutputReverse(-kMaxElevatorSpeed, kTimeoutMs);
+
 	// Servo goes to home position when this line of code is hit.  This drops
 	// the end effector when Teleop or Autonomous mode is hit.
 	EndEffectorDropServo.reset(new Servo(ELEVATOR_DROP_END_EFFECTOR_SERVO_ID));
