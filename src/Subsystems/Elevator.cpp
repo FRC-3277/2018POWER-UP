@@ -60,7 +60,9 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	// Reset the encoder position as a precaution
 	LeftElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
+	LeftElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
 	RightElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
+	RightElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
 
 	// Servo goes to home position when this line of code is hit.  This drops
 	// the end effector when Teleop or Autonomous mode is hit.
@@ -268,7 +270,9 @@ void Elevator::UpdateLimitSwitchTracker()
 		{
 			// Reset the encoder position as a precaution
 			LeftElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
+			LeftElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
 			RightElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
+			RightElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
 		}
 
 		encoderHasBeenReset = true;
