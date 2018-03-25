@@ -48,6 +48,7 @@ private:
 	static const int kTimeoutMs = 10;
 	static const int kNoTimeoutMs = 0;
 	static const int kRampSecondsFromNeutralToFull = 1;
+	static constexpr double kMaxElevatorSpeed = 0.99;
 	// prevent encoder reset more than once
 	bool encoderHasBeenReset = false;
 
