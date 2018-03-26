@@ -24,6 +24,8 @@ static constexpr int REAR_RIGHT_MOTOR_CAN_ID = 5;
 // Elevator
 static constexpr int ELEVATOR_MOTOR_LEFT_CAN_ID = 10;
 static constexpr int ELEVATOR_MOTOR_RIGHT_CAN_ID = 11;
+// Placed here because needed by OI
+static constexpr int ELEVATOR_MAX_ENCODER_POSITION = 2000;
 
 // TODO: Get upper and lower from motor controller if possible
 static constexpr int ELEVATOR_DROP_END_EFFECTOR_SERVO_ID = 3;
