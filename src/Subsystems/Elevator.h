@@ -43,19 +43,19 @@ private:
 	bool ElevatorRunHalfSpeed = false;
 
 	/* pick this so self-test stops reporting sensor-out-of-phase */
-	static const bool kSensorPhase = false;
-	static const int kPIDLoopIdx = 0;
-	static const int kTimeoutMs = 10;
-	static const int kNoTimeoutMs = 0;
-	static const int kRampSecondsFromNeutralToFull = 1;
+	static constexpr bool kSensorPhase = true;
+	static constexpr int kPIDLoopIdx = 0;
+	static constexpr int kTimeoutMs = 10;
+	static constexpr int kNoTimeoutMs = 0;
+	static constexpr double kRampSecondsFromNeutralToFull = 1.0;
 	static constexpr double kMaxElevatorSpeed = 0.99;
 	// prevent encoder reset more than once
 	bool encoderHasBeenReset = false;
 
 	// From the datasheet
-	static const int kCyclesPerRevolution = 64;
+	static constexpr int kCyclesPerRevolution = 64;
 	// Ticks or units per rotation when read using "Encoder Position" or "Sensor Position"
-	static const int kCountsPerRevolution = 64 * 4;
+	static constexpr int kCountsPerRevolution = 64 * 4;
 
 	// Time period where if the opposite direction button is pressed will trigger elevator direction has changed
 	static constexpr int ElapsedMillisTriggerDirectionChange = 500;
@@ -89,6 +89,9 @@ private:
 
 	static constexpr double RaiseSpeedMultiplier = 4;
 	static constexpr double LowerSpeedMultiplier = 1.5;
+
+	int PrintFrequencyCount = 0;
+	static constexpr int PrintEveryFrequency = 20;
 
 	void UpdateSoftSpeedChangeArray(const double Multiplier);
 	double SoftSpeedChange();

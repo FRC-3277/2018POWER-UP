@@ -39,34 +39,43 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 
 	// Set every Talon to reset the motor safety timeout.
-	//LeftElevatorTalon->Set(ControlMode::PercentOutput, 0);
-	//RightElevatorTalon->Follow(*LeftElevatorTalon);
-	//RightElevatorTalon->SetInverted(true);
-	//RightElevatorTalon->Set(ControlMode::PercentOutput, 0);
-
-	/* choose quadrature which has a faster update rate */
-	LeftElevatorTalon->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 10);
-	/* Talon will send new frame every 5ms */
-	LeftElevatorTalon->SetStatusFramePeriod(StatusFrame::Status_1_General_, 5, 10);
-	LeftElevatorTalon->SetSensorPhase(kSensorPhase);
-
+	LeftElevatorTalon->Set(ControlMode::PercentOutput, 0);
+	RightElevatorTalon->Set(ControlMode::PercentOutput, 0);
 	RightElevatorTalon->Follow(*LeftElevatorTalon);
 	RightElevatorTalon->SetInverted(true);
 
+	/* choose quadrature which has a faster update rate */
+	LeftElevatorTalon->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, kTimeoutMs);
+
+	/*
+	LeftElevatorTalon->Config_kP(0, 0.0001, kTimeoutMs);
+	LeftElevatorTalon->Config_kI(0, 0.001, kTimeoutMs);
+	LeftElevatorTalon->Config_kD(0, 1.0, kTimeoutMs);
+	LeftElevatorTalon->Config_kF(0, 0.0, kTimeoutMs);
+	*/
+
+	/* Talon will send new frame every 5ms */
+	//LeftElevatorTalon->SetStatusFramePeriod(StatusFrame::Status_1_General_, 5, 10);
+	LeftElevatorTalon->SetSensorPhase(kSensorPhase);
+
 	/* Talon is configured to ramp and followers are configured to 0*/
+	LeftElevatorTalon->ConfigClosedloopRamp(kRampSecondsFromNeutralToFull, kNoTimeoutMs);
 	LeftElevatorTalon->ConfigOpenloopRamp(kRampSecondsFromNeutralToFull, kNoTimeoutMs);
 	/* no need since master ramps */
-	RightElevatorTalon->ConfigOpenloopRamp(0, kNoTimeoutMs);
+	//RightElevatorTalon->ConfigOpenloopRamp(0, kNoTimeoutMs);
 
 	// Reset the encoder position as a precaution
 	LeftElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
 	LeftElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
-	RightElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
-	RightElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
+	//RightElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
+	//RightElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
 
 	// Only the left since right is a follower
+	LeftElevatorTalon->ConfigNominalOutputForward(0, kTimeoutMs);
+	LeftElevatorTalon->ConfigNominalOutputReverse(0, kTimeoutMs);
 	LeftElevatorTalon->ConfigPeakOutputForward(kMaxElevatorSpeed, kTimeoutMs);
 	LeftElevatorTalon->ConfigPeakOutputReverse(-kMaxElevatorSpeed, kTimeoutMs);
+
 
 	// Servo goes to home position when this line of code is hit.  This drops
 	// the end effector when Teleop or Autonomous mode is hit.
@@ -161,8 +170,8 @@ void Elevator::RaiseElevator()
 		}
 		else
 		{
-			/*
 			speed = ElevatorTravelSpeed * RaiseSpeedMultiplier;
+			/*
 			if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER)
 			{
 				speed = speed / 2;
@@ -252,9 +261,7 @@ void Elevator::LowerElevator()
 	}
 
 	LeftElevatorTalon->Set(-speed);
-	DebugLog(std::string("LowerElevator: ") + std::string(std::to_string(-speed)), 30);
 	//RightElevatorTalon->Set(speed);
-	DebugLog(std::string("LowerElevator: ") + std::string(std::to_string(speed)), 30);
 
 	UpdateLimitSwitchTracker();
 }
@@ -275,8 +282,8 @@ void Elevator::UpdateLimitSwitchTracker()
 			// Reset the encoder position as a precaution
 			LeftElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
 			LeftElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
-			RightElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
-			RightElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
+			//RightElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
+			//RightElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
 		}
 
 		encoderHasBeenReset = true;
@@ -335,10 +342,40 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 
 void Elevator::GoToSetPosition(int DesiredPosition)
 {
-	double CurrentElevatorPosition = LeftElevatorTalon->GetSelectedSensorPosition(0);
-	//lumberJack->iLog(std::string("CurrentElevatorPosition: ") + std::string(std::to_string(CurrentElevatorPosition)));
-	lumberJack->iLog(std::string("DesiredPosition: ") + std::string(std::to_string(DesiredPosition)));
-	LeftElevatorTalon->SetSelectedSensorPosition(DesiredPosition, kPIDLoopIdx, kNoTimeoutMs);
+	double CurrentElevatorPosition = LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition();
+	if(++PrintFrequencyCount > PrintEveryFrequency)
+	{
+		PrintFrequencyCount = 0;
+		lumberJack->iLog(std::string("CurrentElevatorPosition: ") + std::string(std::to_string(CurrentElevatorPosition)));
+		lumberJack->iLog(std::string("DesiredPosition: ") + std::string(std::to_string(DesiredPosition)));
+	}
+
+	if(CurrentElevatorPosition + 100 >= DesiredPosition && 
+		CurrentElevatorPosition - 100 <= DesiredPosition &&
+		IsElevatorOnTheMove)
+	{
+		ElevatorRunHalfSpeed = true;
+	}
+
+	if((CurrentElevatorPosition + 50 >= DesiredPosition && 
+		CurrentElevatorPosition - 50 <= DesiredPosition) ||
+		DesiredPosition == CurrentElevatorPosition)
+	{
+		if(IsElevatorOnTheMove)
+		{
+			StopElevator();
+		}
+
+		//HoldElevator();
+	}
+	else if(DesiredPosition > CurrentElevatorPosition)
+	{
+		RaiseElevator();
+	}
+	else if(DesiredPosition < CurrentElevatorPosition)
+	{
+		LowerElevator();
+	}
 }
 
 void Elevator::StopElevator()
@@ -491,7 +528,7 @@ void Elevator::HoldElevator()
 	if(IsElevatorOnTheMove == false)
 	{
 		DebugLog("HoldElevator", 200);
-		LeftElevatorTalon->Set(ElevatorHoldSpeed);
+		LeftElevatorTalon->Set(ControlMode::PercentOutput, ElevatorHoldSpeed);
 		DebugLog(std::string("HoldElevator: ") + std::string(std::to_string(ElevatorHoldSpeed)), 2000);
 		//RightElevatorTalon->Set(-ElevatorHoldSpeed);
 		DebugLog(std::string("HoldElevator: ") + std::string(std::to_string(-ElevatorHoldSpeed)), 2000);
