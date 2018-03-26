@@ -7,6 +7,8 @@
 
 #include <math.h>
 
+#include "RobotMap.h"
+
 #include "OI.h"
 #include "WPILib.h"
 #include "Commands/EatCubeCommand.h"
@@ -461,12 +463,26 @@ double OI::Clamp(double joystickAxis)
 	return joystickAxis;
 }
 
+int OI::ClampPosition(int position)
+{
+	if(position <= 0)
+	{
+		position = 0;
+	}
+	else if(position >= ELEVATOR_MAX_ENCODER_POSITION)
+	{
+		position = ELEVATOR_MAX_ENCODER_POSITION;
+	}
+
+	return position;
+}
+
 int OI::GetDesiredElevatorSetpoint()
 {
 	int DesiredSetpoint = 1;
 	int NumberOfElevatorLimitSwitches = 6;
 	double SetPointDelimiterValue = 0.99/NumberOfElevatorLimitSwitches;
-	double CurrentActualElevatorSetpointControllerValue = ScaleAirForceOneAxisPercent(-assignedController->GetAssignedController(ElevatorAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(ElevatorAxisId)));
+	double CurrentActualElevatorSetpointControllerValue = ScaleAirForceOneAxisPercent(Clamp(-assignedController->GetAssignedController(ElevatorAxisId)->GetRawAxis(assignedController->GetAssignedAxisNumber(ElevatorAxisId))));
 	DesiredSetpoint = round(CurrentActualElevatorSetpointControllerValue/SetPointDelimiterValue);
 
 	lumberJack->dLog("DesiredSetpoint: " + std::to_string(DesiredSetpoint));
@@ -505,14 +521,14 @@ double OI::ScaleAirForceOneAxisPercent(double ValueToRescale)
 		Output = fabs((ValueToRescale + 0.99) / 2);
 	}
 
-	return Output;
+	return Clamp(Output);
 }
 
 int OI::ScaleAirForceOneAxisPosition(double ValueToRescale)
 {
 	//TODO: Get max value and apply
 	int Output = 0;
-	int NewMax = 1000;
+	int NewMax = ELEVATOR_MAX_ENCODER_POSITION;
 	int NewMin = NewMax/2 + 1;
 
 	if(ValueToRescale > 0)
@@ -528,5 +544,5 @@ int OI::ScaleAirForceOneAxisPosition(double ValueToRescale)
 		Output = NewMax/2 - (abs(ValueToRescale) * NewMax/2);
 	}
 
-	return Output;
+	return ClampPosition(Output);
 }

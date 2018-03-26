@@ -77,6 +77,7 @@ private:
 
 	// Prevent undesirable behavior in the drivetrain if values fall out of allowed/expected range
 	double Clamp(double joystickAxis);
+	int ClampPosition(int position);
 
 	// Joystick Deadzone
 	static constexpr double JoystickDeadzone = 0.02;
