@@ -5,35 +5,39 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "LifterRunWinchCommand.h"
+#include "Commands/ToggleElevatorControlMode.h"
 
-LifterRunWinchCommand::LifterRunWinchCommand()
+ToggleElevatorControlMode::ToggleElevatorControlMode()
 {
-	Requires(Robot::lifter.get());
+	Requires(Robot::elevator.get());
 }
 
 // Called just before this Command runs the first time
-void LifterRunWinchCommand::Initialize() {
-
+void ToggleElevatorControlMode::Initialize()
+{
+	printf("ToggleElevatorControlMode");
+	Robot::elevator->ToggleInputControlMode();
 }
 
 // Called repeatedly when this Command is scheduled to run
-void LifterRunWinchCommand::Execute() {
-	Robot::lifter->RunTheWinch();
+void ToggleElevatorControlMode::Execute()
+{
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool LifterRunWinchCommand::IsFinished() {
-	return false;
+bool ToggleElevatorControlMode::IsFinished()
+{
+	return true;
 }
 
 // Called once after isFinished returns true
-void LifterRunWinchCommand::End() {
-	Robot::lifter->StopTheWinch();
+void ToggleElevatorControlMode::End() {
+
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void LifterRunWinchCommand::Interrupted() {
-	Robot::lifter->StopTheWinch();
+void ToggleElevatorControlMode::Interrupted() {
+
 }

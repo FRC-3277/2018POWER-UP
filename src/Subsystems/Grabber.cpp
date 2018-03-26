@@ -4,6 +4,7 @@
 
 Grabber::Grabber() : frc::Subsystem("Grabber") {
 	lumberJack.reset(new LumberJack());
+	AutonTimekeeper.reset(new Kronos::TimeKeeper());
 
 	//Talons
 	try
@@ -71,47 +72,43 @@ Grabber::Grabber() : frc::Subsystem("Grabber") {
 void Grabber::InitDefaultCommand() {
 }
 
-void Grabber::SpitCube() {
-
-	//if(EjectionStopLimitSwitch->Get()) //Anticipation of some sort of limit switch... not installed
-	if(false)
-	{
-		GrabberSpitStop();
-		EndSpitCommand = true;
-	}
-	else
-	{
-		GrabberLeftMotor->Set(-GrabberMotorSpeed);
-		GrabberRightMotor->Set(GrabberMotorSpeed);
-	}
+void Grabber::SpitCube()
+{
+	GrabberLeftMotor->Set(-GrabberMotorSpeed);
+	GrabberRightMotor->Set(GrabberMotorSpeed);
 }
 
-void Grabber::EatCube() {
-	//if(InjectionStopLimitSwitch->Get()) //Anticipation of some sort of limit switch... not installed
-	if(false)
-	{
-		GrabberEatStop();
-		EndEatCommand = true;
-	}
-	else
-	{
-		GrabberLeftMotor->Set(DefaultGrabberMotorSpeed);
-		GrabberRightMotor->Set(-DefaultGrabberMotorSpeed);
-	}
+void Grabber::EatCube()
+{
+	GrabberLeftMotor->Set(DefaultGrabberMotorSpeed);
+	GrabberRightMotor->Set(-DefaultGrabberMotorSpeed);
 }
 
-void Grabber::GrabberEatStop() {
+void Grabber::GrabberEatStop()
+{
 	GrabberLeftMotor->Set(0.0);
 	GrabberRightMotor->Set(0.0);
 	EndEatCommand = false;
 }
 
-void Grabber::GrabberSpitStop() {
+void Grabber::GrabberSpitStop()
+{
 	GrabberLeftMotor->Set(0.0);
 	GrabberRightMotor->Set(0.0);
 	EndSpitCommand = false;
 }
 
-void Grabber::SetGrabberSpitSpeed(double GrabberMotorSpeed) {
+void Grabber::SetGrabberSpitSpeed(double GrabberMotorSpeed)
+{
 	this->GrabberMotorSpeed = GrabberMotorSpeed;
+}
+
+void Grabber::SetAutonTimerStart()
+{
+	AutonTimekeeper->ResetClockStart();
+}
+
+double Grabber::GetAutonTimerCurrent()
+{
+	return AutonTimekeeper->GetElapsedTimeMilli();
 }

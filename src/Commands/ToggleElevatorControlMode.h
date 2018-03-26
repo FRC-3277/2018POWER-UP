@@ -7,21 +7,21 @@
 
 #pragma once
 
-#include <Commands/Command.h>
-#include "Robot.h"
 #include "LumberJack.h"
 
-class AutonomousEatCubeCommand : public frc::Command 
+#include "Robot.h"
+#include <Commands/Command.h>
+
+class ToggleElevatorControlMode : public frc::Command
 {
-	private:
-		double AutonEatTimeoutMilli = 500;
-	
 	public:
-		AutonomousEatCubeCommand();
+		ToggleElevatorControlMode();
 		void Initialize() override;
 		void Execute() override;
 		bool IsFinished() override;
 		void End() override;
 		void Interrupted() override;
-};
 
+	private:
+		std::shared_ptr<LumberJack> lumberJack;
+};

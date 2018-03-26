@@ -4,7 +4,6 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 #pragma once
 
 #include "LumberJack.h"
@@ -25,11 +24,13 @@ static constexpr int REAR_RIGHT_MOTOR_CAN_ID = 5;
 // Elevator
 static constexpr int ELEVATOR_MOTOR_LEFT_CAN_ID = 10;
 static constexpr int ELEVATOR_MOTOR_RIGHT_CAN_ID = 11;
-// TODO: Get from motor controller
-static constexpr int DROP_END_EFFECTOR_SERVO_ID = 5;
-static constexpr int HIGH_LIMIT_SWITCH_ID = 9;
-static constexpr int MED_LIMIT_SWITCH_ID = 8;
-static constexpr int LOW_LIMIT_SWITCH_ID = 7;
+
+// TODO: Get upper and lower from motor controller if possible
+static constexpr int ELEVATOR_DROP_END_EFFECTOR_SERVO_ID = 3;
+static constexpr int ELEVATOR_HIGH_LIMIT_SWITCH_ID = 9;
+static constexpr int ELEVATOR_MED_LIMIT_SWITCH_ID = 8;
+static constexpr int ELEVATOR_LOW_LIMIT_SWITCH_ID = 7;
+static constexpr int ELEVATOR_EJECT_CORE_LIMIT_SWITCH_ID = 6;
 
 // Grabber
 static constexpr int GRABBER_LEFT_MOTOR_CAN_ID = 20;
@@ -48,10 +49,11 @@ static constexpr int LIFTER_RIGHT_EJECT_CORE_SERVO_ID = 1;
 static constexpr int CAMERA_CONTROL_SERVO_ID = 2;
 
 // Disable subsystems for debugging and testing
-static constexpr bool EnableDriveTrain = true;
+static constexpr bool EnableDriveTrain = false;
 static constexpr bool EnableElevator = true;
 static constexpr bool EnableGrabber = true;
 static constexpr bool EnableLifter = true;
+static constexpr bool EnableCamera = true;
 
 // Enable subsystem or command area focused debug logging.  Requires debug logging severity enabled as well.
 static constexpr bool EnableAutonomousDebugLogging = false;

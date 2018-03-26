@@ -10,62 +10,7 @@
 
 #include "WPILib.h"
 #include <Buttons/JoystickButton.h>
-
-/* Xbox Controller Definitions */
-#define XBOX_A_BUTTON 1
-#define XBOX_B_BUTTON 2
-#define XBOX_X_BUTTON 3
-#define XBOX_Y_BUTTON 4
-#define XBOX_LEFT_SHOLDER_BUTTON 5
-#define XBOX_RIGHT_SHOLDER_BUTTON 6
-#define XBOX_BACK_BUTTON 7
-#define XBOX_START_BUTTON 8
-#define XBOX_LEFT_INDEX_TRIGGER 9
-#define XBOX_RIGHT_INDEX_TRIGGER 10
-
-#define XBOX_LEFT_STICK_X_AXIS 0
-#define XBOX_LEFT_STICK_Y_AXIS 1
-#define XBOX_LEFT_TRIGGER_AXIS 2
-#define XBOX_RIGHT_TRIGGER_AXIS 3
-#define XBOX_RIGHT_STICK_X_AXIS 4
-#define XBOX_RIGHT_STICK_Y_AXIS 5
-
-#define DRIVER_CONTROLLER_ID 0
-#define ALTERNATE_CONTROLLER_ID 1
-
-/* Logitech EXTREME3DPRO Joystick Definitions */
-#define JOYSTICK_X_AXIS 0
-#define JOYSTICK_Y_AXIS 1
-#define JOYSTICK_Z_AXIS 2
-
-#define JOYSTICK_TRIGGER 1
-#define JOYSTICK_SLIDER 3
-
-#define JOYSTICK_BUTTON_TWO 2
-#define JOYSTICK_BUTTON_THREE 3
-#define JOYSTICK_BUTTON_FOUR 4
-#define JOYSTICK_BUTTON_FIVE 5
-#define JOYSTICK_BUTTON_SIX 6
-#define JOYSTICK_BUTTON_SEVEN 7
-#define JOYSTICK_BUTTON_EIGHT 8
-#define JOYSTICK_BUTTON_NINE 9
-#define JOYSTICK_BUTTON_TEN 10
-#define JOYSTICK_BUTTON_ELEVEN 11
-#define JOYSTICK_BUTTON_TWELVE 12
-
-//Air Force Once
-#define AIRFORCEONE_BUTTON_ONE 1
-#define AIRFORCEONE_BUTTON_TWO 2
-#define AIRFORCEONE_BUTTON_THREE 3
-#define AIRFORCEONE_BUTTON_FOUR 4
-#define AIRFORCEONE_BUTTON_FIVE 5
-#define AIRFORCEONE_BUTTON_SIX 6
-#define AIRFORCEONE_BUTTON_SEVEN 7
-#define AIRFORCEONE_BUTTON_EIGHT 8
-#define AIRFORCEONE_BUTTON_NINE 9
-#define AIRFORCEONE_X_AXIS 0
-#define AIRFORCEONE_Y_AXIS 1
-#define AIRFORCEONE_Z_AXIS 2
+#include "Controller/AssignedController.h"
 
 class OI {
 	// TODO: Add Winch In Button - Add limit switch interlock for min
@@ -74,47 +19,57 @@ class OI {
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;
+	std::shared_ptr<UserDefinedController::AssignedController> assignedController;
+	std::shared_ptr<Joystick> firstPlayerController;
+	std::shared_ptr<Joystick> secondPlayerController;
+	std::shared_ptr<Joystick> thirdPlayerController;
 
-	std::shared_ptr<Joystick> controllerDriver;
-	std::shared_ptr<Joystick> AirForceOneController;
-
-	std::shared_ptr<JoystickButton> InvertDriverControlsButton;
+	std::shared_ptr<JoystickButton> EjectionButton;
+	std::shared_ptr<JoystickButton> ElevatorDownButton;
+	std::shared_ptr<JoystickButton> ElevatorUpButton;
 	std::shared_ptr<JoystickButton> FinesseButton;
 	std::shared_ptr<JoystickButton> InjectionButton;
-	std::shared_ptr<JoystickButton> EjectionButton;
+	std::shared_ptr<JoystickButton> InvertDriverControlsButton;
 	std::shared_ptr<JoystickButton> LifterEjectCoreButton;
 	std::shared_ptr<JoystickButton> LifterRunWinchButton;
-	std::shared_ptr<JoystickButton> ElevatorUpButton;
-	std::shared_ptr<JoystickButton> ElevatorDownButton;
-	std::shared_ptr<JoystickButton> GoToDesiredElevatorSetpointButton;
+	std::shared_ptr<JoystickButton> ToggleElevatorControlModeButton;
 
-	// Joystick button role selection
-	static constexpr int JoystickFinesseButton = JOYSTICK_BUTTON_SEVEN;
-	// Drivetrain
-	static constexpr int InvertDriverControlsButtonNumber = JOYSTICK_BUTTON_TWELVE;
+	// Buttons and axis are mapped via a unique string
+	// Axis
+	std::string LateralAxisId = std::string("LateralAxisId");
+	std::string TwistAxisId = std::string("TwistAxisId");
+	std::string ForwardReverseAxisId = std::string("ForwardReverseAxisId");
+	std::string GoToDesiredElevatorSetpointAxisId = std::string("GoToDesiredElevatorSetpointAxisId");
+	std::string GrabberSpeedControlAxisId = std::string("GrabberSpeedControlAxisId");
 
-	// Elevator
-	static constexpr int ElevatorUpButtonNumber = JOYSTICK_BUTTON_TWO;
-	static constexpr int ElevatorDownButtonNumber = JOYSTICK_BUTTON_THREE;
-	static constexpr int ToggleElevatorControlMode = AIRFORCEONE_BUTTON_FIVE;
-	static constexpr int DesiredElevatorSetpointAxisNumber = AIRFORCEONE_Z_AXIS;
-	//static constexpr int DesiredElevatorSetpointButtonNumber = JOYSTICK_BUTTON_FOUR;
+	// Buttons
+	std::string ElevatorDownButtonId = std::string("ElevatorDownButtonId");
+	std::string ElevatorUpButtonId = std::string("ElevatorUpButtonId");
+	std::string GrabberEjectionButtonId = std::string("GrabberEjectionButtonId");
+	std::string GrabberInjectionButtonId = std::string("GrabberInjectionButtonId");
+	std::string InvertDriverControlsButtonId = std::string("InvertDriverControlsButtonId");
+	std::string JoystickFinesseButtonId = std::string("JoystickFinesseButtonId");
+	std::string LifterPrepareCoreEjectionButtonId = std::string("LifterPrepareCoreEjectionButtonId");
+	std::string LifterRunWinchButtonId = std::string("LifterRunWinchButtonId");
+	std::string ToggleElevatorControlModeId = std::string("ToggleElevatorControlModeId");
 
-	// Grabber
-	static constexpr int GrabberInjectionButtonNumber = AIRFORCEONE_BUTTON_ONE;
-	static constexpr int GrabberEjectionButtonNumber = AIRFORCEONE_BUTTON_TWO;
-	// Not actually mapped to Controller, but in use
-	static constexpr int GrabberSpitCubeLeverAxisNumber = AIRFORCEONE_X_AXIS;
+	/*
+	 * To ensure consistency the controllers must be mapped to a slot in the driver station.
+	 * If there was a way to inspect the controller type by USB device info this could be dynamic.
+	 * //TODO: Possible feature request for wpilib?
+	 */
+	static constexpr int EXTREME3D_PRO_CONTROLLER_ID = 0;
+	static constexpr int AIRFORCEONE_CONTROLLER_ID = 1;
+	static constexpr int XBOX_CONTROLLER_ID = 2;
 
-	// Lifter
-	static constexpr int LifterPrepareCoreEjectionButtonNumber = JOYSTICK_BUTTON_TEN;
-	static constexpr int LifterRunWinchButtonNumber = JOYSTICK_BUTTON_ELEVEN;
-
-	// xBox button role selection
-	static constexpr int XBoxFinnesseButtonNumber = XBOX_RIGHT_SHOLDER_BUTTON;
-	static constexpr int XBoxLateralAxisNumber  = XBOX_LEFT_STICK_X_AXIS;
-	static constexpr int XBoxForwardReverseAxisNumber = XBOX_LEFT_STICK_Y_AXIS;
-	static constexpr int XBoxTwistAxisNumber = XBOX_RIGHT_STICK_X_AXIS;
+	/*
+	 * Assigned controller configuration
+	 * 0 - Just the Extreme3D_Pro joystick
+	 * 1 - Just the XBox controller
+	 * 2 - Extreme3D_Pro as firstPlayerController with main role of driver with AirforceOne as secondPlayerController playing support role //TODO: add additional info here
+	 * 3 - Extreme3D_Pro as firstPlayerController with main role of driver with AirforceOne as secondPlayerController and XBox as thirdPlayerController playing support role //TODO: add additional info here
+	 */
+	static constexpr int PlayerControllerConfigurationMode = 2;
 
 	// Use the Joystick when true, Use the xBox controller when false
 	bool useJoystick = true;
@@ -142,7 +97,6 @@ private:
 public:
 	OI();
 
-	std::shared_ptr<Joystick> GetDriverController();
 	double GetJoystickX();
 	double GetJoystickY();
 	double GetJoystickTwist();

@@ -6,28 +6,34 @@
 /*----------------------------------------------------------------------------*/
 #include "Robot.h"
 
+std::shared_ptr<Kronos::TimeKeeper> Robot::timekeeper;
 std::shared_ptr<DriveTrain> Robot::driveTrain;
 std::shared_ptr<Elevator> Robot::elevator;
 std::shared_ptr<Grabber> Robot::grabber;
 std::shared_ptr<Lifter> Robot::lifter;
 std::shared_ptr<GameStates> Robot::gamestates;
-std::shared_ptr<TimeKeeper> Robot::timekeeper;
 std::shared_ptr<Camera> Robot::camera;
 std::unique_ptr<OI> Robot::oi;
 
 void Robot::RobotInit()
 {
 	lumberJack.reset(new LumberJack());
+	timekeeper.reset(new Kronos::TimeKeeper());
 
 	//m_chooser.AddDefault("Default Auto", &m_defaultAuto);
 	//m_chooser.AddObject("My Auto", &m_myAuto);
 
 	// Smart Dashboard
-	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-	SmartDashboard::PutBoolean("Drive With Joystick? 0", true);
-	SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
+    //frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+	//SmartDashboard::PutBoolean("Drive With Joystick? 0", true);
+	//SmartDashboard::PutBoolean("Drive With XBox Controller? 1", false);
 	// Defaulting Robot Location in Driver Station
 	SmartDashboard::PutString("DB/String 0", "R");
+	// Defaulting Switch or Scale
+	SmartDashboard::PutString("DB/String 1", "SC");
+	//Do or Do not
+	SmartDashboard::PutString("DB/String 3", "DeleteToBreakAuto");
+
 
 	try
 	{
@@ -103,8 +109,11 @@ void Robot::RobotInit()
 
 	try
 	{
-		lumberJack->dLog("Camera Started");
-		camera.reset(new Camera());
+		if(EnableCamera)
+		{
+			lumberJack->dLog("Camera Started");
+			camera.reset(new Camera());
+		}
 	}
 	catch(const std::exception& e)
 	{
@@ -161,6 +170,8 @@ void Robot::AutonomousInit()
 {
 	lumberJack->iLog("Begin Autonomous");
 
+	timekeeper->ResetClockStart();
+
 	gamestates->GetGameData();
 
 	if (autonomousScenarios.get() != nullptr)
@@ -174,6 +185,7 @@ void Robot::AutonomousPeriodic()
 	gamestates->GetGameData();
 	if(EnableElevator)
 	{
+		elevator->HoldElevator();
 		elevator->UpdateLimitSwitchTracker();
 	}
 	frc::Scheduler::GetInstance()->Run();
@@ -196,16 +208,22 @@ void Robot::TeleopInit()
 
 void Robot::TeleopPeriodic()
 {
-	//TODO:: Fix this!
-	if(timekeeper->GetElapsedTime() >= ElapsedSecondsBeforeEnableLifter || true)
+	if(timekeeper->GetElapsedTimeSec() >= ElapsedSecondsBeforeEnableLifter  &&
+			elevator->GetLimitSwitchTracker() == elevator->MIN_LIMIT_SWITCH_NUMBER)
 	{
 		lifter->EnableLifterSubsystem();
+		elevator->SetIsLifterSubsystemEnabled(lifter->IsReadyToEjectCore());
 	}
 
 	if(EnableElevator)
 	{
-		elevator->HoldElevator();
+		//lumberJack->eLog(std::to_string(Robot::elevator->GetLimitSwitchTracker()));
 		elevator->UpdateLimitSwitchTracker();
+		if(Robot::elevator->GetInputControlMode() == false && !Robot::elevator->IsElevatorAtDesiredSetpoint(Robot::oi->GetDesiredElevatorSetpoint()))
+		{
+			Robot::elevator->GoToSetPoint(Robot::oi->GetDesiredElevatorSetpoint());
+		}
+		elevator->HoldElevator();
 	}
 	frc::Scheduler::GetInstance()->Run();
 }
