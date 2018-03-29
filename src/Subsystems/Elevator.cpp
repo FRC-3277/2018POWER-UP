@@ -290,7 +290,7 @@ void Elevator::UpdateLimitSwitchTracker()
 	else if(LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed())
 	{
 		LimitSwitchTracker = MIN_LIMIT_SWITCH_NUMBER;
-		if(encoderHasBeenReset == false)
+		if(encoderHasBeenReset == false && fabs(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition()) != 0)
 		{
 			// Reset the encoder position as a precaution
 			LeftElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
@@ -355,7 +355,7 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 
 void Elevator::GoToSetPosition(int DesiredPosition)
 {
-	double CurrentElevatorPosition = LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition();
+	double CurrentElevatorPosition = fabs(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition());
 	if(++PrintFrequencyCount > PrintEveryFrequency)
 	{
 		PrintFrequencyCount = 0;
