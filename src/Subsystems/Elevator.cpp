@@ -363,22 +363,22 @@ void Elevator::GoToSetPosition(int DesiredPosition)
 		lumberJack->iLog(std::string("DesiredPosition: ") + std::string(std::to_string(DesiredPosition)));
 	}
 
-	if(CurrentElevatorPosition + 100 >= DesiredPosition && 
-		CurrentElevatorPosition - 100 <= DesiredPosition &&
+	if(CurrentElevatorPosition + 200 >= DesiredPosition &&
+		CurrentElevatorPosition - 200 <= DesiredPosition &&
 		IsElevatorOnTheMove)
 	{
 		ElevatorRunHalfSpeed = true;
 	}
 
-	if(CurrentElevatorPosition + 75 >= DesiredPosition &&
-		CurrentElevatorPosition - 75 <= DesiredPosition &&
+	if(CurrentElevatorPosition + 150 >= DesiredPosition &&
+		CurrentElevatorPosition - 150 <= DesiredPosition &&
 		IsElevatorOnTheMove)
 	{
 		ElevatorRunQuarterSpeed = true;
 	}
 
-	if((CurrentElevatorPosition + 50 >= DesiredPosition && 
-		CurrentElevatorPosition - 50 <= DesiredPosition) ||
+	if((CurrentElevatorPosition + 100 >= DesiredPosition &&
+		CurrentElevatorPosition - 100 <= DesiredPosition) ||
 		DesiredPosition == CurrentElevatorPosition)
 	{
 		if(IsElevatorOnTheMove)

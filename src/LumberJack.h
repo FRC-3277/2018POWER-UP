@@ -23,7 +23,7 @@ private:
 	el::Configurations defaultConf;
 
 	static const bool
-			isInfoLoggingEnabled = false,
+			isInfoLoggingEnabled = true,
 			isDebugLoggingEnabled = false,
 			isErrorLoggingEnabled = true,
 			isWarningLoggingEnabled = false,
