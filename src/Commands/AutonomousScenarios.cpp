@@ -45,14 +45,14 @@ void AutonomousScenarios::Execute()
 
 	//Do or Do not
 	std::string DoAuto = SmartDashboard::GetString("DB/String 3", "");
-	DebugLog("D0.5|t500;T-0.3|t0.5;D0.5|t200;ER;GS;S;");
+	DebugLog("D0.3|t500;T-0.3|t0.5;D0.3|t200;ER;GS;S;");
 
 	// TODO: Use the flag to enable/disable time/distance modes.
 
 	//Do or do not
 
 	// Change to (DoAuto.size() != 0) When auto gets fixed
-	if (DoAuto.size() == 0)
+	if (DoAuto.size() != 0)
 	{
 		switch(LocationOfRobot[0])
 		{
@@ -67,16 +67,16 @@ void AutonomousScenarios::Execute()
 						DebugLog(GameData);
 						//LR
 						// R2 for Scale
-						// Distance: D0.50|d24;E4;GS;D-0.50|d7;T-0.3|d-90.0;D0.50|d1.5;S;
-						DebugLog("D0.50|t1100;E4;GS;D-0.50|t700;T-0.3|t500;D0.50|t100.5;S;");
-						listOfCommands = Split("D0.50|t1100;E4;GS;D-0.50|t700;T-0.3|t500;D0.50|t100.5;S;", ';');
+						// Distance: D0.30|d24;E4;GS;D-0.30|d7;T-0.3|d-90.0;D0.30|d1.5;S;
+						DebugLog("D0.30|t1100;E4;GS;D-0.30|t700;T-0.3|t1600;D0.30|t100.5;S;");
+						listOfCommands = Split("D0.30|t7584;E4;GS;D-0.30|t2212;T-0.3|t1600;D0.30|t474;S;", ';');
 					}
 					if(GameData.compare(0, 2, "LL") == 0)
 					{
 						//Decide depending on team
 						// R4 for Scale
-						// Distance: D0.5|d19.5;T-0.3|d-90;D0.5|d15;T0.3|d90;T-0.3|t-90;D0.5|d4;ER;GS;D-0.5|d-6.5;S;
-						 listOfCommands = Split("D0.5|t900;T-0.3|t500;D0.5|t700;T0.3|t90;T-0.3|t500;D0.5|t300;ER;GS;D-0.5|t400;S;", ';');
+						// Distance: D0.3|d19.5;T-0.3|d-90;D0.3|d15;T0.3|d90;T-0.3|t-90;D0.3|d4;ER;GS;D-0.3|d-6.5;S;
+						 listOfCommands = Split("D0.3|t6004;T-0.3|t1600;D0.3|t4740;T0.3|t1600;T-0.3|t1600;D0.3|t1264;ER;GS;D-0.3|t2054;S;", ';');
 					}
 				}
 				else
@@ -89,19 +89,19 @@ void AutonomousScenarios::Execute()
 
 						// RR or RL
 						// R1 for Switch
-						// Distance: D0.5|d11;T-0.3|d-90;D0.5|d4.5;ER;GS;S;
-						DebugLog("D0.25|t3000;");//T-0.3|t1000;D-0.5|1000;ER;GS;S;");
+						// Distance: D0.3|d11;T-0.3|d-90;D0.3|d4.5;ER;GS;S;
+						DebugLog("D0.25|t3000;");//T-0.3|t1000;D-0.3|1000;ER;GS;S;");
 						//TODO: Fix this... butchered for testing
-						listOfCommands = Split("D0.25|t2000;D0.0|t2000;T-0.3|t1500;D0.25|t2000", ';');//T-0.3|t0.5;D-0.5|t300;ER;GS;S;", ';');
+						listOfCommands = Split("D0.3|t3476;T-0.3|t1600;D0.3|t1422;ER;GS;S;", ';');
 					}
 					if(GameData.compare(0, 2, "LL") == 0)
 					{
 						DebugLog(GameData);
 						//LL
 						// R3 for Switch
-						// Distance: D0.5|d19.5;T-0.3|d-90;D0.5|d15;T0.3|d90;T-0.3|d-90;D0.5|d1;T0.3|d90;D-0.5|d-4;ER;GS;S;
-						DebugLog("D0.5|t800;T-0.3|t-90;D0.5|t600;T0.3|t90;T-0.3|t500;D0.5|d1;T0.3|t500;D-0.5|t200;ER;GS;S;");
-						listOfCommands = Split("D0.5|t800;T-0.3|t-90;D0.5|t600;T0.3|t90;T-0.3|t500;D0.5|d1;T0.3|t500;D-0.5|t200;ER;GS;S;", ';');
+						// Distance: D0.3|d19.5;T-0.3|d-90;D0.3|d15;T0.3|d90;T-0.3|d-90;D0.3|d1;T0.3|d90;D-0.3|d-4;ER;GS;S;
+						DebugLog("D0.3|t800;T-0.3|t-90;D0.3|t600;T0.3|t90;T-0.3|t500;D0.3|d1;T0.3|t500;D-0.3|t200;ER;GS;S;");
+						listOfCommands = Split("D0.3|t6162;T-0.3|t1600;D0.3|t4740;T0.3|t1600;T-0.3|t1600;D0.3|t316;T0.3|t1600;D-0.3|t1264;ER;GS;S;", ';');
 					}
 				}
 				break;
@@ -116,16 +116,16 @@ void AutonomousScenarios::Execute()
 						DebugLog(GameData);
 						//RL
 						// L2 for Scale
-						// Distance: D0.5|d24;ER;GS;D-0.5|d-8;T0.3|d90;D0.5|d1;S;
-						DebugLog("D0.5|t900;ER;GS;D-0.5|t600;T0.3|t500;D0.5|t0.3;S;");
-						listOfCommands = Split("D0.5|t900;ER;GS;D-0.5|t600;T0.3|t500;D0.5|t0.3;S;", ';');
+						// Distance: D0.3|d24;ER;GS;D-0.3|d-8;T0.3|d90;D0.3|d1;S;
+						DebugLog("D0.3|t900;ER;GS;D-0.3|t600;T0.3|t500;D0.3|t0.3;S;");
+						listOfCommands = Split("D0.3|t7584;ER;GS;D-0.3|t2528;T0.3|t1600;D0.3|t316;S;", ';');
 					}
 					else
 					{
 					// TODO: Do this
 					// L4 for Scale
-					listOfCommands = Split("D0.5|t800;T0.3|t1500;D0.5|d15;T-0.3|t1500;T0.3|t1500;D0.5;D0.5|t1500;ER;GS;D-0.5|t300;S;", ';');
-					// Distance: D0.5|d19.5;T0.3|d90;D0.5|d15;T-0.3|d-90;T0.3|d90;D0.5;D0.5|d4;ER;GS;D-0.5|6.5;S;
+					listOfCommands = Split("D0.3|t6162;T0.3|t1600;D0.3|t4740;T-0.3|t1600;T0.3|t1500;D0.3|t1264;ER;GS;D-0.3|t2054;S;", ';');
+					// Distance: D0.3|d19.5;T0.3|d90;D0.3|d15;T-0.3|d-90;T0.3|d90;D0.3;D0.3|d4;ER;GS;D-0.3|6.5;S;
 					}
 				}
 				else
@@ -134,18 +134,18 @@ void AutonomousScenarios::Execute()
 					{
 						//LL or LR
 						// L1 for Switch
-						// Distance: D0.5|d11;ER;GS;T0.3|d90;D0.5|d3.5;S;
-						DebugLog("D0.5|t400;ER;GS;T0.3|t500;D0.5|t250;S;");
-						listOfCommands = Split("D0.5|t400;ER;GS;T0.3|t500;D0.5|t250;S;", ';');
+						// Distance: D0.3|d11;ER;GS;T0.3|d90;D0.3|d3.5;S;
+						DebugLog("D0.3|t400;ER;GS;T0.3|t500;D0.3|t250;S;");
+						listOfCommands = Split("D0.3|t3476;ER;GS;T0.3|t1600;D0.3|t1106;S;", ';');
 					}
 					else if(GameData.compare(0, 2, "RR") == 0)
 					{
 						DebugLog(GameData);
 						//RR
 						// L3 for Switch
-						// Distance: D0.5|19.5;T0.3|d90;D0.5|d15;T-0.3|d-90;T0.3|d90;D0.5|d1;T-0.3|d-90;D-0.5|d-4;ER;GS;S;
-						DebugLog("D0.5|t900;T0.3|t500;D0.5|t800;T-0.3|t500;T0.3|t500;D0.5|t0.300;T-0.3|t500;D-0.5|t200;ER;GS;S;");
-						listOfCommands = Split("D0.5|t900;T0.3|t500;D0.5|t800;T-0.3|t500;T0.3|t500;D0.5|t0.300;T-0.3|t500;D-0.5|t200;ER;GS;S;", ';');
+						// Distance: D0.3|19.5;T0.3|d90;D0.3|d15;T-0.3|d-90;T0.3|d90;D0.3|d1;T-0.3|d-90;D-0.3|d-4;ER;GS;S;
+						DebugLog("D0.3|t900;T0.3|t500;D0.3|t800;T-0.3|t500;T0.3|t500;D0.3|t0.300;T-0.3|t500;D-0.3|t200;ER;GS;S;");
+						listOfCommands = Split("D0.3|t6162;T0.3|t1600;D0.3|t4740;T-0.3|t1600;T0.3|t1600;D0.3|t316;T-0.3|t1600;D-0.3|t1264;ER;GS;S;", ';');
 					}
 				}
 				break;
@@ -160,9 +160,9 @@ void AutonomousScenarios::Execute()
 						DebugLog(GameData);
 						//LR Or LL
 						// M2 for Scale
-						// Distance: D0.5|d6;T-0.3|d-90;D0.5|d7;T0.3|d90;D0.5;d6.5;ER;GS;T-0.3|d-90;D0.5|d2;S;
-						DebugLog("D0.5|t300;T-0.3|t500;D0.5|t400;T0.3|500;D0.5;t350;ER;GS;T-0.3|t500;D0.5|t100;S;");
-						listOfCommands = Split("D0.5|t300;T-0.3|t500;D0.5|t400;T0.3|500;D0.5;t350;ER;GS;T-0.3|t500;D0.5|t100;S;", ';');
+						// Distance: D0.3|d6;T-0.3|d-90;D0.3|d7;T0.3|d90;D0.3;d6.5;ER;GS;T-0.3|d-90;D0.3|d2;S;
+						DebugLog("D0.3|t300;T-0.3|t500;D0.3|t400;T0.3|500;D0.3;t350;ER;GS;T-0.3|t500;D0.3|t100;S;");
+						listOfCommands = Split("D0.3|t1896;T-0.3|t1600;D0.3|t2212;T0.3|1600;D0.3;t2054;ER;GS;T-0.3|t1600;D0.3|t632;S;", ';');
 					}
 				}
 				else
@@ -172,9 +172,9 @@ void AutonomousScenarios::Execute()
 						DebugLog(GameData);
 						// RL Or RR
 						// M1 for Switch
-						// Distance: D0.5|d11;ER;GS;S;
+						// Distance: D0.3|d11;ER;GS;S;
 						DebugLog("D0.3|t800;ER;GS;S;");
-						listOfCommands = Split("D0.5|t3000;ER;GS;S;", ';');
+						listOfCommands = Split("D0.3|t3476;ER;GS;S;", ';');
 					}
 				}
 				break;
@@ -183,12 +183,8 @@ void AutonomousScenarios::Execute()
 	}
 	else
 	{
-		listOfCommands = Split("GS;", ';');
+		listOfCommands = Split("D0.3|t1896;", ';');
 	}
-
-	// TODO: Remove this once auton is tweaked.  It will break the line, but snuff out all other commands
-	//listOfCommands = Split("D0.3|t4000;", ';');
-	listOfCommands = Split("GS;", ';');
 
 	for (auto eachCommand : listOfCommands)
 	{
