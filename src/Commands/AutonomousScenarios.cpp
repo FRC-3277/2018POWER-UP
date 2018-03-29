@@ -52,7 +52,7 @@ void AutonomousScenarios::Execute()
 	//Do or do not
 
 	// Change to (DoAuto.size() != 0) When auto gets fixed
-	if (DoAuto.size() == 0)
+	if (DoAuto.size() != 0)
 	{
 		switch(LocationOfRobot[0])
 		{
@@ -183,12 +183,8 @@ void AutonomousScenarios::Execute()
 	}
 	else
 	{
-		listOfCommands = Split("GS;", ';');
+		listOfCommands = Split("D0.3|t1896;", ';');
 	}
-
-	// TODO: Remove this once auton is tweaked.  It will break the line, but snuff out all other commands
-	//listOfCommands = Split("D0.3|t4000;", ';');
-	listOfCommands = Split("GS;", ';');
 
 	for (auto eachCommand : listOfCommands)
 	{
