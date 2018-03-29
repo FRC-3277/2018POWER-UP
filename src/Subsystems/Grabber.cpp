@@ -29,20 +29,11 @@ Grabber::Grabber() : frc::Subsystem("Grabber") {
 	//Limit Switch
 	try
 	{
-		InjectionStopLimitSwitch.reset(new DigitalInput(BLOCK_INJECTION_STOP_LIMIT_SWITCH_ID));
+		GrabberLimitSwitch.reset(new DigitalInput(BLOCK_INJECTION_STOP_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
 		lumberJack->eLog(std::string("InjectionStopLimitSwitch.reset() failed; ") + std::string(e.what()));
-	}
-
-	try
-	{
-		EjectionStopLimitSwitch.reset(new DigitalInput(BLOCK_EJECTION_STOP_LIMIT_SWITCH_ID));
-	}
-	catch(const std::exception& e)
-	{
-		lumberJack->eLog(std::string("EjectionStopLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
 	try
@@ -111,4 +102,9 @@ void Grabber::SetAutonTimerStart()
 double Grabber::GetAutonTimerCurrent()
 {
 	return AutonTimekeeper->GetElapsedTimeMilli();
+}
+
+bool Grabber::GetGrabberLimitSwitch()
+{
+	return !GrabberLimitSwitch->Get();
 }

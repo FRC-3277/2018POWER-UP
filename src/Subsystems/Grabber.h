@@ -22,8 +22,7 @@ private:
 
 
 	//Limit Switches
-	std::shared_ptr<DigitalInput> InjectionStopLimitSwitch;
-	std::shared_ptr<DigitalInput> EjectionStopLimitSwitch;
+	std::shared_ptr<DigitalInput> GrabberLimitSwitch;
 	std::shared_ptr<DigitalInput> TiltUpStopLimitSwitch;
 	std::shared_ptr<DigitalInput> TiltDownStopLimitSwitch;
 
@@ -46,6 +45,7 @@ public:
 	void SetGrabberSpitSpeed(double GrabberMotorSpeed);
 	void SetAutonTimerStart();
 	double GetAutonTimerCurrent();
+	bool GetGrabberLimitSwitch();
 
 };
 
