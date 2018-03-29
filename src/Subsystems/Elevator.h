@@ -44,7 +44,7 @@ private:
 	bool ElevatorRunQuarterSpeed = false;
 
 	/* pick this so self-test stops reporting sensor-out-of-phase */
-	static constexpr bool kSensorPhase = true;
+	static constexpr bool kSensorPhase = false;
 	static constexpr int kPIDLoopIdx = 0;
 	static constexpr int kTimeoutMs = 10;
 	static constexpr int kNoTimeoutMs = 0;
