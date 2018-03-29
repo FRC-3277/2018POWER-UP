@@ -36,7 +36,6 @@ static constexpr int ELEVATOR_EJECT_CORE_LIMIT_SWITCH_ID = 6;
 static constexpr int GRABBER_LEFT_MOTOR_CAN_ID = 20;
 static constexpr int GRABBER_RIGHT_MOTOR_CAN_ID = 21;
 static constexpr int BLOCK_INJECTION_STOP_LIMIT_SWITCH_ID = 0;
-static constexpr int BLOCK_EJECTION_STOP_LIMIT_SWITCH_ID = 1;
 static constexpr int BLOCK_TILT_UP_STOP_LIMIT_SWITCH_ID = 2;
 static constexpr int BLOCK_TILT_DOWN_STOP_LIMIT_SWITCH_ID = 3;
 
