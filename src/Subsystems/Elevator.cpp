@@ -189,6 +189,11 @@ void Elevator::RaiseElevator()
 		speed = speed/2;
 	}
 
+	if(ElevatorRunQuarterSpeed)
+	{
+		speed = speed/4;
+	}
+
 	LeftElevatorTalon->Set(speed);
 	//DebugLog(std::string("RaiseElevator: ") + std::string(std::to_string(speed)), 30);
 	//RightElevatorTalon->Set(-speed);
@@ -258,6 +263,11 @@ void Elevator::LowerElevator()
 	if(ElevatorRunHalfSpeed)
 	{
 		speed = speed/2;
+	}
+
+	if(ElevatorRunHalfSpeed)
+	{
+		speed = speed/4;
 	}
 
 	LeftElevatorTalon->Set(-speed);
@@ -357,6 +367,13 @@ void Elevator::GoToSetPosition(int DesiredPosition)
 		ElevatorRunHalfSpeed = true;
 	}
 
+	if(CurrentElevatorPosition + 75 >= DesiredPosition &&
+		CurrentElevatorPosition - 75 <= DesiredPosition &&
+		IsElevatorOnTheMove)
+	{
+		ElevatorRunQuarterSpeed = true;
+	}
+
 	if((CurrentElevatorPosition + 50 >= DesiredPosition && 
 		CurrentElevatorPosition - 50 <= DesiredPosition) ||
 		DesiredPosition == CurrentElevatorPosition)
@@ -403,6 +420,7 @@ void Elevator::StopElevator()
 	// reset
 	TimeBasedSpeed = ElevatorTravelSpeed;
 	ElevatorRunHalfSpeed = false;
+	ElevatorRunQuarterSpeed = false;
 }
 
 void Elevator::UpdateSoftSpeedChangeArray(const double Multiplier)

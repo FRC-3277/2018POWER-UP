@@ -41,6 +41,7 @@ private:
 	bool HasElevatorDirectionChanged = false;
 	// Run the elevator at half the prescribed speed
 	bool ElevatorRunHalfSpeed = false;
+	bool ElevatorRunQuarterSpeed = false;
 
 	/* pick this so self-test stops reporting sensor-out-of-phase */
 	static constexpr bool kSensorPhase = true;
