@@ -290,7 +290,7 @@ void Elevator::UpdateLimitSwitchTracker()
 	else if(LeftElevatorTalon->GetSensorCollection().IsRevLimitSwitchClosed())
 	{
 		LimitSwitchTracker = MIN_LIMIT_SWITCH_NUMBER;
-		if(encoderHasBeenReset == false && fabs(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition()) != 0)
+		if(fabs(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition()) != 0)
 		{
 			// Reset the encoder position as a precaution
 			LeftElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);

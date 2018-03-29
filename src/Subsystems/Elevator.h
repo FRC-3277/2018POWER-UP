@@ -50,8 +50,6 @@ private:
 	static constexpr int kNoTimeoutMs = 0;
 	static constexpr double kRampSecondsFromNeutralToFull = 1.0;
 	static constexpr double kMaxElevatorSpeed = 0.99;
-	// prevent encoder reset more than once
-	bool encoderHasBeenReset = false;
 
 	// From the datasheet
 	static constexpr int kCyclesPerRevolution = 64;
