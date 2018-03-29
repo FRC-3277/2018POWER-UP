@@ -47,6 +47,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	/* choose quadrature which has a faster update rate */
 	LeftElevatorTalon->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, kTimeoutMs);
+	LeftElevatorTalon->SetStatusFramePeriod(StatusFrame::Status_1_General_, 10, 10);
 	LeftElevatorTalon->SetStatusFramePeriod(StatusFrameEnhanced::Status_3_Quadrature, 10, kTimeoutMs);
 
 	/*
