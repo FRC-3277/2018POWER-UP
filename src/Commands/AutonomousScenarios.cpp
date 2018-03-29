@@ -183,7 +183,8 @@ void AutonomousScenarios::Execute()
 	}
 	else
 	{
-		listOfCommands = Split("D0.3|t3160;", ';');
+		listOfCommands = Split("GS;", ';');
+		//listOfCommands = Split("D0.3|t3160;", ';');
 	}
 
 	for (auto eachCommand : listOfCommands)
