@@ -386,7 +386,7 @@ void Elevator::GoToSetPosition(int DesiredPosition)
 			StopElevator();
 		}
 
-		//HoldElevator();
+		HoldElevator();
 	}
 	else if(DesiredPosition > CurrentElevatorPosition)
 	{
