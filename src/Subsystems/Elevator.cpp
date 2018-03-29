@@ -47,14 +47,19 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 	/* choose quadrature which has a faster update rate */
 	LeftElevatorTalon->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, kTimeoutMs);
-	LeftElevatorTalon->SetStatusFramePeriod(StatusFrame::Status_1_General_, 10, 10);
+	LeftElevatorTalon->SetStatusFramePeriod(StatusFrame::Status_1_General_, 10, kTimeoutMs);
 	LeftElevatorTalon->SetStatusFramePeriod(StatusFrameEnhanced::Status_3_Quadrature, 10, kTimeoutMs);
 
+	LeftElevatorTalon->Config_kP(kPIDLoopIdx, kP, kTimeoutMs);
+	LeftElevatorTalon->Config_kI(kPIDLoopIdx, kI, kTimeoutMs);
+	LeftElevatorTalon->Config_kD(kPIDLoopIdx, kD, kTimeoutMs);
+	LeftElevatorTalon->Config_kF(kPIDLoopIdx, kF, kTimeoutMs);
+
 	/*
-	LeftElevatorTalon->Config_kP(0, 0.0001, kTimeoutMs);
-	LeftElevatorTalon->Config_kI(0, 0.001, kTimeoutMs);
-	LeftElevatorTalon->Config_kD(0, 1.0, kTimeoutMs);
-	LeftElevatorTalon->Config_kF(0, 0.0, kTimeoutMs);
+	SmartDashboard::PutString("DB/String 5", "0.1");
+	SmartDashboard::PutString("DB/String 6", "0.0");
+	SmartDashboard::PutString("DB/String 7", "0.0");
+	SmartDashboard::PutString("DB/String 8", "0.0");
 	*/
 
 	/* Talon will send new frame every 5ms */
@@ -62,8 +67,8 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 	LeftElevatorTalon->SetSensorPhase(kSensorPhase);
 
 	/* Talon is configured to ramp and followers are configured to 0*/
-	LeftElevatorTalon->ConfigClosedloopRamp(kRampSecondsFromNeutralToFull, kNoTimeoutMs);
-	LeftElevatorTalon->ConfigOpenloopRamp(kRampSecondsFromNeutralToFull, kNoTimeoutMs);
+	//LeftElevatorTalon->ConfigClosedloopRamp(kRampSecondsFromNeutralToFull, kNoTimeoutMs);
+	//LeftElevatorTalon->ConfigOpenloopRamp(kRampSecondsFromNeutralToFull, kNoTimeoutMs);
 	/* no need since master ramps */
 	//RightElevatorTalon->ConfigOpenloopRamp(0, kNoTimeoutMs);
 
@@ -298,12 +303,6 @@ void Elevator::UpdateLimitSwitchTracker()
 			//RightElevatorTalon->GetSensorCollection().SetQuadraturePosition(0, kTimeoutMs);
 			//RightElevatorTalon->GetSensorCollection().SetPulseWidthPosition(0, kTimeoutMs);
 		}
-
-		encoderHasBeenReset = true;
-	}
-	else if (encoderHasBeenReset)
-	{
-		encoderHasBeenReset = false;
 	}
 }
 
@@ -355,6 +354,7 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 
 void Elevator::GoToSetPosition(int DesiredPosition)
 {
+	/*
 	double CurrentElevatorPosition = fabs(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition());
 	if(++PrintFrequencyCount > PrintEveryFrequency)
 	{
@@ -391,11 +391,16 @@ void Elevator::GoToSetPosition(int DesiredPosition)
 	else if(DesiredPosition > CurrentElevatorPosition)
 	{
 		RaiseElevator();
+		lumberJack->iLog(std::string("LeftElevatorTalon->Get(): ") + std::to_string(LeftElevatorTalon->Get()));
 	}
 	else if(DesiredPosition < CurrentElevatorPosition)
 	{
 		LowerElevator();
 	}
+	*/
+	lumberJack->iLog(std::string("DesiredPosition: ") + std::string(std::to_string(DesiredPosition)));
+
+	LeftElevatorTalon->Set(ControlMode::Position, DesiredPosition);
 }
 
 void Elevator::StopElevator()

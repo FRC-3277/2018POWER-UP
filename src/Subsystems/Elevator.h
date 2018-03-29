@@ -45,11 +45,17 @@ private:
 
 	/* pick this so self-test stops reporting sensor-out-of-phase */
 	static constexpr bool kSensorPhase = false;
+	static constexpr int kSlotIdx = 0;
 	static constexpr int kPIDLoopIdx = 0;
 	static constexpr int kTimeoutMs = 10;
 	static constexpr int kNoTimeoutMs = 0;
 	static constexpr double kRampSecondsFromNeutralToFull = 1.0;
 	static constexpr double kMaxElevatorSpeed = 0.99;
+
+	double kP = 0.1;
+	double kI = 0.0;
+	double kD = 0.0;
+	double kF = 0.0;
 
 	// From the datasheet
 	static constexpr int kCyclesPerRevolution = 64;
