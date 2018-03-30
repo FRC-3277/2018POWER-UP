@@ -239,7 +239,7 @@ void Elevator::LowerElevator()
 		speed = speed/2;
 	}
 
-	if(ElevatorRunHalfSpeed)
+	if(ElevatorRunQuarterSpeed)
 	{
 		speed = speed/4;
 	}
@@ -549,26 +549,26 @@ double Elevator::GetCurrentElevatorPosition()
 	return fabs(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition());
 }
 
-double Elevator::IsElevatorAtDesiredPosition(int DesiredPosition)
+bool Elevator::IsElevatorAtDesiredPosition(int DesiredPosition)
 {
 	int CurrentElevatorPosition = GetCurrentElevatorPosition();
 	bool IsElevatorAtDesiredPosition = false;
-	if(CurrentElevatorPosition + 200 >= DesiredPosition &&
-		CurrentElevatorPosition - 200 <= DesiredPosition &&
+	if(CurrentElevatorPosition + 500 >= DesiredPosition &&
+		CurrentElevatorPosition - 500 <= DesiredPosition &&
 		IsElevatorOnTheMove)
 	{
 		ElevatorRunHalfSpeed = true;
 	}
 
-	if(CurrentElevatorPosition + 150 >= DesiredPosition &&
-		CurrentElevatorPosition - 150 <= DesiredPosition &&
+	if(CurrentElevatorPosition + 200 >= DesiredPosition &&
+		CurrentElevatorPosition - 200 <= DesiredPosition &&
 		IsElevatorOnTheMove)
 	{
 		ElevatorRunQuarterSpeed = true;
 	}
 
-	if((CurrentElevatorPosition + 100 >= DesiredPosition &&
-		CurrentElevatorPosition - 100 <= DesiredPosition) ||
+	if((CurrentElevatorPosition + 75 >= DesiredPosition &&
+		CurrentElevatorPosition - 75 <= DesiredPosition) ||
 		DesiredPosition == CurrentElevatorPosition)
 	{
 		IsElevatorAtDesiredPosition = true;

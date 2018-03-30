@@ -127,7 +127,7 @@ public:
 	void SetAutonTimerStart();
 	double GetAutonTimerCurrent();
 	double GetCurrentElevatorPosition();
-	double IsElevatorAtDesiredPosition(int DesiredPosition);
+	bool IsElevatorAtDesiredPosition(int DesiredPosition);
 	bool IsElevatorMoving();
 };
 
