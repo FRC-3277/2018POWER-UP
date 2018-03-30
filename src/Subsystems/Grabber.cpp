@@ -25,43 +25,16 @@ Grabber::Grabber() : frc::Subsystem("Grabber") {
 		lumberJack->eLog(std::string("GrabberRightMotor.reset() failed; ") + std::string(e.what()));
 	}
 
-
 	//Limit Switch
 	try
 	{
-		InjectionStopLimitSwitch.reset(new DigitalInput(BLOCK_INJECTION_STOP_LIMIT_SWITCH_ID));
+		GrabberCubeOnboardLimitSwitch.reset(new DigitalInput(GRABBER_CUBE_ONBOARD_LIMIT_SWITCH_ID));
 	}
 	catch(const std::exception& e)
 	{
-		lumberJack->eLog(std::string("InjectionStopLimitSwitch.reset() failed; ") + std::string(e.what()));
+		lumberJack->eLog(std::string("GrabberCubeOnboardLimitSwitch.reset() failed; ") + std::string(e.what()));
 	}
 
-	try
-	{
-		EjectionStopLimitSwitch.reset(new DigitalInput(BLOCK_EJECTION_STOP_LIMIT_SWITCH_ID));
-	}
-	catch(const std::exception& e)
-	{
-		lumberJack->eLog(std::string("EjectionStopLimitSwitch.reset() failed; ") + std::string(e.what()));
-	}
-
-	try
-	{
-		TiltUpStopLimitSwitch.reset(new DigitalInput(BLOCK_TILT_UP_STOP_LIMIT_SWITCH_ID));
-	}
-	catch(const std::exception& e)
-	{
-		lumberJack->eLog(std::string("TiltUpStopLimitSwitch.reset() failed; ") + std::string(e.what()));
-	}
-
-	try
-	{
-		TiltDownStopLimitSwitch.reset(new DigitalInput(BLOCK_TILT_DOWN_STOP_LIMIT_SWITCH_ID));
-	}
-	catch(const std::exception& e)
-	{
-		lumberJack->eLog(std::string("TiltDownStopLimitSwitch.reset() failed; ") + std::string(e.what()));
-	}
 
 	// Set every Talon to reset the motor safety timeout.
 	GrabberLeftMotor->Set(ControlMode::PercentOutput, 0);
