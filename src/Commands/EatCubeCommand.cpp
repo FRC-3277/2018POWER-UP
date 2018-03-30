@@ -26,12 +26,12 @@ bool EatCubeCommand::IsFinished()
 // Called once after isFinished returns true
 void EatCubeCommand::End() {
 	//Robot::grabber->EndEatCommand = false;
-	Robot::grabber->GrabberEatStop();
+	Robot::grabber->GrabberStop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void EatCubeCommand::Interrupted() {
 	//Robot::grabber->EndEatCommand = false;
-	Robot::grabber->GrabberEatStop();
+	Robot::grabber->GrabberStop();
 }

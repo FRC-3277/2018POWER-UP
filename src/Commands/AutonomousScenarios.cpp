@@ -157,7 +157,6 @@ void AutonomousScenarios::Execute()
 				{
 					if(GameData.compare(0, 2, "LR") == 0 || GameData.compare(0, 2, "LL") == 0)
 					{
-						DebugLog(GameData);
 						//LR Or LL
 						// M2 for Scale
 						// Distance: D0.3|d6;T-0.3|d-90;D0.3|d7;T0.3|d90;D0.3;d6.5;ER;GS;T-0.3|d-90;D0.3|d2;S;
@@ -169,12 +168,10 @@ void AutonomousScenarios::Execute()
 				{
 					if(GameData.compare(0, 2, "RL") == 0 || GameData.compare(0, 2, "RR") == 0)
 					{
-						DebugLog(GameData);
 						// RL Or RR
 						// M1 for Switch
 						// Distance: D0.3|d11;ER;GS;S;
-						DebugLog("D0.3|t800;ER;GS;S;");
-						listOfCommands = Split("D0.3|t3476;ER;GS;S;", ';');
+						listOfCommands = Split("D0.3|t3600;ER;GS;S;", ';');
 					}
 				}
 				break;
@@ -210,7 +207,6 @@ void AutonomousScenarios::Execute()
 
 	// Once all the commands are issued then its time to report completed
 	AllDoneWithAutonomousCommands = true;
-	DebugLog("AutonomousScenarios Completed");
 }
 
 bool AutonomousScenarios::IsFinished()
@@ -336,7 +332,9 @@ void AutonomousScenarios::ParseElevatorBasedCommands(const std::string& CommandT
 			DesiredSetpoint = std::stoi(CommandToParse.substr(1, CommandToParse.size() - 1));
 		}
 
-    	AutonomousElevatorToSetpointCommand GoElevator { DesiredSetpoint };
+    	std::shared_ptr<AutonomousElevatorToSetpointCommand> autonomousElevatorToSetpointCommand;
+		autonomousElevatorToSetpointCommand.reset(new AutonomousElevatorToSetpointCommand(DesiredSetpoint));
+		autonomousElevatorToSetpointCommand->Execute();
     }
 }
 
@@ -348,14 +346,16 @@ void AutonomousScenarios::ParseGrabberBasedCommands(const std::string& CommandTo
    {
 		if(CommandToParse[1] == 'E')
 		{
-			DebugLog("Grabber Eat\n");
-			AutonomousEatCubeCommand();
+			std::shared_ptr<AutonomousEatCubeCommand> autonomousEatCubeCommand;
+			autonomousEatCubeCommand.reset(new AutonomousEatCubeCommand());
+			autonomousEatCubeCommand->Execute();
 		}
 		else if(CommandToParse[1] == 'S')
 		{
-			DebugLog("Grabber Spit\n");
-			printf("AutonomousSpitCubeCommand\n");
-			AutonomousSpitCubeCommand();
+			std::shared_ptr<AutonomousSpitCubeCommand> autonomousSpitCubeCommand;
+			autonomousSpitCubeCommand.reset(new AutonomousSpitCubeCommand());
+			autonomousSpitCubeCommand->Initialize();
+			autonomousSpitCubeCommand->Execute();
 		}
    }
 }
