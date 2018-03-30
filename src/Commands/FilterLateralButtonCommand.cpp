@@ -5,11 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "FilterLateralButtonCommand.h"
+#include "Commands/FilterLateralButtonCommand.h"
 
-FilterLateralButtonCommand::FilterLateralButtonCommand() {
-	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(Robot::chassis.get());
+FilterLateralButtonCommand::FilterLateralButtonCommand()
+{
+
 	lumberJack.reset(new LumberJack());
 }
 
@@ -21,6 +21,7 @@ void FilterLateralButtonCommand::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void FilterLateralButtonCommand::Execute() {
 	lumberJack->iLog("FilterLateralButton toggled");
+	//ignore Eclipse if this indicates an error in the IDE
 	Robot::driveTrain->FilterLateral();
 }
 
