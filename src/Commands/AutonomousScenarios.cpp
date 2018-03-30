@@ -349,14 +349,15 @@ void AutonomousScenarios::ParseGrabberBasedCommands(const std::string& CommandTo
    {
 		if(CommandToParse[1] == 'E')
 		{
-			DebugLog("Grabber Eat\n");
-			AutonomousEatCubeCommand();
+			std::shared_ptr<AutonomousEatCubeCommand> autonomousEatCubeCommand;
+			autonomousEatCubeCommand.reset(new AutonomousEatCubeCommand());
+			autonomousEatCubeCommand->Execute();
 		}
 		else if(CommandToParse[1] == 'S')
 		{
-			DebugLog("Grabber Spit\n");
-			printf("AutonomousSpitCubeCommand\n");
-			AutonomousSpitCubeCommand();
+			std::shared_ptr<AutonomousSpitCubeCommand> autonomousSpitCubeCommand;
+			autonomousSpitCubeCommand.reset(new AutonomousSpitCubeCommand());
+			autonomousSpitCubeCommand->Execute();
 		}
    }
 }

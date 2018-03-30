@@ -9,23 +9,23 @@
 
 AutonomousSpitCubeCommand::AutonomousSpitCubeCommand()
 {
-	printf("AutonomousSpitCubeCommand Here\n");
 	Requires(Robot::grabber.get());
 }
 
 // Called just before this Command runs the first time
 void AutonomousSpitCubeCommand::Initialize()
 {
-	printf("Initialize\n");
-	Robot::grabber->SetAutonTimerStart();
 	Robot::grabber->SetGrabberSpitSpeed(0.99);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void AutonomousSpitCubeCommand::Execute()
 {
-	printf("SpitCube\n");
-	Robot::grabber->SpitCube();
+	Robot::grabber->SetAutonTimerStart();
+	while(Robot::grabber->GetAutonTimerCurrent() <= AutonSpitTimeoutMilli)
+	{
+		Robot::grabber->SpitCube();
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -33,7 +33,7 @@ bool AutonomousSpitCubeCommand::IsFinished()
 {
 	printf("IsFinished\n");
 	//return Robot::grabber->GetAutonTimerCurrent() > AutonSpitTimeoutMilli;
-	return false;
+	return true;
 }
 
 // Called once after isFinished returns true
