@@ -57,17 +57,11 @@ void Grabber::EatCube()
 	GrabberRightMotor->Set(-DefaultGrabberMotorSpeed);
 }
 
-void Grabber::GrabberEatStop()
+void Grabber::GrabberStop()
 {
 	GrabberLeftMotor->Set(0.0);
 	GrabberRightMotor->Set(0.0);
 	EndEatCommand = false;
-}
-
-void Grabber::GrabberSpitStop()
-{
-	GrabberLeftMotor->Set(0.0);
-	GrabberRightMotor->Set(0.0);
 	EndSpitCommand = false;
 }
 
