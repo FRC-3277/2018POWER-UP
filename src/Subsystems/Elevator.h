@@ -52,10 +52,10 @@ private:
 	static constexpr double kRampSecondsFromNeutralToFull = 1.0;
 	static constexpr double kMaxElevatorSpeed = 0.99;
 
-	double kP = 0.1;
+	double kP = 6;
 	double kI = 0.0;
 	double kD = 0.0;
-	double kF = 0.0;
+	double kF = 0.0001;
 
 	// From the datasheet
 	static constexpr int kCyclesPerRevolution = 64;
