@@ -25,6 +25,7 @@ public:
 	void SetDrive(double lateral, double forwardBackward, double rotation);
 	void ToggleFinesseMode();
 	bool ToggleInvertDriverControls();
+	bool FilterLateral();
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;
@@ -38,6 +39,7 @@ private:
 
 	bool IsFinesseModeEnabled = false;
 	bool InvertDriverControls = false;
+	bool IsFilterLateral = false;
 
 	double MaxFinesseReduction = 0.5;
 	double CurrentFinesseReduction = 0.0;

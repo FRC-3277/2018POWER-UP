@@ -7,9 +7,15 @@
 
 #pragma once
 
+#include "LumberJack.h"
+
+#include "Robot.h"
 #include <Commands/Command.h>
 
 class FilterLateralButtonCommand : public frc::Command {
+private:
+	std::shared_ptr<LumberJack> lumberJack;
+
 public:
 	FilterLateralButtonCommand();
 	void Initialize() override;

@@ -124,6 +124,10 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	driveTrainDebugInfo += std::string("Rotation: ") + std::to_string(rotation);
 	DebugLog(driveTrainDebugInfo);
 
+	if(IsFilterLateral)
+	{
+		lateral = 0.0;
+	}
 
 	// Last modification before interacting with the drivetrain
 	if(InvertDriverControls)
@@ -172,6 +176,13 @@ bool DriveTrain::ToggleInvertDriverControls()
 	InvertDriverControls = !InvertDriverControls;
 	lumberJack->iLog(std::string("ToggleInvertDriverControls: ") + std::to_string(InvertDriverControls));
 	return InvertDriverControls;
+}
+
+bool DriveTrain::FilterLateral()
+{
+	IsFilterLateral = !IsFilterLateral;
+	lumberJack->iLog(std::string("FilterLateral: ") + std::to_string(IsFilterLateral));
+	return IsFilterLateral;
 }
 
 void DriveTrain::DebugLog(const std::string& msg)
