@@ -183,7 +183,7 @@ void AutonomousScenarios::Execute()
 	}
 	else
 	{
-		listOfCommands = Split("GS;", ';');
+		listOfCommands = Split("GE;", ';');
 		//listOfCommands = Split("D0.3|t3160;", ';');
 	}
 
