@@ -17,6 +17,11 @@ public:
 
 private:
 	std::shared_ptr<LumberJack> lumberJack;
+
+	int PrintFrequencyCount = 0;
+	static constexpr int PrintEveryFrequency = 20;
+	double PreviousDesiredPosition = 0.0;
+	bool IsElevatorHolding = false;
 };
 
 #endif  // ElevatorCommand_H

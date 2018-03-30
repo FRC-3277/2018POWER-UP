@@ -12,7 +12,26 @@ void GoToDesiredPositionCommand::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void GoToDesiredPositionCommand::Execute()
 {
-	Robot::elevator->GoToSetPosition(Robot::oi->GetDesiredElevatorPosition());
+	double DesiredPosition = Robot::oi->GetDesiredElevatorPosition();
+	if(DesiredPosition != PreviousDesiredPosition)
+	{
+		Robot::elevator->GoToSetPosition(DesiredPosition);
+		PreviousDesiredPosition = DesiredPosition;
+		IsElevatorHolding = false;
+	}
+	else if(Robot::elevator->IsElevatorAtDesiredPosition(DesiredPosition))
+	{
+		if(Robot::elevator->IsElevatorMoving())
+		{
+			Robot::elevator->StopElevator();
+			IsElevatorHolding = false;
+		}
+		else if(!IsElevatorHolding)
+		{
+			Robot::elevator->HoldElevator();
+			IsElevatorHolding = true;
+		}
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
