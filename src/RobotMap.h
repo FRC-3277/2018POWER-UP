@@ -25,7 +25,7 @@ static constexpr int REAR_RIGHT_MOTOR_CAN_ID = 5;
 static constexpr int ELEVATOR_MOTOR_LEFT_CAN_ID = 10;
 static constexpr int ELEVATOR_MOTOR_RIGHT_CAN_ID = 11;
 // Placed here because needed by OI
-static constexpr int ELEVATOR_MAX_ENCODER_POSITION = 2000;
+static constexpr int ELEVATOR_MAX_ENCODER_POSITION = 2948;
 
 // TODO: Get upper and lower from motor controller if possible
 static constexpr int ELEVATOR_DROP_END_EFFECTOR_SERVO_ID = 3;
@@ -51,13 +51,13 @@ static constexpr int LIFTER_RIGHT_EJECT_CORE_SERVO_ID = 1;
 static constexpr int CAMERA_CONTROL_SERVO_ID = 2;
 
 // Disable subsystems for debugging and testing
-static constexpr bool EnableDriveTrain = true;
+static constexpr bool EnableDriveTrain = false;
 static constexpr bool EnableElevator = true;
-static constexpr bool EnableGrabber = true;
+static constexpr bool EnableGrabber = false;
 static constexpr bool EnableLifter = true;
-static constexpr bool EnableCamera = true;
+static constexpr bool EnableCamera = false;
 
 // Enable subsystem or command area focused debug logging.  Requires debug logging severity enabled as well.
 static constexpr bool EnableAutonomousDebugLogging = false;
 static constexpr bool EnableDriveTrainDebugLogging = false;
-static constexpr bool ElevatorDebugLoggingEnabled = false;
+static constexpr bool ElevatorDebugLoggingEnabled = true;
