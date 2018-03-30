@@ -171,7 +171,7 @@ void Elevator::RaiseElevator()
 	{
 		double TimeElapsed = RampingTimeoutTimekeeper->GetElapsedTimeMilli();
 
-		if(TimeElapsed < TimeBasedRamping)
+		if(TimeElapsed < ElevatorMillisRamping)
 		{
 			TimeBasedSpeed += TimeBasedSpeedChangeIteratorRaise;
 			speed = TimeBasedSpeed; 
@@ -245,7 +245,7 @@ void Elevator::LowerElevator()
 	{
 		double TimeElapsed = RampingTimeoutTimekeeper->GetElapsedTimeMilli();
 
-		if(TimeElapsed < TimeBasedRamping)
+		if(TimeElapsed < ElevatorMillisRamping)
 		{
 			TimeBasedSpeed += TimeBasedSpeedChangeIteratorLower;
 			speed = TimeBasedSpeed; 
@@ -354,7 +354,6 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 
 void Elevator::GoToSetPosition(int DesiredPosition)
 {
-	/*
 	double CurrentElevatorPosition = fabs(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition());
 	if(++PrintFrequencyCount > PrintEveryFrequency)
 	{
@@ -397,10 +396,11 @@ void Elevator::GoToSetPosition(int DesiredPosition)
 	{
 		LowerElevator();
 	}
-	*/
+	/*
 	lumberJack->iLog(std::string("DesiredPosition: ") + std::string(std::to_string(DesiredPosition)));
 
 	LeftElevatorTalon->Set(ControlMode::Position, DesiredPosition);
+	*/
 }
 
 void Elevator::StopElevator()
