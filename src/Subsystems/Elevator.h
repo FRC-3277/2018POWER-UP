@@ -62,6 +62,8 @@ private:
 	// Ticks or units per rotation when read using "Encoder Position" or "Sensor Position"
 	static constexpr int kCountsPerRevolution = 64 * 4;
 
+	static constexpr int DropEndEffectorAngle = 180 - 25; //25 degrees when installed the other direction.
+
 	// Time period where if the opposite direction button is pressed will trigger elevator direction has changed
 	static constexpr int ElapsedMillisTriggerDirectionChange = 500;
 	// Grace period where the upper and lower zones are not speed ramp restricted
@@ -93,7 +95,7 @@ private:
 	static constexpr double ElevatorHoldSpeed = 0.15;
 
 	static constexpr double RaiseSpeedMultiplier = 4;
-	static constexpr double LowerSpeedMultiplier = 1.5;
+	static constexpr double LowerSpeedMultiplier = 2.1;
 
 	int PrintFrequencyCount = 0;
 	static constexpr int PrintEveryFrequency = 20;
