@@ -183,11 +183,7 @@ void Robot::AutonomousInit()
 void Robot::AutonomousPeriodic()
 {
 	gamestates->GetGameData();
-	if(EnableElevator)
-	{
-		elevator->HoldElevator();
-		elevator->UpdateLimitSwitchTracker();
-	}
+	
 	frc::Scheduler::GetInstance()->Run();
 }
 
