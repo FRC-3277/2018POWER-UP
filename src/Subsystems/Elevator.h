@@ -73,7 +73,7 @@ private:
 	static constexpr double ElevatorHoldSpeed = 0.15;
 
 	static constexpr double RaiseSpeedMultiplier = 4;
-	static constexpr double LowerSpeedMultiplier = 1.5;
+	static constexpr double LowerSpeedMultiplier = 2.1;
 
 	void UpdateSoftSpeedChangeArray(const double Multiplier);
 	double SoftSpeedChange();
