@@ -26,11 +26,14 @@ void AutonomousEatCubeCommand::Execute()
 	{
 		Robot::grabber->EatCube();
 	}
+	
+	Robot::grabber->GrabberStop();
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool AutonomousEatCubeCommand::IsFinished()
 {
+	Robot::grabber->GrabberStop();
 	return true;
 }
 
