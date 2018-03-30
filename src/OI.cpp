@@ -19,6 +19,7 @@
 #include "Commands/LifterRunWinchCommand.h"
 #include "Commands/PrepareLifterCoreForEjectCommand.h"
 #include "Commands/ToggleElevatorControlMode.h"
+#include "Commands/FilterLateralButtonCommand.h"
 
 namespace UDC = UserDefinedController;
 
