@@ -35,7 +35,7 @@ static constexpr int ELEVATOR_EJECT_CORE_LIMIT_SWITCH_ID = 6;
 // Grabber
 static constexpr int GRABBER_LEFT_MOTOR_CAN_ID = 20;
 static constexpr int GRABBER_RIGHT_MOTOR_CAN_ID = 21;
-static constexpr int GRABBER_CUBE_ONBOARD_LIMIT_SWITCH_ID = 5;
+static constexpr int GRABBER_CUBE_ONBOARD_LIMIT_SWITCH_ID = 0;
 
 // Lifter
 static constexpr int LIFTER_MOTOR_CAN_ID = 22;
