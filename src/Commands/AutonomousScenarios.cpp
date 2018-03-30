@@ -183,8 +183,7 @@ void AutonomousScenarios::Execute()
 	}
 	else
 	{
-		listOfCommands = Split("GE;", ';');
-		//listOfCommands = Split("D0.3|t3160;", ';');
+		listOfCommands = Split("D0.3|t3160;", ';');
 	}
 
 	for (auto eachCommand : listOfCommands)
@@ -211,7 +210,6 @@ void AutonomousScenarios::Execute()
 
 	// Once all the commands are issued then its time to report completed
 	AllDoneWithAutonomousCommands = true;
-	DebugLog("AutonomousScenarios Completed");
 }
 
 bool AutonomousScenarios::IsFinished()
