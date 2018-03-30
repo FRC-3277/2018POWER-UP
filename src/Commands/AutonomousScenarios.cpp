@@ -157,7 +157,6 @@ void AutonomousScenarios::Execute()
 				{
 					if(GameData.compare(0, 2, "LR") == 0 || GameData.compare(0, 2, "LL") == 0)
 					{
-						DebugLog(GameData);
 						//LR Or LL
 						// M2 for Scale
 						// Distance: D0.3|d6;T-0.3|d-90;D0.3|d7;T0.3|d90;D0.3;d6.5;ER;GS;T-0.3|d-90;D0.3|d2;S;
@@ -169,12 +168,10 @@ void AutonomousScenarios::Execute()
 				{
 					if(GameData.compare(0, 2, "RL") == 0 || GameData.compare(0, 2, "RR") == 0)
 					{
-						DebugLog(GameData);
 						// RL Or RR
 						// M1 for Switch
 						// Distance: D0.3|d11;ER;GS;S;
-						DebugLog("D0.3|t800;ER;GS;S;");
-						listOfCommands = Split("D0.3|t3476;ER;GS;S;", ';');
+						listOfCommands = Split("D0.3|t3600;ER;GS;S;", ';');
 					}
 				}
 				break;
