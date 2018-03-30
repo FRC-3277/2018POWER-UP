@@ -89,7 +89,7 @@ Elevator::Elevator() : frc::Subsystem("Elevator")
 
 void Elevator::InitDefaultCommand()
 {
-	EndEffectorDropServo->SetAngle(25);
+	EndEffectorDropServo->SetAngle(DropEndEffectorAngle);
 }
 
 void Elevator::RaiseElevator()

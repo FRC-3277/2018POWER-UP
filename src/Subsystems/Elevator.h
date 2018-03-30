@@ -42,6 +42,8 @@ private:
 	// Run the elevator at half the prescribed speed
 	bool ElevatorRunHalfSpeed = false;
 
+	static constexpr int DropEndEffectorAngle = 180 - 25; //25 degrees when installed the other direction.
+
 	// Time period where if the opposite direction button is pressed will trigger elevator direction has changed
 	static constexpr int ElapsedMillisTriggerDirectionChange = 500;
 	// Grace period where the upper and lower zones are not speed ramp restricted
