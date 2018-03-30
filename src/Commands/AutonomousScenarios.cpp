@@ -210,7 +210,6 @@ void AutonomousScenarios::Execute()
 
 	// Once all the commands are issued then its time to report completed
 	AllDoneWithAutonomousCommands = true;
-	DebugLog("AutonomousScenarios Completed");
 }
 
 bool AutonomousScenarios::IsFinished()
@@ -336,7 +335,9 @@ void AutonomousScenarios::ParseElevatorBasedCommands(const std::string& CommandT
 			DesiredSetpoint = std::stoi(CommandToParse.substr(1, CommandToParse.size() - 1));
 		}
 
-    	AutonomousElevatorToSetpointCommand GoElevator { DesiredSetpoint };
+    	std::shared_ptr<AutonomousElevatorToSetpointCommand> autonomousElevatorToSetpointCommand;
+		autonomousElevatorToSetpointCommand.reset(new AutonomousElevatorToSetpointCommand(DesiredSetpoint));
+		autonomousElevatorToSetpointCommand->Execute();
     }
 }
 
@@ -348,14 +349,16 @@ void AutonomousScenarios::ParseGrabberBasedCommands(const std::string& CommandTo
    {
 		if(CommandToParse[1] == 'E')
 		{
-			DebugLog("Grabber Eat\n");
-			AutonomousEatCubeCommand();
+			std::shared_ptr<AutonomousEatCubeCommand> autonomousEatCubeCommand;
+			autonomousEatCubeCommand.reset(new AutonomousEatCubeCommand());
+			autonomousEatCubeCommand->Execute();
 		}
 		else if(CommandToParse[1] == 'S')
 		{
-			DebugLog("Grabber Spit\n");
-			printf("AutonomousSpitCubeCommand\n");
-			AutonomousSpitCubeCommand();
+			std::shared_ptr<AutonomousSpitCubeCommand> autonomousSpitCubeCommand;
+			autonomousSpitCubeCommand.reset(new AutonomousSpitCubeCommand());
+			autonomousSpitCubeCommand->Initialize();
+			autonomousSpitCubeCommand->Execute();
 		}
    }
 }

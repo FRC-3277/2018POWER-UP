@@ -25,13 +25,11 @@ bool SpitCubeCommand::IsFinished() {
 
 // Called once after isFinished returns true
 void SpitCubeCommand::End() {
-	//Robot::grabber->EndSpitCommand = false;
-	Robot::grabber->GrabberSpitStop();
+	Robot::grabber->GrabberStop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void SpitCubeCommand::Interrupted() {
-	//Robot::grabber->EndSpitCommand = false;
-	Robot::grabber->GrabberSpitStop();
+	Robot::grabber->GrabberStop();
 }
