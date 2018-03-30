@@ -41,6 +41,7 @@ public:
 	void SetGrabberSpitSpeed(double GrabberMotorSpeed);
 	void SetAutonTimerStart();
 	double GetAutonTimerCurrent();
+	int GetLimitSwitch();
 
 };
 

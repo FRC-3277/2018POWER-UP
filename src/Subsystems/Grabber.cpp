@@ -79,3 +79,8 @@ double Grabber::GetAutonTimerCurrent()
 {
 	return AutonTimekeeper->GetElapsedTimeMilli();
 }
+
+int Grabber::GetLimitSwitch()
+{
+	return GrabberCubeOnboardLimitSwitch->Get();
+}
