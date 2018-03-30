@@ -160,7 +160,6 @@ void Elevator::RaiseElevator()
 	DebugLog("RaiseElevator", 2000);
 
 	IsElevatorOnTheMove = true;
-	UpdateSoftSpeedChangeArray(RaiseSpeedMultiplier);
 	double speed = 0.0;
 
 	if(IsLifterSubsystemEnabled)
@@ -189,6 +188,7 @@ void Elevator::RaiseElevator()
 	}
 	else
 	{
+		UpdateSoftSpeedChangeArray(RaiseSpeedMultiplier);
 		speed = SoftSpeedChange();
 	}
 
@@ -234,8 +234,7 @@ void Elevator::LowerElevator()
 	DebugLog("LowerElevator", 2000);
 
 	IsElevatorOnTheMove = true;
-	UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
-	double speed = SoftSpeedChange();
+	double speed = 0.0;
 
 	if(IsLifterSubsystemEnabled)
 	{
@@ -265,6 +264,7 @@ void Elevator::LowerElevator()
 	}
 	else
 	{
+		UpdateSoftSpeedChangeArray(LowerSpeedMultiplier);
 		speed = SoftSpeedChange();
 	}
 
