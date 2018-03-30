@@ -354,42 +354,10 @@ bool Elevator::GoToSetPoint(int DesiredSetpoint)
 void Elevator::GoToSetPosition(int DesiredPosition)
 {
 	double CurrentElevatorPosition = fabs(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition());
-	if(++PrintFrequencyCount > PrintEveryFrequency)
-	{
-		PrintFrequencyCount = 0;
-		lumberJack->iLog(std::string("CurrentElevatorPosition: ") + std::string(std::to_string(CurrentElevatorPosition)));
-		lumberJack->iLog(std::string("DesiredPosition: ") + std::string(std::to_string(DesiredPosition)));
-	}
 
-	if(CurrentElevatorPosition + 200 >= DesiredPosition &&
-		CurrentElevatorPosition - 200 <= DesiredPosition &&
-		IsElevatorOnTheMove)
-	{
-		ElevatorRunHalfSpeed = true;
-	}
-
-	if(CurrentElevatorPosition + 150 >= DesiredPosition &&
-		CurrentElevatorPosition - 150 <= DesiredPosition &&
-		IsElevatorOnTheMove)
-	{
-		ElevatorRunQuarterSpeed = true;
-	}
-
-	if((CurrentElevatorPosition + 100 >= DesiredPosition &&
-		CurrentElevatorPosition - 100 <= DesiredPosition) ||
-		DesiredPosition == CurrentElevatorPosition)
-	{
-		if(IsElevatorOnTheMove)
-		{
-			StopElevator();
-		}
-
-		HoldElevator();
-	}
-	else if(DesiredPosition > CurrentElevatorPosition)
+	if(DesiredPosition > CurrentElevatorPosition)
 	{
 		RaiseElevator();
-		lumberJack->iLog(std::string("LeftElevatorTalon->Get(): ") + std::to_string(LeftElevatorTalon->Get()));
 	}
 	else if(DesiredPosition < CurrentElevatorPosition)
 	{
