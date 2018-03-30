@@ -104,6 +104,7 @@ OI::OI()
 			case 2:
 			{
 				// DriveTrain
+				assignedController->Extreme3D_Pro::AssignButton(FilterLateralButtonId, firstPlayerController, FilterLateralButton, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_BUTTON::JOYSTICK_BUTTON_NINE);
 				assignedController->Extreme3D_Pro::AssignAxis(LateralAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_X_AXIS);
 				assignedController->Extreme3D_Pro::AssignAxis(ForwardReverseAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_Y_AXIS);
 				assignedController->Extreme3D_Pro::AssignAxis(TwistAxisId, firstPlayerController, UDC::Extreme3D_Pro::LOGITECH_EXTREME3DPRO_AXIS::JOYSTICK_Z_AXIS);
@@ -241,6 +242,15 @@ OI::OI()
 		catch(const std::exception& e)
 		{
 			lumberJack->eLog(std::string("InvertDriverControlsButton.reset() failed;  will not be available; ") + std::string(e.what()));
+		}
+
+		try
+		{
+			assignedController->GetAssignedButton(FilterLateralButtonId)->WhenPressed(new FilterLateralButtonCommand());
+		}
+		catch(const std::exception& e)
+		{
+			lumberJack->eLog(std::string("FilterLateralButton.reset() failed;  will not be available; ") + std::string(e.what()));
 		}
 	}
 }

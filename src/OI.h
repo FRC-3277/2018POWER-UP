@@ -33,6 +33,7 @@ private:
 	std::shared_ptr<JoystickButton> LifterEjectCoreButton;
 	std::shared_ptr<JoystickButton> LifterRunWinchButton;
 	std::shared_ptr<JoystickButton> ToggleElevatorControlModeButton;
+	std::shared_ptr<JoystickButton> FilterLateralButton;
 
 	// Buttons and axis are mapped via a unique string
 	// Axis
@@ -49,6 +50,7 @@ private:
 	std::string GrabberInjectionButtonId = std::string("GrabberInjectionButtonId");
 	std::string InvertDriverControlsButtonId = std::string("InvertDriverControlsButtonId");
 	std::string JoystickFinesseButtonId = std::string("JoystickFinesseButtonId");
+	std::string FilterLateralButtonId = std::string("FilterLateralButtonId");
 	std::string LifterPrepareCoreEjectionButtonId = std::string("LifterPrepareCoreEjectionButtonId");
 	std::string LifterRunWinchButtonId = std::string("LifterRunWinchButtonId");
 	std::string ToggleElevatorControlModeId = std::string("ToggleElevatorControlModeId");
