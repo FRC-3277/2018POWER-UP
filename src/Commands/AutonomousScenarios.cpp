@@ -337,7 +337,9 @@ void AutonomousScenarios::ParseElevatorBasedCommands(const std::string& CommandT
 			DesiredSetpoint = std::stoi(CommandToParse.substr(1, CommandToParse.size() - 1));
 		}
 
-    	AutonomousElevatorToSetpointCommand GoElevator { DesiredSetpoint };
+    	std::shared_ptr<AutonomousElevatorToSetpointCommand> autonomousElevatorToSetpointCommand;
+		autonomousElevatorToSetpointCommand.reset(new AutonomousElevatorToSetpointCommand(DesiredSetpoint));
+		autonomousElevatorToSetpointCommand->Execute();
     }
 }
 
@@ -357,6 +359,7 @@ void AutonomousScenarios::ParseGrabberBasedCommands(const std::string& CommandTo
 		{
 			std::shared_ptr<AutonomousSpitCubeCommand> autonomousSpitCubeCommand;
 			autonomousSpitCubeCommand.reset(new AutonomousSpitCubeCommand());
+			autonomousSpitCubeCommand->Initialize();
 			autonomousSpitCubeCommand->Execute();
 		}
    }
