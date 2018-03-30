@@ -124,16 +124,16 @@ void DriveTrain::SetDrive(double lateral, double forwardBackward, double rotatio
 	driveTrainDebugInfo += std::string("Rotation: ") + std::to_string(rotation);
 	DebugLog(driveTrainDebugInfo);
 
-	if(IsFilterLateral)
-	{
-		lateral = 0.0;
-	}
-
-	// Last modification before interacting with the drivetrain
+	// Last modification before interacting with the drivetrain.  Only second to filter lateral.
 	if(InvertDriverControls)
 	{
 		lateral = -lateral;
 		forwardBackward = -forwardBackward;
+	}
+
+	if(IsFilterLateral)
+	{
+		lateral = 0.0;
 	}
 
 	robotDrive->DriveCartesian(lateral, forwardBackward, rotation);
