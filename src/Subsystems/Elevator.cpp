@@ -168,23 +168,7 @@ void Elevator::RaiseElevator()
 	}
 	else if(TimeBasedRamping)
 	{
-		double TimeElapsed = RampingTimeoutTimekeeper->GetElapsedTimeMilli();
-
-		if(TimeElapsed < ElevatorMillisRamping)
-		{
-			TimeBasedSpeed += TimeBasedSpeedChangeIteratorRaise;
-			speed = TimeBasedSpeed; 
-		}
-		else
-		{
-			speed = ElevatorTravelSpeed * RaiseSpeedMultiplier;
-			/*
-			if(LimitSwitchTracker >= HIGH_LIMIT_SWITCH_NUMBER)
-			{
-				speed = speed / 2;
-			}
-			*/
-		}
+		speed = ElevatorTravelSpeed * RaiseSpeedMultiplier;
 	}
 	else
 	{
@@ -242,25 +226,7 @@ void Elevator::LowerElevator()
 	}
 	else if(TimeBasedRamping)
 	{
-		double TimeElapsed = RampingTimeoutTimekeeper->GetElapsedTimeMilli();
-
-		if(TimeElapsed < ElevatorMillisRamping)
-		{
-			TimeBasedSpeed += TimeBasedSpeedChangeIteratorLower;
-			speed = TimeBasedSpeed; 
-		}
-		else
-		{
-			speed = ElevatorTravelSpeed * LowerSpeedMultiplier;
-			/*
-			 * //TODO: Is this needed with the encoder?
-
-			if(LimitSwitchTracker <= LOW_LIMIT_SWITCH_NUMBER)
-			{
-				speed = speed / 2;
-			}
-			*/
-		}
+		speed = ElevatorTravelSpeed * LowerSpeedMultiplier;
 	}
 	else
 	{
