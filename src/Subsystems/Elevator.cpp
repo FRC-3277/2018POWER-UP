@@ -279,7 +279,6 @@ void Elevator::LowerElevator()
 	}
 
 	LeftElevatorTalon->Set(-speed);
-	//RightElevatorTalon->Set(speed);
 
 	UpdateLimitSwitchTracker();
 }
@@ -411,7 +410,6 @@ void Elevator::StopElevator()
 	for(double i = CurrentSpeed; CurrentSpeed > 0; CurrentSpeed -= CurrentSpeed/10)
 	{
 		LeftElevatorTalon->Set(CurrentSpeed);
-		//RightElevatorTalon->Set(-CurrentSpeed);
 		if(CurrentSpeed <= ElevatorHoldSpeed)
 		{
 			break;
@@ -419,7 +417,6 @@ void Elevator::StopElevator()
 	}
 
 	LeftElevatorTalon->Set(StopElevatorSpeed);
-	//RightElevatorTalon->Set(StopElevatorSpeed);
 	IsElevatorOnTheMove = false;
 	std::fill_n(SoftStartChangeArray, SoftSpeedUpChangeArraySize, ElevatorTravelSpeed);
 	std::fill_n(SoftStopChangeArray, SoftSpeedDownChangeArraySize, ElevatorTravelSpeed);
