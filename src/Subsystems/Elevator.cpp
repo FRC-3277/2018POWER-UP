@@ -612,3 +612,45 @@ void Elevator::DebugLog(const string& msg, int loggingEveryNth)
 		lumberJack->dLog(msg, loggingEveryNth);
 	}
 }
+
+double Elevator::GetCurrentElevatorPosition()
+{
+	return fabs(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition());
+}
+
+double Elevator::IsElevatorAtDesiredPosition(int DesiredPosition)
+{
+	int CurrentElevatorPosition = GetCurrentElevatorPosition();
+	bool IsElevatorAtDesiredPosition = false;
+	if(CurrentElevatorPosition + 200 >= DesiredPosition &&
+		CurrentElevatorPosition - 200 <= DesiredPosition &&
+		IsElevatorOnTheMove)
+	{
+		ElevatorRunHalfSpeed = true;
+	}
+
+	if(CurrentElevatorPosition + 150 >= DesiredPosition &&
+		CurrentElevatorPosition - 150 <= DesiredPosition &&
+		IsElevatorOnTheMove)
+	{
+		ElevatorRunQuarterSpeed = true;
+	}
+
+	if((CurrentElevatorPosition + 100 >= DesiredPosition &&
+		CurrentElevatorPosition - 100 <= DesiredPosition) ||
+		DesiredPosition == CurrentElevatorPosition)
+	{
+		IsElevatorAtDesiredPosition = true;
+	}
+	else
+	{
+		IsElevatorAtDesiredPosition = false;
+	}
+
+	return IsElevatorAtDesiredPosition;
+}
+
+bool Elevator::IsElevatorMoving()
+{
+	return IsElevatorOnTheMove;
+}

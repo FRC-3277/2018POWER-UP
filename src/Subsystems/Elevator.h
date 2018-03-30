@@ -124,6 +124,9 @@ public:
 	bool IsElevatorAtDesiredSetpoint(int DesiredSetpoint);
 	void SetAutonTimerStart();
 	double GetAutonTimerCurrent();
+	double GetCurrentElevatorPosition();
+	double IsElevatorAtDesiredPosition(int DesiredPosition);
+	bool IsElevatorMoving();
 };
 
 #endif  // Elevator_H
