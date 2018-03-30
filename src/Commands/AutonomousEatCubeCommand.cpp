@@ -21,24 +21,28 @@ void AutonomousEatCubeCommand::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void AutonomousEatCubeCommand::Execute()
 {
-	Robot::grabber->EatCube();
+	Robot::grabber->SetAutonTimerStart();
+	while(Robot::grabber->GetAutonTimerCurrent() <= AutonEatTimeoutMilli)
+	{
+		Robot::grabber->EatCube();
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool AutonomousEatCubeCommand::IsFinished()
 {
-	return Robot::grabber->GetAutonTimerCurrent() > AutonEatTimeoutMilli;
+	return true;
 }
 
 // Called once after isFinished returns true
 void AutonomousEatCubeCommand::End()
 {
-	Robot::grabber->GrabberSpitStop();
+	Robot::grabber->GrabberStop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void AutonomousEatCubeCommand::Interrupted()
 {
-	Robot::grabber->GrabberSpitStop();
+	Robot::grabber->GrabberStop();
 }
