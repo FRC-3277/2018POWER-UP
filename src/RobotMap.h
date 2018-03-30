@@ -48,13 +48,13 @@ static constexpr int LIFTER_RIGHT_EJECT_CORE_SERVO_ID = 1;
 static constexpr int CAMERA_CONTROL_SERVO_ID = 2;
 
 // Disable subsystems for debugging and testing
-static constexpr bool EnableDriveTrain = false;
+static constexpr bool EnableDriveTrain = true;
 static constexpr bool EnableElevator = true;
-static constexpr bool EnableGrabber = false;
+static constexpr bool EnableGrabber = true;
 static constexpr bool EnableLifter = true;
-static constexpr bool EnableCamera = false;
+static constexpr bool EnableCamera = true;
 
 // Enable subsystem or command area focused debug logging.  Requires debug logging severity enabled as well.
 static constexpr bool EnableAutonomousDebugLogging = false;
 static constexpr bool EnableDriveTrainDebugLogging = false;
-static constexpr bool ElevatorDebugLoggingEnabled = true;
+static constexpr bool ElevatorDebugLoggingEnabled = false;
