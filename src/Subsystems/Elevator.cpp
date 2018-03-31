@@ -507,3 +507,11 @@ void Elevator::DebugLog(const string& msg, int loggingEveryNth)
 		lumberJack->dLog(msg, loggingEveryNth);
 	}
 }
+
+double Elevator::GetCurrentElevatorPosition()
+{
+	double value = fabs(LeftElevatorTalon->GetSensorCollection().GetQuadraturePosition());
+	Smart
+	return value;
+}
+
