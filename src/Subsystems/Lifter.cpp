@@ -46,9 +46,18 @@ void Lifter::PrepareLifterCoreForEject()
 	if(EnableLifterSubsystemLast30Seconds)
 	{
 		// TODO: push the elevator down to ground zero prior to running this
-		LifterLeftEjectCoreServo->SetAngle(LeftEjectCoreServoAngleDefault - 180);
-		LifterRightEjectCoreServo->SetAngle(RightEjectCoreServoAngleDefault + 180);
-		IsCorePreparedToBeEjected = true;
+		if(LifterLeftEjectCoreServo->GetAngle() == LeftEjectCoreServoAngleDefault)
+		{
+			LifterLeftEjectCoreServo->SetAngle(LeftEjectCoreServoAngleDefault - 180);
+			LifterRightEjectCoreServo->SetAngle(RightEjectCoreServoAngleDefault + 180);
+			IsCorePreparedToBeEjected = true;
+		}
+		else
+		{
+			LifterLeftEjectCoreServo->SetAngle(LeftEjectCoreServoAngleDefault);
+			LifterRightEjectCoreServo->SetAngle(RightEjectCoreServoAngleDefault);
+			IsCorePreparedToBeEjected = false;
+		}
 	}
 	else
 	{
